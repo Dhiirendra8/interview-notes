@@ -1,0 +1,61 @@
+
+- Angular is a JavaScript framework which makes you able to create reactive Single Page Applications (SPAs). 
+- This is a leading front-end development framework which is regularly updated by Angular team of Google. 
+- Angular 7 is completely based on components. 
+- It consists of several components forming a tree structure with parent and child components.
+
+Components :
+	- 
+	
+	
+
+------------------------------------------------------------------
+How to install Bootstrap for Angular project?
+
+1. npm install --save bootstrap@3  => The @3  is important!  
+
+Further, when you use a project created with Angular CLI 6+ (check via ng v ), you'll have an angular.json file instead of an .angular-cli.json file. 
+In that file, you still need to add Bootstrap to the styles[] array, but the path should be node_modules/bootstrap/dist/css/bootstrap.min.css , 
+	NOT ../node_modules/bootstrap/dist/css/bootstrap.min.css . The leading ../ must not be included.
+	
+How to add bootstrap.css file in the project?
+1. Expand Node Module (library root folder)
+2. Go to bootstrap folder and expand it.
+3. Go to dist folder and expand dist.
+4. Expand css and you will find "bootstrap.css". Expand bootstrap.css and you will see bootstrap.min.css
+5. Open angular.json file and add the bootstrap.min.css in style section.
+	"styles": [  
+	"node_modules/bootstrap/dist/css/bootstrap.min.css",  
+	"src/styles.css"  
+	],  
+
+------------------------------------------------------------------
+Topics Angular-12 (YouTube Channel- Code Step By Step )
+
+1. Interpolation
+	{{}}
+	
+2. Component
+	ng generate component component-name
+	ng g c component-name
+	
+3. Component with inline style and inline template
+	ng g c inline-style-component --inline-style
+	ng g c inline-template-component --inline-template
+	ng g c inline-style-template-component --inline-template --inline-style
+	
+4. Module
+	ng generate module moduleName
+	- register this module in app module
+	- If you create components in custom module then you need to export the components in module file to globally exposed the new created components
+		exports: [
+			NewModuleComponentComponent
+		  ]
+5. function and Events
+	- Events : click, keyup, keydown, input, mouseover, mouseleave, blur
+	<h1 (mouseleave)="fun1()">{{title}}</h1>
+	<h1 (mouseover)="fun1()">{{title}}</h1>
+	<input type="text" (keyup)="fun1()" placeholder="Event"/>
+	<button (click)="demoFunc()">Click Me</button>
+	
+6. 

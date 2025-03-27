@@ -1,0 +1,111 @@
+Here are some common Kafka Connect interview questions along with their answers:
+
+1. What is Kafka Connect, and what is its purpose?   
+- Kafka Connect is a framework for streaming data between Apache Kafka and external data systems. 
+   It simplifies the integration of Kafka with other systems by providing scalable, fault-tolerant connectors 
+   for ingesting data into Kafka (source connectors) and exporting data from Kafka (sink connectors).
+
+2. What are the key components of Kafka Connect?
+- Kafka Connect consists of three main components:
+    - Connectors: Plugins responsible for moving data between Kafka and external systems.
+    - Workers: JVM processes responsible for running connector tasks and managing their configurations.
+    - Converters: Components responsible for serializing and deserializing data between Kafka and external systems.
+
+3. What is the role of a connector in Kafka Connect?
+- Connectors are responsible for moving data between Kafka and external systems. 
+   They handle tasks such as reading data from a source system and writing it to Kafka (source connectors) or 
+   reading data from Kafka and writing it to a sink system (sink connectors).
+
+4. How do you configure Kafka Connect connectors?
+- Kafka Connect connectors are configured using JSON files or REST API calls. 
+   Configuration parameters include connector class, Kafka topics, data format, and connector-specific properties.
+
+5. What are the differences between source connectors and sink connectors?
+- Source connectors ingest data from external systems and write it to Kafka topics, while 
+   sink connectors consume data from Kafka topics and write it to external systems. 
+   Source connectors pull data into Kafka, whereas sink connectors push data out of Kafka.
+
+6. How does Kafka Connect ensure fault tolerance and scalability?
+- Kafka Connect provides fault tolerance and scalability through distributed workers and connector tasks. 
+   Connectors and tasks are horizontally scalable and can be distributed across multiple worker nodes. 
+   Connector configurations and statuses are managed centrally by Kafka Connect's internal storage.
+
+7. What are some commonly used Kafka Connect connectors?
+   - Commonly used Kafka Connect connectors include connectors for databases 
+   (e.g., JDBC source/sink connectors), file systems (e.g., FileStream source/sink connectors), 
+   cloud services (e.g., AWS S3 sink connector), and messaging systems (e.g., MQTT source connector).
+
+8. How do you monitor and manage Kafka Connect clusters?
+- Kafka Connect clusters can be monitored and managed using tools like the Kafka Connect REST API, 
+   Confluent Control Center, and third-party monitoring solutions. 
+   Metrics such as connector status, throughput, and error rates can be monitored to ensure smooth operation.
+
+9. What is the role of converters in Kafka Connect?
+   - Converters are responsible for serializing and deserializing data between Kafka and external systems. 
+   They handle data conversion tasks such as encoding data into Kafka's binary format and decoding data from external formats like JSON or Avro.
+
+10. How do you handle schema evolution in Kafka Connect?
+    - Kafka Connect supports schema evolution through the use of compatible schema changes and serializers/deserializers (e.g., Avro or JSON Schema). 
+    Connectors can be configured to handle schema changes gracefully by specifying compatibility settings and using schema registries for schema management.
+
+
+--------------------------------------
+# SMTs (Single Message Transformations)
+Kafka Single Message Transformations (SMTs) are a feature provided by Apache Kafka Connect. 
+They allow you to modify individual messages as they pass through Kafka Connect connectors. 
+SMTs provide a way to perform lightweight, in-flight transformations on data 
+    without requiring additional external processing.
+
+Here are some key points about Kafka SMTs:
+
+1. **Single Message Transformations**: SMTs operate on a single message at a time as 
+    it flows through Kafka Connect pipelines. 
+    Each message is transformed independently of other messages.
+
+2. **Connector Integration**: SMTs are integrated into Kafka Connect connectors and 
+    can be applied to both source connectors (which ingest data into Kafka) and sink connectors (which export data from Kafka).
+
+3. **Common Use Cases**: SMTs are often used for tasks such as data enrichment, filtering, 
+    field renaming, and data masking. 
+    They allow you to manipulate message contents, headers, or other metadata based on predefined rules.
+
+4. **Built-in Transformations**: Kafka Connect provides a set of built-in SMTs that 
+cover common use cases. 
+These include `ExtractField`, `RenameField`, `MaskField`, `SetSchemaMetadata`, and more. 
+These transformations can be configured directly within connector configurations.
+
+5. **Custom Transformations**: In addition to built-in SMTs, you can develop custom transformations tailored to your specific requirements. 
+Custom SMTs are implemented as Java classes that extend the `org.apache.kafka.connect.transforms.Transformation` interface.
+
+6. **Configuration Flexibility**: SMTs can be configured using simple configuration properties, making them easy to use and configure within Kafka Connect connector configurations. 
+You can specify SMTs as part of connector configurations to apply transformations to all messages processed by the connector.
+
+Example: RenameField
+properties file : 
+    name=my-source-connector
+    connector.class=...
+    tasks.max=...
+    # Other connector configurations...
+
+    # Configure SMTs
+    transforms=renameField
+    transforms.renameField.type=org.apache.kafka.connect.transforms.RenameField$Value
+    transforms.renameField.renames=first_name:firstName
+
+original message
+    {
+        "id": 123,
+        "first_name": "John",
+        "last_name": "Doe"
+    }
+
+Transformed message
+    {
+        "id": 123,
+        "firstName": "John",
+        "last_name": "Doe"
+    }
+
+----------------------------------------------------
+
+

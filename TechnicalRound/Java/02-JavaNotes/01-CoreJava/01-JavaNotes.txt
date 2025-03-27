@@ -1,0 +1,55 @@
+Java Notes
+	
+# What is the difference between ConcurrentHashMap and Hashtable in Java?
+Answer:
+1) Hashtable is belongs to the Collection framework; ConcurrentHashMap belongs to the Executor framework.
+
+2) Hashtable uses single lock for whole data. ConcurrentHashMap uses multiple locks on segment level (16 by default) instead of object level 
+	i.e. whole Map.
+
+3) ConcurrentHashMap locking is applied only for updates. In case of retrievals, it allows full concurrency, 
+retrievals reflect the results of the most recently completed update operations. So reads can happen very fast 
+while writes are done with a lock.
+
+4) ConcurrentHashMap doesn't throw a ConcurrentModificationException if one thread tries to modify it while another is iterating over it and 
+does not allow null values.
+
+5) ConcurrentHashMap returns Iterator, which fails-safe (i.e. iterator will make a copy of the internal data structure) 
+on concurrent modification.
+
+6) ConcurrentHashMap uses a database shards logic (Segment[] segments), i.e. divides the data into shards(segments) than puts locks on 
+each shard (segment) instead of putting a single lock for whole data (Map).
+
+7) ConcurrentHashMap is more efficient for threaded applications.
+		
+# What is the difference between ORM, JPA and Hibernate?
+
+	Answer:
+	ORM: Object Relational Mapping is concept/process of converting the data from Object oriented language to relational DB and vice versa. 
+			For example in java its done with the help of reflection and jdbc.
+
+	Hibernate: Its the implementation of above concept.
+
+	JPA: Its the one step above ORM. Its high level API and specification so that different ORM tools can implement 
+			so that it provides the flexibility to developer to change the implementation from one ORM to another 
+			(for example if application uses the JPA api and implementaion is hibernate. 
+			In future it can switch to IBatis if required. 
+			But on the other if application directly lock the implementation with Hibernate without JPA platform, 
+			switiching is going to be herculean task)
+	
+# What is POJO?
+
+	Answer:
+		POJO stands for "Plain Old Java Object" — it’s a pure data structure that has fields with getters and possibly setters, 
+		and may override some methods from Object (e.g. equals) or some other interface like Serializable, but does not have behavior of its own.
+		POJO is an ordinary Java object, not bound by any special restriction and not requiring any class path.
+		
+		A 'Java Bean' is a specification which requires a Java Class to be serializable, have a no-arg constructor and 
+		a getter and setter for each field
+		Therefore a bean is a POJO but a POJO may not be a bean, except that some tools refer to classes as beans when strictly they are not 
+		(such as in Spring) but this usually for the better since it makes the classes easier to use.
+		
+		
+		
+		
+		

@@ -1,0 +1,81 @@
+https://konghq.com/learning-center/microservices/service-discovery-in-a-microservices-architecture#:~:text=Microservices%20Service%20Registry&text=A%20service%20registry%20is%20a,taken%20offline%20or%20becomes%20unavailable.
+
+
+### Service Discovery
+	-> In a microservices-based application, the back-end environment changes dynamically. 
+		In order to keep pace, clients need a way to identify the available service instances. 
+		This is where service discovery comes in.
+		
+	-> 
+
+### Microservices Service Registry
+-> A service registry is a database used to keep track of the available instances of each microservice in an application. 
+-> The service registry needs to be updated each time a new service comes online and whenever a service is taken offline or becomes unavailable. 
+-> This can be achieved with either self-registration or third-party registration.
+
+1. Self-Registration
+-> With self-registration, each microservice is responsible for adding itself to the service registry when it comes online. 
+-> Typically, the service registry exposes a REST API for this purpose.
+-> Each instance registers itself with a POST request and can remove itself with a DELETE request. 
+-> As a fail-safe, service instances can send a heartbeat to the service registry to indicate that they are still online and available. 
+-> If the heartbeat stops, this indicates that the instance is either offline or not responding, and the instance can be de-registered.
+
+-> While self-registration is a simple design, it does require you to implement the registration logic in every language or framework 
+	that you use for your microservices.
+
+2. Third-Party Registration
+-> Third-party registration offers a more loosely coupled solution: a service registrar (also known as a service manager) is responsible 
+	for registering each new instance as it comes online and de-registering it when it becomes unavailable.
+
+-> The service registrar does this by polling the deployment environment for updates or subscribing to event notifications. 
+-> While this may sound like a lot of overhead, deployment environments such as Kubernetes and Amazon EC2 come with 
+	a built-in service registry and third-party service registrar, saving you the effort of implementing and maintaining 
+	another highly available component.
+		
+
+### Discovering Services
+-> In order to send an API request to a service, the client or API gateway must know the location of the service that it's addressing. 
+-> As the microservice architecture is designed to support multiple instances of each service, service discovery is closely linked 
+	to load balancing of requests to instances of each microservice. 
+-> Note that load balancing requests across service instances is completely separate from load balancing incoming client traffic 
+	across multiple API gateway nodes.
+
+There are two models of service discovery: client-side and server-side.
+
+1. Client-Side Discovery
+-> With client-side discovery, the client or API gateway making the request is responsible for identifying the location of the service instance 
+	and routing the request to it. 
+-> The client begins by querying the service registry to identify the location of the available instances of the service 
+	and then determines which instance to use. 
+-> The load balancing logic can be a simple round-robin approach or use a weighting system to determine the best instance to query 
+	at a given time.
+
+-> With the Kong API gateway, client-side discovery is achieved using a ring balancer. 
+	> Kong acts as the service registry, keeping a record of the available target instances for the upstream services. 
+	> When a target comes online, it must register itself with Kong by sending a request to the Admin API. 
+	> Each upstream service has its own ring balancer to distribute requests to the available targets. 
+	> By default, the ring balancer uses a weighted round-robin scheme but can alternatively be configured to use a hash-based algorithm.
+
+-> You can configure Kong to run both active and passive health checks on the targets in order to determine whether they are healthy or not. 
+-> Active health checks involve periodic requests to each target, whereas passive health checks do not generate additional traffic 
+	and instead monitor requests proxied to each target, marking any that fail to respond as unhealthy. 
+-> The ring balancer only distributes requests to healthy targets.
+	
+2. Server-Side Discovery
+-> The alternative to client-side discovery decouples the service discovery and load balancing logic from the client. 
+-> With server-side discovery, the client or API gateway simply passes the request, including the DNS name, to a router. 
+-> The router queries the service registry (which may be a separate component or built-in to the router) to identify the available instances 
+	of the service and then applies load balancing logic to decide which one to use.
+
+-> As with third party registration, some deployment environments include this functionality as part of their service offering, 
+	saving you the effort of setting up and maintaining the additional components. 
+-> In this case, the client or API gateway just needs to know the location of the router.
+
+-> You can implement server-side service discovery with the Kong API gateway by implementing a DNS server, such as Consul. 
+-> The DNS server needs to handle registration of instances, either via self-registration or third-party registration. 
+-> When a request is received, Kong passes it to the DNS server which identifies the upstream service 
+	and selects the target instance based on the load balancing logic, which can either be a simple round-robin (A records) 
+	or use weighting (SRV records).
+
+	
+	

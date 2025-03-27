@@ -1,0 +1,131 @@
+
+> Core Java 
+
+> Memory Management
+	- JDK/JRE/JVM, Classloader - Bootstrap/System/Application, 
+	- Heap, Stack, String pool
+
+> Multithreading 
+	- Thread Class, Runnable Interface, Life cycle, methods - start, run, join, yield, wait, sleep
+	- Executor Service
+
+> Collection Framework
+	- List, Map, Set
+
+> Java8 Features
+	- Functional Interface, Lambda Expression, Stream API, Method/Constructor Reference
+
+> Microservice
+
+> Spting and Spring Modules (Web, Security, Data JPA, Actuator, AOP)
+
+> Spring Boot
+
+> Hibernate
+	- SessionFactory, Session, Caches, Transaction
+
+> Database and SQL (MySQL, Oracle, MongoDB, Cassandra)
+	- Basic Queries, Joins
+
+> Design Pattern
+	- Singleton, Factory, Abastract Factory, Facade
+
+> Docker
+	- Image, Container, Dockerfile
+
+> AWS
+	- EC2, S3, VPC, DynamoDB, RDS, 
+
+
+> Kubernates
+
+> Jenkins
+
+
+
+
+- What is spring boot @Autoconfigure
+
+- Advantages of Springboot over spring
+
+- Security in Springboot application
+
+- JWT - token(Header:Payload:Signature)
+	- Lifecycle
+	- Implementation
+	
+	
+- Devtools, Actuator, Java Admin, Springboot Admin
+
+- Microservice, Service Discovery, Zuul Keeper
+	- Disadvantage of microservice
+	- Fault tolerance, Histric, Circuit breaker
+
+- RestController (Controller + ResponseBody)
+
+- @Put(Update) vs @Patch (Partial upadate) methods
+
+- What is IOC
+
+- Exclude packages from autoconfigure in Springboot app
+
+- What is Autowiring
+
+- Design Pattern
+	- Singleton
+	- Factory
+	- Fasade
+	
+- Hibernate, JPA Repository
+
+- SQL
+	- Table Employee(id, name, specification, managerId, salary) 
+	1, Raj, 2
+	2, Ram, 3
+	3, Vijay, null
+	- Find Employees who are managers (name, ManagerName)
+	
+	
+- Java8 Features
+	- Streams
+	- Lambda Expression
+	
+	List<Employees> - find emp age is more than 30
+	List<Employee> resultEmps= emps.stream().filter(e -> e.getAge() > 30).collect(Collectore.List());
+	
+- Heap Memory , Stack Memory
+
+- Why String is immutable
+
+- Manipulate a String var, WAP to print first non-repeated eg : "springboot"
+
+--------
+- Throw, Throws and Throwable (The Throwable class is the superclass of all errors and exceptions in the Java language.)
+
+- copying on arraylist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+

@@ -1,0 +1,139 @@
+
+Use "latest" when you want to consume only new messages that are produced after the consumer starts.
+Use "earliest" when you want to consume all messages in the partition, including those that were produced before the consumer started.
+
+#kafka ordering of messages
+
+#sending to consuming journey of a message
+The journey of a message in Kafka from producer to consumer involves several steps:
+
+1. **Producing a Message**:
+   - The journey begins when a producer sends a message to a Kafka topic. 
+   The producer sends the message to one of the brokers in the Kafka cluster based on the topic's partitioning strategy.
+   - The producer may specify a key for the message, which determines the partition to which the message is sent. 
+   If no key is specified, Kafka uses a round-robin partitioning strategy to distribute messages evenly across partitions.
+
+2. **Partitioning**:
+   - When a message is sent to a topic, Kafka determines the partition to which the message belongs based on its key or the configured partitioner.
+   - If a key is provided, Kafka uses a hash function to map the key to a specific partition. 
+   This ensures that all messages with the same key are sent to the same partition, preserving message order within a partition.
+   - If no key is provided, Kafka uses a round-robin strategy to distribute messages evenly across partitions.
+
+3. **Leader Election**:
+   - Once the message is received by the broker, it becomes the leader for the partition to which the message belongs.
+   - If the broker is not already the leader for the partition, Kafka triggers a leader election process to select a new leader. 
+   This ensures that each partition has an active leader responsible for handling read and write requests.
+
+4. **Replication**:
+   - After the message is written to the leader's log, it is replicated to one or more follower replicas.
+   - Kafka ensures that all replicas of a partition, including the leader, maintain identical copies of the partition's data.
+   - Replication ensures fault tolerance and durability by allowing Kafka to continue serving read requests from follower replicas 
+      if the leader fails.
+
+5. **Consuming a Message**:
+   - Consumers subscribe to one or more topics and read messages from one or more partitions within those topics.
+   - Consumers maintain an offset, which represents the position of the last consumed message in each partition. 
+   Kafka guarantees that a consumer can read messages starting from the last committed offset for each partition.
+   - Consumers periodically commit offsets to Kafka to indicate which messages have been successfully processed. 
+   This allows consumers to resume reading from the correct position in case of failure or rebalancing.
+
+6. **Message Delivery**:
+   - Kafka delivers messages to consumers based on their subscription and partition assignment.
+   - Consumers pull messages from the partitions they are assigned to and process them in the order they were written to the partition.
+   - Kafka provides strong ordering guarantees within a partition, ensuring that messages are delivered to consumers in the order 
+   they were produced.
+
+Overall, Kafka provides a robust and scalable messaging platform for building real-time data pipelines and stream processing applications. The journey of a message from producer to consumer involves partitioning, replication, and delivery mechanisms designed to ensure fault tolerance, durability, and high throughput.
+
+#kafka replciation
+Kafka replication is the process of replicating data across multiple brokers in an Apache Kafka cluster. 
+Replication ensures fault tolerance, durability, and high availability of data by maintaining redundant copies of each partition across multiple brokers
+
+
+#kafka rebalancing
+Rebalancing in Kafka is designed to be fast, efficient, and fault-tolerant. 
+It is handled transparently by the Kafka client library, allowing consumers to join and leave consumer groups dynamically 
+without impacting the overall availability and performance of the system. 
+Proper configuration of consumer group settings, such as group.id and max.poll.records, can help optimize the rebalancing process and ensure smooth operation of Kafka consumer applications.
+
+#kafka local state store 
+A local state store in Apache Kafka is a key-value store that is maintained locally within a Kafka Streams application instance. 
+It is used to store and manage intermediate state data generated during stream processing tasks. 
+Each Kafka Streams application instance maintains its own local state store, which allows it to independently process data streams in parallel.
+
+Local state stores play a crucial role in Kafka Streams applications, especially for stateful stream processing tasks such as aggregations, joins, and windowed computations. 
+By storing intermediate state data locally, Kafka Streams applications can efficiently perform stream processing operations without relying on external databases or storage systems.
+
+Key features of local state stores in Kafka Streams include:
+
+1. **Efficient State Management**: Local state stores are optimized for efficient storage and retrieval of intermediate state data. They are typically implemented as in-memory data structures (e.g., hash tables or rocksdb) for fast read and write operations.
+
+2. **Fault Tolerance**: Local state stores are designed to be fault-tolerant and resilient to failures. They leverage Kafka's built-in fault tolerance mechanisms such as data replication and state restoration to ensure that state data is durable and consistent, even in the event of application failures or restarts.
+
+3. **Scalability**: Kafka Streams applications can be horizontally scaled by running multiple instances of the application across multiple machines or containers. Each application instance maintains its own local state store, allowing for parallel processing of data streams and improved scalability.
+
+4. **Queryable State**: Kafka Streams provides a queryable state feature that allows applications to query the local state store for specific key-value pairs. This enables interactive queries and real-time access to the application's state data, making it easier to build interactive applications and microservices on top of Kafka Streams.
+
+Overall, local state stores are a fundamental component of Kafka Streams applications, enabling stateful stream processing and real-time analytics over data streams within the Kafka ecosystem. They provide efficient, fault-tolerant, and scalable storage for intermediate state data, empowering developers to build complex stream processing pipelines with ease.
+
+
+#kafka global state store
+A Kafka global state store in Apache Kafka Streams is a distributed key-value store that is replicated across all instances of a 
+Kafka Streams application within a Kafka cluster. 
+It is used to maintain and manage global state data shared across multiple instances of the application, allowing for coordinated and consistent access to state data across the entire application.
+
+Global state stores play a crucial role in Kafka Streams applications, especially for scenarios where state needs to be shared and 
+accessed by multiple instances of the application. 
+Examples of global state data include reference tables, configuration settings, and aggregated statistics that need to be maintained consistently across all instances of the application.
+
+Key features of Kafka global state stores include:
+
+1. **Distributed Replication**: Global state stores are replicated across all instances of the Kafka Streams application within the Kafka cluster. 
+This ensures that state data is highly available and fault-tolerant, even in the event of application failures or node outages.
+
+2. **Consistent Access**: Global state stores provide consistent access to state data across all instances of the application. 
+This allows for coordinated read and write operations on global state data, ensuring that updates are propagated to all instances of the application in a consistent manner.
+
+3. **Scalability**: Global state stores are designed to scale horizontally with the number of instances of the Kafka Streams application. 
+As the application is scaled out to handle larger volumes of data or higher throughput, the global state store automatically scales and distributes state data across all instances of the application.
+
+4. **Queryable State**: Kafka Streams provides a queryable state feature that allows applications to query the global state store for specific key-value pairs. 
+This enables interactive queries and real-time access to the application's global state data, making it easier to build interactive applications and microservices on top of Kafka Streams.
+
+Overall, Kafka global state stores are a powerful feature of Kafka Streams applications, enabling distributed, fault-tolerant, and consistent management of global state data across all instances of the application within a Kafka cluster. 
+They provide a scalable and reliable solution for maintaining shared state data in real-time stream processing pipelines.
+
+
+difference local vs global state store
+In summary, local state stores are maintained locally within each instance of the application and are optimized for stateful stream processing tasks, 
+while global state stores are distributed across all instances of the application and are used for maintaining shared state data across the entire application. 
+Each type of state store has its own advantages and use cases, and the choice between them depends on the specific requirements of the application.
+
+#joins of stream
+
+#Ksql
+
+#Global KTable vs Local KTable
+In Apache Kafka Streams, KTables represent changelogs of stateful data, where each record in the KTable represents the latest value for a specific key. 
+KTables can be either global or local, depending on how they are distributed and managed within the Kafka Streams application:
+
+1. **Global KTable**:
+   
+   - A Global KTable is a KTable that is fully replicated across all instances of the Kafka Streams application. This means that every instance of the application has a complete copy of the Global KTable in memory.
+   
+   - Global KTables are useful for scenarios where you need to perform joins between streams and tables across all instances of the application. 
+   Since each instance has a complete copy of the Global KTable, joins can be performed locally without requiring inter-instance communication.
+   
+   - Global KTables are typically used for reference data or configuration data that is relatively small and can fit entirely in memory across all instances of the application.
+
+2. **Local KTable**:
+   
+   - A Local KTable is a KTable that is partitioned and distributed across the instances of the Kafka Streams application. Each partition of the Local KTable is managed independently by a single instance of the application.
+   
+   - Local KTables are useful for scenarios where the data is too large to fit entirely in memory across all instances of the application, or when the data is partitioned and needs to be processed in a distributed manner.
+   
+   - When using a Local KTable, Kafka Streams ensures that records with the same key are always processed by the same instance of the application, providing consistency in the data processing.
+
+In summary, the choice between a Global KTable and a Local KTable depends on the specific requirements of your application, including the size of the data, the need for consistency, and the complexity of the processing logic. 
+Global KTables are suitable for small, reference data that can fit entirely in memory, while Local KTables are more suitable for larger datasets or partitioned data that needs to be distributed across instances.
+

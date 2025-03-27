@@ -1,0 +1,32 @@
+Docker Commands
+
+docker run - This command is used to run a container from a specific image.
+
+docker pull - This command is used to download an image from a Docker registry.
+
+docker images - This command is used to list all the images available on your local system.
+
+docker ps - This command is used to list all the running containers.
+
+docker stop - This command is used to stop a running container.
+
+docker start - This command is used to start a stopped container.
+
+docker rm - This command is used to remove a container.
+
+docker rmi - This command is used to remove an image.
+
+docker exec - This command is used to execute a command inside a running container.
+
+docker build - This command is used to build an image from a Dockerfile.
+
+docker network - This command is used to create and manage networks for Docker containers.
+
+docker volume - This command is used to create and manage volumes for Docker containers.
+
+docker login - This command is used to log in to a Docker registry.
+
+docker logout - This command is used to log out of a Docker registry.
+
+
+

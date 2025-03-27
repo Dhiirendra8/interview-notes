@@ -1,0 +1,42 @@
+JSP
+
+- JSP technology is used to create web application just like Servlet technology
+- It can be thought of as an extension to Servlet because it provides more functionality than servlet such as expression language, 
+	JSTL (Java Standard Tag Library), etc.
+	
+The Lifecycle of a JSP Page
+
+	1. Translation of JSP Page
+	2. Compilation of JSP Page
+	3. Classloading (the classloader loads class file)
+	4. Instantiation (Object of the Generated Servlet is created).
+	5. Initialization ( the container invokes jspInit() method).
+	6. Request processing ( the container invokes _jspService() method).
+	7. Destroy ( the container invokes jspDestroy() method).
+	
+JSP Scriptlet tag (Scripting elements)
+	1. JSP scriptlet tag
+		-  to execute java source code
+		<%  java source code %>  
+	
+	2. JSP expression tag
+		- The code placed within JSP expression tag is written to the output stream of the response
+		<%= "welcome to jsp" %>  
+	
+	3. JSP declaration tag
+		- to declare fields and methods
+		- The code written inside the jsp declaration tag is placed outside the service() method of auto generated servlet.
+			So it doesn't get memory at each request.
+		- <%!  field or method declaration %>  
+		
+		
+JSP directives
+	1. JSP page directive
+		- The page directive defines attributes that apply to an entire JSP page.
+		- Attributes of JSP page directive
+			import, contentType, extends, info, buffer, language, isELIgnored, isThreadSafe, autoFlush, session, pageEncoding, errorPage, isErrorPage
+		
+		- <%@ page attribute="value" %>  
+	2. JSP include directive
+		- 
+	3. JSP taglib directive

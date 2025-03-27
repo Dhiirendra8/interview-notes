@@ -1,0 +1,91 @@
+Design Pattern
+	-> Desing patterns are well proved solution of commonly occuring problems in software design.
+	-> In software engineering, a design pattern is a general repeatable solution to a commonly occurring problem in software design.
+	-> It is a description or template for how to solve a problem that can be used in many different situations.
+
+Advantage of design pattern:
+	-> They are reusable in multiple projects.
+	-> They provide the solutions that help to define the system architecture.
+	-> They capture the software engineering experiences.
+	-> They provide transparency to the design of an application.
+	-> They are well-proved and testified solutions since they have been built upon the knowledge and experience of expert software developers.
+	-> They provide clarity to the system architecture and the possibility of building a better system.
+	
+-> In core java, there are mainly three types of design patterns, which are further divided into their sub-parts:
+
+	1.Creational Design Pattern : Creational design patterns are design patterns that deal with object creation mechanisms
+		-> Factory Pattern
+		-> Abstract Factory Pattern
+		-> Singleton Pattern
+		-> Prototype Pattern : "just define the skeleton of a function in an operation, deferring some steps to its subclasses".
+		-> Builder Pattern : "construct a complex object from simple objects using step-by-step approach"
+		-> Object Pool Pattern
+		
+	2. Structural Design Pattern : Structural design patterns that ease the design by identifying a simple way to realize relationships 
+		between entities.
+		-> Adapter Pattern : "converts the interface of a class into another interface that a client wants".
+		-> Bridge Pattern : "decouple the functional abstraction from the implementation so that the two can vary independently".
+		-> Composite Pattern : "allow clients to operate in generic manner on objects that may or may not represent a hierarchy of objects".
+		-> Decorator Pattern : "attach a flexible additional responsibilities to an object dynamically".
+		-> Facade Pattern : "just provide a unified and simplified interface to a set of interfaces in a subsystem, therefore it hides the complexities of the subsystem from the client".
+		-> Flyweight Pattern : "to reuse already existing similar kind of objects by storing them and create new object when no matching object is found".
+		-> Proxy Pattern :  "provides the control for accessing the original object".
+		
+	3. Behavioral Design Pattern : 
+		-> Chain Of Responsibility Pattern : "avoid coupling the sender of a request to its receiver by giving multiple objects a chance to handle the request".
+		-> Command Pattern : "encapsulate a request under an object as a command and pass it to invoker object. Invoker object looks for the appropriate object which can handle this command and pass the command to the corresponding object and that object executes the command".
+		-> Interpreter Pattern : "to define a representation of grammar of a given language, along with an interpreter that uses this representation to interpret sentences in the language".
+		-> Iterator Pattern : "to access the elements of an aggregate object sequentially without exposing its underlying implementation".
+		-> Mediator Pattern
+		-> Memento Pattern
+		-> Observer Pattern - The Observer Design Pattern is a behavioral design pattern that defines a one-to-many dependency between objects so that when one object (the subject) changes state, all its dependents (observers) are notified and updated automatically.
+		-> State Pattern
+		-> Strategy Pattern -> https://www.digitalocean.com/community/tutorials/strategy-design-pattern-in-java-example-tutorial
+		-> Template Pattern : "just define the skeleton of a function in an operation, deferring some steps to its subclasses".
+		-> Visitor Pattern
+		
+
+In Detail
+A. Creational Design Pattern
+	-> Creational design patterns are concerned with the way of creating objects
+	
+	1. Factory Pattern 
+		-> Define an interface for creating an object, but let subclasses decide which class to instantiate.
+		-> It promotes the loose-coupling by eliminating the need to bind application-specific classes into the code
+		-> Example : Calculate Electricity Bill
+			-> On the basis of plan name (domestic, commercial, institutional) and rate we can generate/calculate electricity bill
+		
+	2. Abstract Factory Pattern
+		-> Define an interface or abstract class for creating families of related (or dependent) objects but without specifying their 
+			concrete sub-classes.
+		-> That means Abstract Factory lets a class returns a factory of classes. 
+		So, this is the reason that Abstract Factory Pattern is one level higher than the Factory Pattern.
+		-> 
+	
+	3. Singleton Pattern
+		-> Define a class that has only one instance and provides a global point of access to it.
+		-> There are two forms of singleton design pattern
+			1. Early Instantiation: creation of instance at load time.
+			2. Lazy Instantiation: creation of instance when required.
+		
+		-> To create the singleton class, we need to have static member of class, private constructor and static factory method.
+			-> Static member: It gets memory only once because of static, itcontains the instance of the Singleton class.
+			-> Private constructor: It will prevent to instantiate the Singleton class from outside the class.
+			-> Static factory method: This provides the global point of access to the Singleton object and returns the instance to the caller.
+	
+	4. Prototype Pattern
+		-
+	
+	5. Builder Pattern
+		-
+	
+	6. Object Pool Pattern
+		-> Object Pool Pattern says that "to reuse the object that are expensive to create".
+		-> Basically, an Object pool is a container which contains a specified amount of objects
+		-> When an object is taken from the pool, it is not available in the pool until it is put back
+		-> Objects in the pool have a lifecycle: creation, validation and destroy.
+		
+		
+		
+		
+		

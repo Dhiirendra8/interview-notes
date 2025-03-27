@@ -1,0 +1,19 @@
+TechM
+
+idempotency - An HTTP method is idempotent if an identical request can be made once or several times in a row with the same effect 
+	while leaving the server in the same state
+	-  making multiple identical requests has the same effect as making a single request
+	
+REST API : Representational State Transfer
+-> Representational - Format (json/xml)
+-> State - Data
+-> Tranfer - Transferring the formatted data with respect to a request by client to server
+	- an architectural style for distributed hypermedia systems.
+	- an architectural style for an API that uses HTTP requests to access and use data.
+
+distributed logging system design - https://www.youtube.com/watch?v=WzHgOl3xvu4 
+JWT : Json Web Token
+eureka server : Eureka Server is an application that holds the information about all client-service applications.
+------------
+Microservice
+Elastic search

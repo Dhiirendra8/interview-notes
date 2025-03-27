@@ -1,0 +1,266 @@
+1. Core Java
+	1. OOPs concepts - Abstraction, Encapsulation, Inheritence, Polymorphism, Class, Object
+	
+	2. Multi Threading 
+		1. Core Concepts
+		2. Methods - run, start, join, sleep, yield, 
+		3. Thread Groups/ Thread Pool
+		
+	3. Executor Service
+	
+	4. JVM Architechture/ Memory Management
+		
+	5. Collection Framework
+		- HashMap implementation
+		- HashTable vs HashMap : https://www.java67.com/2012/08/5-difference-between-hashtable-hashmap-Java-collection.html	
+		- ArrayList Vs Linked List
+		- Concurrent HashMap
+		
+	6. Miscellaneous : 
+		01. Comparable vs Comparator
+		02. Deep and shallow cloning
+		03. Serialzation concepts
+		04. Synchronization in java /synchronous keyword
+		05. Singleton class
+		06. classloader functionality
+		07. transient and volatile keywords - 
+		08. Custom Exception
+		09. Throw vs Throws
+		10. equals() and hashcode() method contract
+		
+	7. Servlet--/Jsp 
+	
+	8. Java 1.8 
+		1. Lambda Expression
+		2. Functional Programming / Functional Interface
+		3. Stream API
+		4. Method and Constructor Reference -- special type of lambda expression
+	
+	9. File Processing
+	10. Searchings/Sortings
+	
+	
+	
+2. Spring Core
+	1. IOC and Dependency Injection
+	2. Bean Scope - Singleton, Prototype, Request, Session, Global-session
+	3. 2 types of dependency injection - Setter, Constructor based
+	4. Autowiring and Autowiring modes - no (Default), byName, byType, constructor, autodetect
+	5. Bean Life Cycle - PostConstruct, PreDestroy --> https://www.geeksforgeeks.org/bean-life-cycle-in-java-spring/  context.registerShutdownHook();
+	6. 
+	
+3. Spring MVC/ Spring JDBC
+4. Spring Boot
+6. Spring Security  -- https://www.javainuse.com/webseries/spring-security-jwt/chap3
+	1. Authentication is the process of knowing and identifying the user that wants to access.
+	2. Authorization is the process to allow authority to perform actions in the application.
+	3. 
+
+8. Hibernate -- 
+9. Spring AOP
+10. Transaction Management
+11. Reactive Programming (Webflux)
+12. 
+
+
+
+
+--------------------------------------
+# HTML/CSS
+# JSP
+# Java Script --
+# Angular 2/.../10
+# React JS
+# Thymleaf --
+# Micro-Services
+# Open Shift
+# Docker  --
+# AWS --
+# Design Patterns
+# Shell Scripting
+	* Bash
+	* AWK
+
+# Python
+	* Django
+# DevOps
+	* Jenkins
+	* GitLab/GitHub/RTC
+
+# Build Tools
+	* Maven
+	* Ant
+	* Gradle
+# Kafka
+# No-SQL
+	- Cassandra
+	- MongoDB
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+------------------------------------------------------------------------------------------------------------------------------------------------
+================================================================================================================================================
+Hi,
+ 
+Please prepare the material
+ > http://javahungry.blogspot.com/2013/08/hashing-how-hash-map-works-in-java-or.html
+>
+> http://javahungry.blogspot.com/2014/06/how-treemap-works-ten-treemap-java-interview-questions.html
+>
+> http://javahungry.blogspot.com/2015/02/how-concurrenthashmap-works-in-java-internal-implementation.html
+>
+> http://javahungry.blogspot.com/2015/10/how-treeset-works-internally-in-java-interview-questions.html
+>
+> http://javahungry.blogspot.com/p/threads.html
+>
+> http://javarevisited.blogspot.in/2011/04/synchronization-in-java-synchronized.html
+>
+> http://javarevisited.blogspot.in/2011/06/volatile-keyword-java-example-tutorial.html
+>
+> http://mrbool.com/working-with-java-executor-framework-in-multithreaded-application/27560
+>
+> http://stackoverflow.com/questions/10828863/what-the-use-of-custom-class-loader
+>
+> http://stackoverflow.com/questions/10901752/what-is-the-significance-of-load-factor-in-hashmap
+>
+> http://stackoverflow.com/questions/11011291/treeset-internally-uses-treemap-so-is-it-required-to-implement-hashcode-method
+>
+> http://stackoverflow.com/questions/137975/what-is-so-bad-about-singletons
+>
+> http://stackoverflow.com/questions/13855013/understanding-java-memory-management
+>
+> http://stackoverflow.com/questions/2087469/sort-a-file-with-huge-volume-of-data-given-memory-constraint
+>
+> http://stackoverflow.com/questions/27325997/how-does-countdownlatch-works-in-java
+>
+> http://stackoverflow.com/questions/56860/what-is-the-liskov-substitution-principle
+>
+> http://stackoverflow.com/questions/8161896/example-code-to-show-how-java-synchronized-block-works
+>
+> http://tutorials.jenkov.com/java-concurrency/synchronized.html
+>
+> http://tutorials.jenkov.com/java-util-concurrent/cyclicbarrier.html
+>
+> http://www.dynatrace.com/en/javabook/how-garbage-collection-works.html
+>
+> http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/G1GettingStarted/index.html
+>
+> http://www.programcreek.com/2013/03/hashmap-vs-treemap-vs-hashtable-vs-linkedhashmap/
+>
+> https://docs.oracle.com/cd/E13150_01/jrockit_jvm/jrockit/geninfo/diagnos/garbage_collect.html
+>
+> https://en.m.wikipedia.org/wiki/Creational_pattern
+>
+> https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)
+>
+> https://lostechies.com/derickbailey/2009/02/11/solid-development-principles-in-motivational-pictures/
+>
+> https://scotch.io/bar-talk/s-o-l-i-d-the-first-five-principles-of-object-oriented-design
+https://www.pluralsight.com/courses/introduction-to-sql 
+http://www.programmerinterview.com/index.php/database-sql/sql-having-vs-group-by/
+http://www.programmerinterview.com/index.php/database-sql/inner-vs-outer-joins/
+https://www.essentialsql.com/what-is-a-query-plan/
+http://www.dotnettricks.com/learn/sqlserver/understanding-case-expression-in-sql-server-with-example
+
+
+
+ 
+Manikandan S <manikandan.s@twsol.com> 
+	 6:01 PM (48 minutes ago)
+	
+	
+
+Core Java :-
+ 
+1. How garbage collection internally works.
+2. How many heap & stack memory in one JVM
+3. Where static variables stored in memory that area will be garbage collected.
+4. Function overriding
+5. Immutability, Steps to implement immutable Class
+6. Deep and shallow cloning
+7. Sleep vs wait() method. What will happen if wait() is called from message method [Class A { void message(){ wait();} }]
+8. Working on HashMap. Java contract of equal() and hashCode()?  
+9.What will be complexity of get(key)
+ if hashcode() returns 1 and equal() true
+10. Use case of treemap and linked hashmap
+11. How will you order a collection of Employee objects in {name, age} orders, Scenario based?
+12. Diff between comparable and comparator.
+13. How to avoid serialization of child class
+13. How serialized k attributes out of N attribute
+14. Thread safe Singleton class design.
+15. How to avoid duplication through reflection, serializable
+16. Wait and sleep method difference?
+17. Start the same thread twice ? – java.lang.IllegalThreadStateException
+18. Thread t1 and t2 called two diff method static synchronized m1 & synchronized m2. What will be the order of execution of this method
+19. How to start N threads in sequence
+20. How to print counting using two thread where t1 always print odd number and t2 always print even number
+
+Data Structure and Algorithm :-
+21. Segregate an array with elements 0,1,2 but all the elements are duplicate. With time complexity O(N)
+ and Space complexity O(1)
+22. Delete given node from singly list If head node is not given. With time complexity O(1) - Floyed Cycle detection
+
+
+
+Question from Eccolight
+
+
+Core java 
+Difference between Aggregation and composition. 
+Code snippet for hashmap for key as string literal and string object.. 
+Multi threading concepts: 
+Program to print odd even.
+Facade design pattern: 
+
+Problem solving 
+Find loop in linked list: Floyed Cycle detection (2 pointer, 1 is slow other is twice fast)
+
+Database
+What is proc and advantages of proc:
+Referntial integrity constraint : 
+
+Singleton pattern over distributed system.partially Correct 
+Linked hashmap internal working. 
+Difference between Aggregation and composition. 
+
+Problem solving :
+How to detect loop in a linked list. 
+Find defective bottle out of 10 bottles using weighing machine only once. 
+Algorithm 
+Quick sort and merge sort time complexity and which one is better. Couldnt tell. Have less Idea of time complexity. Core java 
+Java 8 functional interface. 
+Aggregation and composition differences. 
+Write code using stream to filter employee with name starting with vowel. 
+How diamond problem is solved in functional interface. 
+
+Problem solving 
+Write code to Detect and remove loop:partially 
+Database 
+Write a query to find managerId and no of employee working under each manager. 
+Write a query to find manager name and no of employee working under each manager. 
+
+
+
+Database : 
+How to detect dead lock situation in db.. How to start investigation if occurs.
+	- https://www.sqlshack.com/what-are-sql-server-deadlocks-and-how-to-monitor-them/
+
+
+-------------
+https://www.indeed.com/career-advice/interviewing/senior-software-engineer-interview-questions
+
+	
+
+	
+	

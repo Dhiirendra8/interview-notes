@@ -1,0 +1,58 @@
+
+
+-----------------------------------
+EC2, EKS,ECS, LAMBDA FUNCTION, TERRAFORM, AWS Step Function, EBS, snapshot, Security Group, Load Balancer - (ALB, NLB, Classic), VPC
+
+
+---------------------------------------------------------------------------
+
+01. Amazon Elastic Compute Cloud (EC2): Provides scalable computing capacity in the cloud.
+02. Amazon Simple Storage Service (S3): Provides scalable object storage.
+03. Amazon Relational Database Service (RDS): Provides managed relational databases.
+04. Amazon DynamoDB: Provides a managed NoSQL database service.
+05. Amazon Elastic Block Store (EBS): Provides persistent block storage for EC2 instances.
+06. Amazon Elastic Load Balancing (ELB): Automatically distributes incoming web traffic across multiple EC2 instances.
+07. Amazon CloudFront: A content delivery network (CDN) service.
+08. Amazon Route 53: A scalable and highly available Domain Name System (DNS) service.
+09. Amazon Simple Notification Service (SNS): A messaging service for sending notifications.
+10. Amazon Simple Queue Service (SQS): A messaging service for processing messages in a queue.
+11. Amazon Lambda: A serverless compute service that runs your code in response to events and automatically manages the underlying infrastructure.
+12. API Gateway
+13. Security Group
+14. VPC (Virtual Private Cloud)
+15. IAM
+16. IAM Role Anywhere
+17. Cloud watch - Amazon CloudWatch monitors your Amazon Web Services (AWS) resources and the applications you run on AWS in real time. You can use CloudWatch to collect and track metrics, which are variables you can measure for your resources and applications.
+------------------------------------------------------------
+
+AWS EC2 - Virtual Cloud Server
+-> EC2 is a virtual server in the AWS Cloud. 
+-> AWS EC2 is short for AWS Elastic Cloud Compute. 
+-> It makes scaling of capacity up and down easy.
+	
+	Why AWS EC2?
+	-> It makes the process of increasing and decreasing capacity easier.
+	-> As a result, you can access the resources at demand.
+	-> No upfront investment is needed.
+	-> You only pay for what you need.
+	-> EC2 is secure.
+		
+------------------------------------------------------------------
+Amazon Elastic Kubernetes Service (EKS) 
+-> EKS is a fully managed service provided by AWS that makes it easy to run Kubernetes on AWS.
+-> Kubernetes is an open-source container orchestration system that automates the deployment, scaling, and management of containerized applications.
+-> With EKS, users don't have to worry about setting up and maintaining the underlying infrastructure needed to run a Kubernetes cluster. 
+-> EKS automatically provisions and scales the control plane and worker nodes for the user, and also handles tasks 
+		such as automatic backups, software patching, and self-healing. 
+-> This allows users to focus on deploying and managing their applications, rather than the underlying infrastructure.
+
+-> EKS also integrates with other AWS services such as Elastic Load Balancing, Amazon RDS, and Amazon S3, making it easy to build and 
+		run highly available and scalable applications on top of EKS.
+
+-> EKS also supports features like automatic scaling, automatic upgrades, and self-healing, which makes it easy to run production-ready 
+		Kubernetes cluster. 
+-> Additionally, EKS also supports features like managed node groups, which allows you to easily scale your worker nodes and 
+		automatically add or remove instances.
+		
+--------------------------------------------------------------------
+		

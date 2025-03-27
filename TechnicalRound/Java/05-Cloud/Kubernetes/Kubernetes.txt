@@ -1,0 +1,461 @@
+#Containers
+Technology for packaging an application along with its runtime dependencies.
+
+#Kubernetes
+-> Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, 
+		that facilitates both declarative configuration and automation. 
+-> It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
+-> Kubernetes containers resemble virtual machines (VMs), each with its own CPU share, filesystem, process space, memory, and more. 
+-> However, Kubernetes containers are considered lightweight because: 
+	=> they can share the Operating System (OS) among applications due to their relaxed isolation properties.
+
+------------------------------------------------------------------------------------------------------------------------------
+Traditional deployment era: 
+	-> Early on, organizations ran applications on physical servers. 
+	-> There was no way to define resource boundaries for applications in a physical server, and this caused resource allocation issues. 
+	-> For example, if multiple applications run on a physical server, there can be instances where one application would take up most of the resources,
+		and as a result, the other applications would underperform. 
+	-> A solution for this would be to run each application on a different physical server. But this did not scale as resources were underutilized, 
+		and it was expensive for organizations to maintain many physical servers.
+
+Virtualized deployment era: 
+	-> As a solution, virtualization was introduced. 
+	-> It allows you to run multiple Virtual Machines (VMs) on a single physical server's CPU. 
+	-> Virtualization allows applications to be isolated between VMs and provides a level of security as the information of one application 
+		cannot be freely accessed by another application.
+
+	-> Virtualization allows better utilization of resources in a physical server and allows better scalability 
+		because an application can be added or updated easily, reduces hardware costs, and much more. 
+	-> With virtualization you can present a set of physical resources as a cluster of disposable virtual machines.
+
+	-> Each VM is a full machine running all the components, including its own operating system, on top of the virtualized hardware.
+
+Container deployment era: 
+	-> Containers are similar to VMs, but they have relaxed isolation properties to share the Operating System (OS) among the applications. 
+	-> Therefore, containers are considered lightweight. Similar to a VM, a container has its own filesystem, share of CPU, memory, process space, 
+		and more. As they are decoupled from the underlying infrastructure, they are portable across clouds and OS distributions.
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+Containers have become popular because they provide extra benefits, such as:
+-> Agile application creation and deployment: increased ease and efficiency of container image creation compared to VM image use.
+
+-> Continuous development, integration, and deployment: provides for reliable and frequent container image build and deployment with quick 
+	and efficient rollbacks (due to image immutability).
+
+-> Dev and Ops separation of concerns: create application container images at build/release time rather than deployment time, 
+	thereby decoupling applications from infrastructure.
+
+-> Observability: not only surfaces OS-level information and metrics, but also application health and other signals.
+
+-> Environmental consistency across development, testing, and production: Runs the same on a laptop as it does in the cloud.
+
+-> Cloud and OS distribution portability: Runs on Ubuntu, RHEL, CoreOS, on-premises, on major public clouds, and anywhere else.
+
+-> Application-centric management: Raises the level of abstraction from running an OS on virtual hardware to running an application on an OS 
+	using logical resources.
+
+-> Loosely coupled, distributed, elastic, liberated micro-services: applications are broken into smaller, independent pieces and can be deployed 
+	and managed dynamically – not a monolithic stack running on one big single-purpose machine.
+
+-> Resource isolation: predictable application performance.
+-> Resource utilization: high efficiency and density.
+
+------------------------------------------------------------------------------------------------------------------------------
+# POD
+A Pod is the smallest deployable unit in Kubernetes, representing a single instance of a containerized application. 
+It encapsulates one or more containers, storage resources, and networking configurations. 
+
+# SERVICE
+A Service provides a consistent endpoint for accessing a group of pods that perform the same function. 
+It abstracts the underlying pod instances, enabling seamless communication and load balancing across them.
+
+# DEPLOYMENT
+A Deployment manages the lifecycle of replicated pods, ensuring that a desired number of pod replicas are running and healthy at all times. 
+It provides features such as rolling updates and rollback capabilities.
+
+Example:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:latest
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx-pod
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-pod
+  template:
+    metadata:
+      labels:
+        app: nginx-pod
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:latest
+```
+
+------------------------------------------------------------------------------------------------------------------------------
+# Stateful-Set: 
+- A StatefulSet in Kubernetes is a workload API object used to manage stateful applications. 
+Unlike Deployments, which are suitable for stateless applications, StatefulSets are designed for managing stateful applications 
+that require stable, unique network identifiers, persistent storage, and ordered deployment and scaling.
+
+Key features of StatefulSets include:
+
+1. **Stable, Unique Network Identifiers**: 
+	Each pod in a StatefulSet is assigned a stable, unique network identifier (hostname) based on its ordinal index. 
+	This allows applications to be aware of their identity and order within the set.
+
+2. **Ordered Deployment and Scaling**: 
+	StatefulSets deploy pods in a deterministic order and ensure that each pod is fully initialized and ready before proceeding to the next one. 
+	When scaling up or down, StatefulSets maintain this order to ensure consistency.
+
+3. **Persistent Storage**: StatefulSets support the use of PersistentVolumeClaims (PVCs) to provide each pod with its own persistent storage. This allows stateful applications to store data that persists beyond the lifetime of individual pods.
+
+4. **Headless Service**: StatefulSets are associated with a headless service, which allows clients to discover and connect to individual pods directly using their stable network identifiers.
+
+5. **Pod Identity Preservation**: StatefulSets preserve the identity of pods even when they are rescheduled or replaced due to node failures or maintenance activities. This ensures that each pod retains its unique identifier and associated data.
+
+StatefulSets are commonly used for stateful applications such as databases (e.g., MySQL, PostgreSQL), 
+messaging systems (e.g., Kafka, RabbitMQ), and distributed storage systems (e.g., Cassandra, MongoDB). 
+They provide the necessary mechanisms to deploy and manage these applications in a reliable and scalable manner within Kubernetes clusters.
+
+Here's an example YAML manifest defining a StatefulSet for a simple MySQL database:
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  serviceName: mysql
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+```
+
+In this example:
+
+- The StatefulSet defines a MySQL database with three replicas (`replicas: 3`).
+- Each pod in the StatefulSet is associated with a PersistentVolumeClaim (`volumeClaimTemplates`) to provide persistent storage for the MySQL data.
+- The MySQL container is configured with environment variables to set the root password and mounts the persistent volume at `/var/lib/mysql` to store database data.
+
+------------------------------------------------------------------------------------------------------------------------------
+#Replica-Set
+A ReplicaSet in Kubernetes is a workload API object used to ensure a specific number of pod replicas are running at any given time. 
+ReplicaSets are primarily used for stateless applications that require horizontal scaling and fault tolerance. 
+ReplicaSets are the predecessor to Deployments, which provide more advanced features such as rolling updates and rollback capabilities.
+
+Key features of ReplicaSets include:
+
+1. **Desired Replicas**: ReplicaSets maintain a desired number of pod replicas based on the `spec.replicas` field defined in their configuration. Kubernetes continuously monitors the actual number of replicas and takes actions to ensure that it matches the desired state.
+
+2. **Pod Template**: ReplicaSets use a pod template to create and manage the pods that make up the replica set. This pod template includes specifications such as the container image, environment variables, volumes, and labels.
+
+3. **Scaling**: ReplicaSets support scaling operations to increase or decrease the number of replicas. You can manually scale a ReplicaSet by updating the `spec.replicas` field, or you can use autoscaling mechanisms such as Horizontal Pod Autoscaler (HPA) to automatically adjust the number of replicas based on resource utilization metrics.
+
+4. **Self-Healing**: If a pod managed by a ReplicaSet fails or is deleted, the ReplicaSet controller automatically creates a new pod to replace it, ensuring that the desired number of replicas is maintained.
+
+5. **Selector**: ReplicaSets use label selectors to identify the pods they manage. This allows them to select and manage pods based on labels defined in the pod's metadata.
+
+ReplicaSets are often used in conjunction with other Kubernetes objects such as Services, which provide network access to the pods managed by the ReplicaSet, and Deployments, which provide higher-level abstractions for managing application deployments, including rolling updates and rollback capabilities.
+
+Here's an example YAML manifest defining a ReplicaSet:
+
+```yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```
+
+In this example:
+
+- The ReplicaSet named "nginx" maintains three replicas (`replicas: 3`) of the Nginx web server.
+- The `selector` field specifies that the ReplicaSet should manage pods with the label `app: nginx`.
+- The `template` field defines the pod template used to create the pods. Each pod runs an Nginx container based on the `nginx:latest` image and exposes port 80.
+
+------------------------------------------------------------------------------------------------------------------------------
+# PersistentVolumeClaims (PVCs)
+PersistentVolumeClaims (PVCs) in Kubernetes are used to request and consume storage resources from PersistentVolumes (PVs). 
+PVCs provide a way for pods to request access to persistent storage without needing to know the details of the underlying storage infrastructure. 
+
+Here are some key points about PersistentVolumeClaims:
+
+1. **Requesting Storage**: 
+A PVC allows you to specify the storage requirements for your application, such as storage class, access mode, and storage capacity. 
+You can create PVCs declaratively using YAML manifests, specifying the desired properties in the `spec` section.
+
+2. **Binding to PersistentVolumes**: 
+Once a PVC is created, Kubernetes attempts to find a suitable PersistentVolume that meets the PVC's requirements. 
+If a matching PV is found, the PVC is bound to it, establishing a connection between the PVC and the storage resource.
+
+3. **Access Modes**: 
+PVCs support different access modes, including ReadWriteOnce (RWO), ReadOnlyMany (ROX), and ReadWriteMany (RWX). 
+These modes define how the storage can be accessed by pods. 
+For example, RWO allows read-write access by a single node, while RWX allows read-write access by multiple nodes simultaneously.
+
+4. **Storage Classes**: 
+PVCs can specify the desired storage class, which defines the type of storage to be provisioned. 
+Storage classes enable dynamic provisioning of storage resources based on predefined policies and configurations.
+
+5. **Dynamic Provisioning**: 
+Kubernetes can dynamically provision storage resources based on the requirements specified in PVCs and the available storage classes. 
+This allows storage to be automatically provisioned and managed by Kubernetes administrators, simplifying the management of persistent storage.
+
+6. **Volume Expansion**: 
+PVCs support volume expansion, allowing you to dynamically resize the underlying storage volume associated with a PVC. 
+This enables you to increase the storage capacity of your applications without downtime.
+
+Here's an example YAML manifest defining a PersistentVolumeClaim:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+
+In this example:
+
+- The PVC named "my-pvc" requests 1Gi of storage capacity with a ReadWriteOnce access mode.
+- When applied to a Kubernetes cluster, Kubernetes will attempt to find a suitable PersistentVolume that matches the PVC's requirements and bind the PVC to it. If no matching PV is available, Kubernetes can dynamically provision one based on the configured storage classes.
+
+------------------------------------------------------------------------------------------------------------------------------
+#Kubernetes liveness and readiness probe
+- In Kubernetes, liveness and readiness probes are essential for monitoring the health of containerized applications running in pods. 
+- These probes help Kubernetes determine 
+  whether a container is ready to accept traffic (readiness) and 
+  whether it is still running as expected (liveness). 
+
+
+### Liveness Probe
+
+**Purpose**: 
+The liveness probe checks if a container is still running as expected. 
+If the liveness probe fails, Kubernetes will restart the container.
+
+**Use Cases**:
+- Detecting if an application or service has crashed.
+- Ensuring that a containerized application is still responsive.
+
+**Probe Type**: 
+HTTP, TCP, or Exec.
+
+**HTTP Probe Example**:
+```yaml
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 30
+  periodSeconds: 10
+```
+
+### Readiness Probe
+
+**Purpose**: 
+The readiness probe checks if a container is ready to accept traffic. 
+If the readiness probe fails, Kubernetes will stop sending traffic to the container until it passes.
+
+**Use Cases**:
+- Ensuring that a containerized application is fully initialized before it starts receiving traffic.
+- Preventing requests from being sent to an application that is not yet ready to handle them.
+
+**Probe Type**: 
+HTTP, TCP, or Exec.
+
+**HTTP Probe Example**:
+```yaml
+readinessProbe:
+  httpGet:
+    path: /readyz
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 10
+```
+
+### Differences
+
+1. **Purpose**:
+   - **Liveness Probe**: Checks if the container is still running as expected.
+   - **Readiness Probe**: Checks if the container is ready to accept traffic.
+
+2. **Impact on Traffic**:
+   - **Liveness Probe**: Determines whether Kubernetes should restart the container if it fails.
+   - **Readiness Probe**: Determines whether Kubernetes should send traffic to the container.
+
+3. **Probe Types**:
+   - Both probes support HTTP, TCP, or Exec probes, allowing flexibility in how you check the health of your containers.
+
+4. **Configuration**:
+   - Both probes can be configured with parameters such as `initialDelaySeconds` (delay before the first probe), `periodSeconds` (how often to perform the probe), and others.
+
+### Best Practices
+
+- Use both liveness and readiness probes to ensure that your application is healthy and ready to handle traffic.
+- Configure probe parameters based on the characteristics of your application and its startup time.
+- Implement custom health check endpoints in your application to provide accurate health status.
+
+In summary, liveness and readiness probes are critical for ensuring the reliability and availability of containerized applications in Kubernetes. By configuring these probes correctly, you can ensure that Kubernetes can manage and scale your applications effectively.
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------
+minikube start --driver=docker
+
+
+minikube status
+kubectl cluster-info
+kubectl get node
+
+minikube docker-env
+@FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env') DO @%i
+
+docker images
+
+cd to dockerfile path
+docker build -t test-kube:1.0 .
+
+kubectl create deployment test-kube-api --image=test-kube:1.0 --port=8080
+from yaml : kubectl apply -f deployment-name.yaml
+kubectl apply -f test-deployment.yaml
+
+
+
+kubectl get deployments
+kubectl describe deployment test-kube-api
+
+kubectl get pods
+kubectl logs test-kube-api-6f64f4557-f9sf7
+kubectl expose deployment test-kube-api --type=NodePort
+kubectl get service
+
+minikube service test-kube-api --url
+minikube dashboard
+
+--deleting
+kubectl delete service test-kube-api
+kubectl delete deployment test-kube-api
+minikube stop
+minikube delete
+
+------------------------
+### Learning ###
+Start Docker hub
+minikube start --driver=virtualbox --no-vtx-check
+minikube ip
+minikube ssh
+
+default user: doker
+password: tcuser
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

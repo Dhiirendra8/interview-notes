@@ -1,0 +1,35 @@
+AWS
+
+#Region
+    - cluster of data centers
+
+#Availability Zone
+    - Each region has many AZs (usually 3, min 3, max 6)
+    - Each Az is one or more discrete data centers with redundant power, networking and connectivity
+    - They're seperate from each other so that they're isolated from disasters
+    - They're connected with high bandwidth, ultra-low latency networking
+
+#AWS Points of Presence (Edge locations)
+    - 
+
+----------------------------------------------------------
+# IAM : Users & Group
+    - IAM (Identity and Acess Management)
+    - Global Service
+    - Root Account created by-default
+
+    #Users - are people within organization and can be grouped
+    - Groups only contains users not other Groups
+
+    IAM: Permissions
+        - Users or Groups can be assigned JSON documents called policies
+        - These pilicies define the permissions of the users
+
+     IAM Roles : 
+        - Some AS service will need to perform actions on your behalf
+        - To do so we'll assign permissions to AWS services with IAM Roles
+
+# CloudShell - region specific, not available to all region
+    - a terminal in cloud to use CLI
+
+#

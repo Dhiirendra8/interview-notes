@@ -1,0 +1,38 @@
+
+-----------------------------------------------------------------------------------------------------------------------
+#Quick Sort : 
+-> The array of elements is divided into parts repeatedly until it is not possible to divide it further.
+-> It is also known as “partition exchange sort”.
+-> It uses a key element (pivot) for partitioning the elements.
+-> One left partition contains all those elements that are smaller than the pivot 
+	and one right partition contains all those elements which are greater than the key element (pivot).
+		
+		
+-----------------------------------------------------------------------------------------------------------------------
+#Merge Sort :
+-> The elements are split into two sub-arrays (n/2) again and again until only one element is left.
+-> Merge sort uses additional storage for sorting the auxiliary array.
+-> Merge sort uses three arrays where two are used for storing each half, and the third external one is used to 
+	store the final sorted list by merging other two and each array is then sorted recursively.
+-> At last, the all sub arrays are merged to make it 'n' element size of the array.
+	
+	
+-----------------------------------------------------------------------------------------------------------------------
+1. Quick sort is preferred for arrays.whereas Merge sort is preferred for linked lists.
+
+2. Merge sort is more efficient and works faster than quick sort in case of larger array size or datasets.
+whereas Quick sort is more efficient and works faster than merge sort in case of smaller array size or datasets.
+
+3. Merge sort is not in place because it requires additional memory space to store the auxiliary arrays.
+whereas The quick sort is in place as it doesn't require any additional storage.
+
+4. Merge sort can work well on any type of data sets irrespective of its size (either large or small).
+whereas The quick sort cannot work well with large datasets.
+
+5. The worst case complexity of quick sort is O(n2) as there is need of lot of comparisons in the worst condition.
+whereas In merge sort, worst case and average case has same complexities O(n log n).
+
+6. In the merge sort, the array is parted into just 2 halves (i.e. n/2).
+whereas In case of quick sort, the array is parted into any ratio.There is no compulsion of dividing the array of elements into equal parts in quick sort.
+-----------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------

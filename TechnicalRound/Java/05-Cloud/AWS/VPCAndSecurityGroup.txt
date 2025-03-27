@@ -1,0 +1,114 @@
+#Amazon VPC
+-> With Amazon Virtual Private Cloud (Amazon VPC), you can launch AWS resources in a logically isolated virtual network that 
+    you've defined. This virtual network closely resembles a traditional network that you'd operate in your own data center, 
+    with the benefits of using the scalable infrastructure of AWS.
+
+-> The VPC has one subnet in each of the Availability Zones in the Region, EC2 instances in each subnet, and an internet gateway 
+    to allow communication between the resources in your VPC and the internet.
+
+#Features
+The following features help you configure a VPC to provide the connectivity that your applications need:
+1. Virtual private clouds (VPC)
+    A VPC is a virtual network that closely resembles a traditional network that you'd operate in your own data center. 
+    After you create a VPC, you can add subnets.
+2. Subnets
+    A subnet is a range of IP addresses in your VPC. 
+    A subnet must reside in a single Availability Zone. 
+    After you add subnets, you can deploy AWS resources in your VPC.
+3. IP addressing
+    You can assign IP addresses, both IPv4 and IPv6, to your VPCs and subnets. 
+    You can also bring your public IPv4 and IPv6 GUA addresses to AWS and allocate them to resources in your VPC, such as EC2 instances, 
+        NAT gateways, and Network Load Balancers.
+4. Routing
+    Use route tables to determine where network traffic from your subnet or gateway is directed.
+5. Gateways and endpoints
+    A gateway connects your VPC to another network. 
+    For example, use an internet gateway to connect your VPC to the internet. 
+    Use a VPC endpoint to connect to AWS services privately, without the use of an internet gateway or NAT device.
+6. Peering connections
+    Use a VPC peering connection to route traffic between the resources in two VPCs.
+7. Traffic Mirroring
+    Copy network traffic from network interfaces and send it to security and monitoring appliances for deep packet inspection.
+8. Transit gateways
+Use a transit gateway, which acts as a central hub, to route traffic between your VPCs, VPN connections, and AWS Direct Connect connections.
+9. VPC Flow Logs
+    A flow log captures information about the IP traffic going to and from network interfaces in your VPC.
+10. VPN connections
+    Connect your VPCs to your on-premises networks using AWS Virtual Private Network (AWS VPN).
+
+==================================================================================================
+#Security groups - https://docs.aws.amazon.com/vpc/latest/userguide/security-groups.html
+-> A security group acts as a firewall that controls the traffic allowed to and from the resources in your virtual private cloud (VPC). 
+-> You can choose the ports and protocols to allow for inbound traffic and for outbound traffic.
+-> For each security group, you add separate sets of rules for inbound traffic and outbound traffic
+
+#Security group basics
+Characteristics of security groups
+-> When you create a security group, you must provide it with a name and a description. The following rules apply:
+
+    A security group name must be unique within the VPC.
+    Names and descriptions can be up to 255 characters in length.
+    Names and descriptions are limited to the following characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*.
+    When the name contains trailing spaces, we trim the space at the end of the name. For example, if you enter "Test Security Group " 
+        for the name, we store it as "Test Security Group".
+    A security group name cannot start with sg-.
+
+->Security groups are stateful. 
+    -> For example, if you send a request from an instance, the response traffic for that request is allowed to reach the instance 
+        regardless of the inbound security group rules. 
+    -> Responses to allowed inbound traffic are allowed to leave the instance, regardless of the outbound rules.
+
+-> Security groups do not filter traffic destined to and from the following:
+    Amazon Domain Name Services (DNS)
+    Amazon Dynamic Host Configuration Protocol (DHCP)
+    Amazon EC2 instance metadata
+    Amazon ECS task metadata endpoints
+    License activation for Windows instances
+    Amazon Time Sync Service
+    Reserved IP addresses used by the default VPC router
+
+-> There are quotas on the number of security groups that you can create per VPC, the number of rules that you can add to each security group, and the number of security groups that you can associate with a network interface. For more information, see Amazon VPC quotas.
+
+#Best practices
+-> Authorize only specific IAM principals to create and modify security groups.
+
+-> Create the minimum number of security groups that you need, to decrease the risk of error. Use each security group to manage access to resources that have similar functions and security requirements.
+
+-> When you add inbound rules for ports 22 (SSH) or 3389 (RDP) so that you can access your EC2 instances, authorize only specific IP address ranges. If you specify 0.0.0.0/0 (IPv4) and ::/ (IPv6), this enables anyone to access your instances from any IP address using the specified protocol.
+
+-> Do not open large port ranges. Ensure that access through each port is restricted to the sources or destinations that require it.
+
+-> Consider creating network ACLs with rules similar to your security groups, to add an additional layer of security to your VPC. For more information about the differences between security groups and network ACLs, see Compare security groups and network ACLs.
+
+
+- https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html
+#Security group rules
+-> The rules of a security group control the inbound traffic that's allowed to reach the resources that are associated 
+    with the security group. The rules also control the outbound traffic that's allowed to leave them.
+
+-> You can add or remove rules for a security group (also referred to as authorizing or revoking inbound or outbound access). 
+    A rule applies either to inbound traffic (ingress) or outbound traffic (egress). 
+    You can grant access to a specific source or destination.
+
+#Characteristics of security group rules
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

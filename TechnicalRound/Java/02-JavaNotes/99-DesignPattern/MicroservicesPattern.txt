@@ -1,0 +1,20 @@
+1. Orchestration Pattern: Managing Distributed Transactions
+    - This technique allows to create scalable, reliable, and fault-tolerant systems
+    #Summary
+        - A single component conducts all the process (orchestrator).
+        - Commonly, orchestrator has more responsibility that other components.
+        - Easy way to coordinate a complex process with several steps.
+        - If orchestrator gets so much responsibility, tends to anemic models.
+
+2. Choreography
+    - Choreography is a pattern which components communicate by themselves to complete a request. 
+        So, there is no a single conductor but each service is responsible for doing its part of the job.
+    - 
+
+3. Aggragator (समूहक)
+    - We can define an Aggragator as a simple web module will act as a load balancer, 
+        which means it will call different services as per requirements
+    - An aggregator can be again exposed as another service to the outer world, 
+        which can be consumed by others whenever required
+
+

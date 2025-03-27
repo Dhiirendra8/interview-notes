@@ -1,0 +1,46 @@
+------------------------
+Thread Pools (Executor Framework)
+	- Creating a new thread for every job may create performance and memory problems
+	- To overcome this we should go for thread pool
+	- Thread Pool is a pool of already created threads ready to do our job
+	- Java 1.5 version introduces Thread pool framework to implement thread pools
+	- Thread pool framework also known as Executor Framework
+	- We can create a thread pool as follows
+		ExecutorService service = Executors.newFixedThreadPool(3);
+		
+	- We can submit a Runnable job by using submit() method
+		service.submit(job);
+		
+	- We can shutdown ExecutorService by using shutdown() method
+		- service.shutdown();
+		
+	- While desining web-servers and appicatin servers , we use Thread Pool concept
+	
+	
+	- Callable and Future : 
+		- In the case of Runnable job , thread wont return anything after completing the job
+		- If a thread is required to return some result after execution then we should go for Callable
+		- Callable interface contains only one method call()
+			public Object call() throws Exception
+		- If we submit a callable object to Excecutor then after completing the job thread returns an object of the type Future
+		- That is Future object can be used to retreive the result from Callable job
+			Future f = service.submit(job);
+		
+	- Runnable Vs Callable
+		1. If a thread is not required to return anything after completing the job then we should go for Runnable
+			If a thread required to return something after completing the job then we should go for Callable
+			
+		2. Runnable interface contains only one method run()
+			Callable interface contains only one method call()
+			
+		3. Runnable job does not require to return anything that's why the return type is void
+			Callable job is require to return something and hence return type of call() method is Object
+		
+		4. Withing the run method if there is any chance of raising checked Exception , complusory we should handle by using try-catch because we cant use throws keyword for run() method
+			Withing call method if there any chance of raising checked exception we are not required to handle by using try-catch because call() method already throws Exception
+		
+		5. Runnable interface present in java.lang package
+			Callable interface present in java.util.concurrent package
+		
+		6. Runnable introduces in 1.0 version
+			Callable introduces in 1.5 version

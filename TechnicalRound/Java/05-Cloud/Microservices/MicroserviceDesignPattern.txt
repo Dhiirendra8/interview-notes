@@ -1,0 +1,31 @@
+#Microservice Design Patterns
+-> By using Design Patterns, the team working on various projects use the same pattern to build similar applications.
+
+1. Aggregator - Combining data from multiple services
+    - Aggregator design pattern describes a service that gets a request, 
+    then makes several requests to different services, combines the results, and 
+    then responds to the initial request.
+2. API Gateway - Acts as an entry-point to forward the clients requests to appropriate microservices
+3. Chain of responsibility - Produces a single output which is a combination of multiple chained outputs
+4. Asynchronous Messaging
+5. Shared Database 
+6. Event Sourcing - create events regarding the change in the application state
+7. Branch - Simultaniously process the request and responses from two or more independent microservices 
+8. CQRS - Command Query Responsibility Segregator
+9. Circuit Breaker - used to stop the process of request and response if a service is not working
+10. Decomposition - 
+11. SAGA - A saga is a sequence of local transactions
+
+
+
+#Principle behind Microservices
+1. Independent & Autonomous Services
+2. scalability
+3. Decentralization
+4. Resilience Services
+5. Real time load balancing
+6. Availability
+7. Continuous Delivery throug DevOps Integration
+8. Seamles API Integration & Continuous Monitoring - API Gateway
+9. Isolation from failure
+10. Auto-Provisioning

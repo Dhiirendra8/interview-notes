@@ -1,0 +1,27 @@
+
+- What is JavaScript?
+	- Client side programing language.
+	- initially created to 'make web pages alive'
+	
+	- Today, JS can execute on server or on any device that has a special program called JS engine.
+		- with the help of Node.js (is an open-source , cross-platform, back-end, JavaScript runtime environment
+		that executes JavaScript code outside web browser)
+	- Js can manipulate DOM 
+	- Ajax call
+	- get , set cookies
+	- local-storage, session storage
+	
+	- Frameworks - React, Angular, Vue
+	
+- ECMAScript - is a standard
+
+- JavaScript Engine
+	- executes JS code
+	- v8 (Chrome, Node.js), spiderMonkey (Firefox), Chakra (IE)
+	- 
+
+- How to run JS code
+	- An Editor (to write code) - Notepad, VSCode, Sublime
+	- To Run 
+		- inside Browser - Firefox, Chrome ...
+		- outside browser - Node Js, 

@@ -1,0 +1,138 @@
+
+https://developers.redhat.com/courses/openshift/getting-started/
+
+Paas : 
+
+there are usually three models of cloud service to compare:
+
+Software as a Service (SaaS) -- Google Workspace, Dropbox, Gmail, Cisco WebEx
+Platform as a Service (PaaS) -- AWS Elastic Beanstalk, Windows Azure, Heroku, Force.com, Google App Engine, Apache Stratos, OpenShift
+	- PaaS delivers a framework for developers that they can build upon and use to create customized applications
+
+Infrastructure as a Service (IaaS) -- DigitalOcean, Linode, Rackspace, Amazon Web Services (AWS), Cisco Metapod, Microsoft Azure, 
+Google Compute Engine (GCE)
+
+
+
+-----------------------------------------------------------------------------------------
+OpenShift Architecture
+
+
+
+-----------------------------------------------------------------------------------------------
+Containers and Images
+
+Image − A Docker image is a read-only template that contains a set of instructions for creating a container that can run on the Docker platform
+
+Container − A container is a runnable instance of an image.
+			They are the ones which are created after the image is deployed on a Kubernetes cluster node.
+
+Node − A node is a working machine in Kubernetes cluster, which is also known as minion for master. They are working units which can a 
+physical, VM, or a cloud instance.
+
+
+***********************************
+
+Pods and Services
+Pods -- Pod can be defined as a collection of container and its storage inside a node of OpenShift (Kubernetes) cluster
+
+Services -- service that can be defined as a logical set of pods
+			It’s an abstracted layer on top of the pod, which provides a single IP and DNS name through which pods can be accessed
+
+**********************************
+Builds and Streams
+Builds -- build is a process of transforming images into containers. It is the processing which converts the source code to an image
+Image Streams − Image streams are created after pulling the images
+
+************************************
+Routes and Templates
+Routing -- routing is a method of exposing the service to the external world by creating and configuring externally reachable hostname
+
+
+*************************************
+Authentication and Authorization
+There are different types of identity providers present in OAuth.
+
+Allow All
+Deny All
+HTPasswd
+LDAP
+Basic Authentication
+
+Authorization policies are controlled using -
+		Rules
+		Roles
+		Bindings
+
+
+-----------------------------------------------------------------------------------------------------
+Build Strategies 
+Source-to-image strategy
+Docker strategy --> The docker build strategy invokes the docker build command, and it expects a repository with a Dockerfile and all required artifacts in it to produce a runnable image.
+Custom strategy --> These are the builds which are used for creating base Docker images.
+Pipeline strategy --> The Pipeline build strategy allows developers to define a Jenkins pipeline for use by the Jenkins pipeline plug-in. The build can be started, monitored, and managed by OpenShift Container Platform in the same way as any other build type
+
+---------------------------------------------------------------------------------------------------------
+Autoscaling is a feature in OpenShift where the applications deployned can scale and sink as and when requierd as per certain specifications. In OpenShift application, autoscaling is also known as pod autoscaling
+Scaling
+Vertical Scaling --> Vertical scaling is all about adding more and more power to a single machine which means adding more CPU and hard disk. 
+						The is an old method of OpenShift which is now not supported by OpenShift releases.
+Horizontal Scaling --> 
+
+
+---------------------------------------------------------------------------------------------------
+Deployment Strategies
+Rolling strategy --> If we had multiple replicas whenever we update the application the deployement will update the replicas one at a time
+Recreate strategy --> 
+Custom strategy (Blue/Green, A/B--100%/20%)
+
+
+
+
+-----------------------------------
+Why to use OpenShift
+OpenShift provides a common platform for enterprise units to host their applications on cloud without worrying about the underlying operating system. 
+This makes it very easy to use, develop, and deploy applications on cloud. 
+One of the key features is, it provides managed hardware and network resources for all kinds of development and testing. 
+With OpenShift, PaaS (Platform as a Service) developer has the freedom to design their required environment with specifications.
+
+
+
+------------------------------------
+
+Kubernetes and Docker
+
+OpenShift is built on top of Docker and Kubernetes. All the containers are built on top of Docker cluster, 
+which is basically Kubernetes service on top of Linux machines, using Kubernetes orchestrations feature.
+In this process, we build Kubernetes master which controls all the nodes and deploys the containers to all the nodes. 
+The main function of Kubernetes is to control OpenShift cluster and deployment flow using a different kind of configuration file. 
+As in Kubernetes, we use kubctl in the same way we use OC command line utility to build and deploy containers on cluster nodes.
+
+Kubernetes is a portable, extensible, open-source platform for managing containerized workloads and services, 
+that facilitates both declarative configuration and automation. 
+It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
+
+Virtualized deployment era: As a solution, virtualization was introduced. 
+	It allows you to run multiple Virtual Machines (VMs) on a single physical server's CPU. 
+	Virtualization allows applications to be isolated between VMs and provides a level of security 
+	as the information of one application cannot be freely accessed by another application.
+	
+	Virtualization allows better utilization of resources in a physical server and allows better scalability 
+	because an application can be added or updated easily, reduces hardware costs, and much more. 
+	
+	With virtualization you can present a set of physical resources as a cluster of disposable virtual machines.
+	Each VM is a full machine running all the components, including its own operating system, on top of the virtualized hardware.
+
+
+
+
+
+
+
+
+
+
+
+
+OpenShift SDN (Software Define Network)
+OpenShift DNS

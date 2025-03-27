@@ -1,0 +1,69 @@
+Database - Interview
+https://livesql.oracle.com/ords/f?p=590:1:104826764784943:::RP::#
+
+---------------------------------------------------------------------------------------------------
+-- CREATE DATABASE mydb;
+-- use mydb;
+-- CREATE TABLE Persons (
+--     PersonID int,
+--     LastName varchar(255),
+--     FirstName varchar(255),
+--     Address varchar(255),
+--     City varchar(255)
+-- );
+
+-- INSERT INTO Persons (PersonID, FirstName, LastName, Address, City) VALUES (1, 'Dhirendra', 'Singh', 'Addr1', 'Kanpur');
+
+
+SELECT * FROM Persons;
+
+1. Display Alternate Records
+SELECT * from 
+	(Select rownum rn, PersonID, FirstName, LastName, Address, City 
+		FROM Persons order by rn desc) 
+where mod(rn, 2) != 0;
+
+2. Display Duplicate of a Column
+SELECT FirstName, count(*) from Persons 
+	GROUP BY firstName
+	HAVING count(*) > 1;
+
+---------------------------------------------------------------------------------------------------
+#Pattern Matching
+1. Display the Employee name whose name starts with 'D' 
+	SELECT Name from Employee 
+	 where Name like 'D%';
+ 
+2. Display the Employee name whose name ends with 'D' 
+	SELECT Name from Employee 
+	 where Name like '%D';
+ 
+3. Display the Employee name whose name having letter 'D' 
+	SELECT Name from Employee 
+	 where Name like '%D%';
+	 
+4. Display the Employee name whose name does not have 'D' 
+	SELECT Name from Employee 
+	 where Name Not like '%D%';
+	 
+5. Display the Employee name whose name contains exactly 4 letters
+	SELECT Name from Employee 
+	 where Name like '____'; //4 underscores
+	 
+6. Display the Employee name whose name contains second Letter as 'L'
+	and 4th letter as 'M'
+	
+	SELECT Name from Employee 
+	 where Name like '_L%';
+	 
+7. Display the Employee name whose name contains exactly 2 'L's
+	SELECT Name from Employee 
+	 where Name like '%LL%';
+
+8. Display the Employee name whose name starts with 'L' and ends with 'M'
+	SELECT Name from Employee 
+	 where Name like 'L%M';
+	 
+9. Display the Employee name and hire date (dd-MMM-yyyy) for the employees joined in DEC month
+	SELECT Name, Hiredate from Employee 
+	 where Hiredate like '%DEC%';

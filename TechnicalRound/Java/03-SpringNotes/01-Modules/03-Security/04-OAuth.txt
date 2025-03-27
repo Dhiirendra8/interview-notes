@@ -1,0 +1,43 @@
+# OAuth 2
+OAuth 2.0 is an open standard authorization framework that enables secure and delegated access to resources on behalf of a user or application. 
+It provides a standardized way for users to grant limited access to their protected resources (such as data or APIs) to another application without sharing their credentials directly.
+
+The OAuth 2.0 framework involves multiple parties: the resource owner (user), the client (application), the 'authorization server', and 
+the 'resource server'. Here's a high-level overview of how OAuth 2.0 works:
+
+1. User initiates the authorization process: 
+    The user wants to grant access to their resources to a specific client application. 
+    The client application typically redirects the user to the 'authorization server' to initiate the process.
+
+2. User grants authorization: 
+    The 'authorization server' authenticates the user and asks for their consent to grant access to the client application. 
+    This typically involves displaying the requested permissions or scopes that the client application needs. 
+    If the user consents, they are redirected back to the client application.
+
+3. Client application obtains an access token: 
+    The client application makes a request to the 'authorization server', providing its credentials and 
+        the 'authorization code' received from the previous step. 
+    If the credentials and code are valid, the 'authorization server' responds with an access token.
+
+4. Client application accesses protected resources: 
+    The client application uses the obtained access token to make requests to the 'resource server' (API server) on behalf of the user. 
+    The 'resource server' validates the access token and grants access to the requested resources if the token is valid and authorized.
+
+OAuth 2.0 introduces several grant types that define how the client application obtains the access token, 
+such as the 'authorization code' grant, implicit grant, client credentials grant, and others. 
+The appropriate grant type depends on factors such as the type of client application (web app, mobile app, server-to-server communication) and 
+    the level of trust between the parties.
+
+OAuth 2.0 is widely adopted and used by many popular platforms and services, including social media platforms, APIs, and cloud providers. 
+It provides a secure and standardized way to enable third-party applications to access protected resources without compromising user credentials.
+
+It's important to note that OAuth 2.0 is an authorization framework, not an authentication protocol. 
+It is commonly used alongside an authentication mechanism, such as OpenID Connect, which provides user authentication in addition to authorization.
+
+Overall, OAuth 2.0 simplifies the process of granting and managing access to resources in a secure and controlled manner, 
+    promoting interoperability and facilitating integration between applications.
+
+
+
+
+

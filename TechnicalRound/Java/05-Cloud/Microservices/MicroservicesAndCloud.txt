@@ -1,0 +1,126 @@
+Cloud & Microservices:
+
+Rest principles, OAS consumer and Spec, Error Handling, Filteration, Tooling, Best Practices,OAS producer,Service granualirity & Business Process
+Basic MS Impl (Springboot/Spring cloud, Service Interactions, Persistence, Adv MS patterns, Domain Aggregates, Transactions, CAP
+Caching: (Elastic search/Redis/Others), Read heavy traffic, Building high traffic systems, Data integrity and Materlized view
+BFF: Business process orchestration (GraphQl /Appsync/ Apollo/DGS), Schema federation/Stitching, directives, State management, caching
+Cloud managed Services: Serverless, Storage services, Events, Notifications, Services, Cloud based MS application with end-to-end ecosystem, Solution Patterns
+API Security Basic Auth, Client Credential, JWT usage, JJWT lib, Authcode Flow, Open IDC, IAM integration, key cloak
+API Gateway or ESB usage (e.g., APIGEE/KONG/AWS GW/Mulesoft/ others), ADV implementation and configurations or knowing both technologies
+ 
+-------------
+===============================================================================================================================================================
+#Rest API Principles
+The Six Principles / Constraints
+1. Client-Server Decoupling: 
+-> Separation of concerns is the principle behind the client-server constraints. 
+-> By separating the user interface concerns from the data storage concerns, 
+we improve the portability of the user interface across multiple platforms and improve scalability by simplifying the server components.
+
+2. Stateless: 
+-> communication must be stateless, as in the client-stateless-server (CSS) style. 
+Each request from the client to the server must contain all of the information necessary to understand the request. 
+Session state is therefore kept entirely on the client.
+
+3. Cacheable: 
+-> To improve network efficiency, we add cache constraints to form the client-cache-stateless-server style. 
+Cache constraints require that the data respond to a request with the implicit or explicit label as cacheable or non-cacheable. 
+If a response is cacheable, then a client cache is given the right to reuse that response data for later, equivalent requests.
+
+4. Layered System: 
+-> A client cannot ordinarily tell whether it is connected directly to the end server or an intermediary along the way. 
+Intermediary servers may improve system scalability by enabling load-balancing and by providing shared caches. 
+Layers may also enforce security policies.
+
+5. Code-on-Demand: 
+-> REST allows client functionality to extend by downloading and executing code in the form of applets or scripts. 
+Simplifies clients by reducing the number of features required to be pre-implemented. 
+It allows features to download after deployment improves system extensibility.
+
+6. Uniform Interface: 
+-> By applying the software engineering principle of generality to the component interface, the overall system architecture becomes 
+	simplified, and the visibility of interactions is improved. 
+-> Implementations decouple from the services they provide, which encourages independent evolvability. 
+-> REST defines by four interface constraints: identification of resources, manipulation of resources through representations, 
+	self-descriptive messages, and Hypermedia as the engine of application state.
+	A. 'Self-descriptive Messages': 
+		-> Each message includes enough information to describe how to process the message.
+	B. 'Resource-Based': 
+		-> Individual resources are identified in requests using URIs as resource identifiers. 
+		-> The resources themselves are conceptually separate from the representations that return to the client.
+	C. "Manipulation of Resources Through Representations": 
+		-> When a client represents a resource, including any metadata attached, it has enough information to modify or delete 
+			the resource on the server, provided it has permission to do so.
+	D. "Hypermedia as the Engine of Application State (HATEOAS)": 
+		-> Clients deliver state via body contents, query-string parameters, request headers, and the requested URI (the resource name). 
+		-> Services provide the state to clients via body content, response codes, and response headers.
+		
+------------------------------------------------------------------------------------------------------------------------------------------
+===============================================================================================================================================================
+OAS consumer and Spec (Open API Specification) - Swagger
+https://medium.com/hackernoon/designing-rest-api-with-open-api-specification-oas-v2-0-v3-0-using-swagger-11dd4ef8cea6
+
+-> It's a standard of describing API comprehensively in machine & human understandable format. 
+The idea is the API should be self sufficient to describe itself with enough granular level details.
+
+Major Advantages of having API design standard:
+	1. It forces you to get a 'Design First' attitude. Don't delve into implementation quickly, spend enough time on designing the API, rectify all possible mistake first.
+	2. It promotes collaboration. Organisation should have a common standard so that all developers understand the API descriptions & documentation without gaining specialised knowledge for each & every API, API design review becomes better when everyone follows the same standard. 
+	A tools ecosystem can be built around this standard which can auto validate the API design, auto generates code & documentation, enhance security for all API.
+	3. API consumption become easier if both the API creator & consumer (might be different organizations) expresses the API in a common design standard. 
+	So you can standardize API design across teams hence cutting down time on developers' effort to understand each API in a different way.
+
+#A Brief About Swagger:
+Swagger is a tools ecosystem built around OpenAPI specification. 
+Following are some capabilities of different Swagger tools:
+
+	1. 'Swagger Editor': Swagger provides both online ( called SwaggerHub ) & offline (downloadable UI) interface where developers can write API specification in YAML format & the editor validates the design in real time, checks compatibility with OAS standard, detects errors on the fly & shows them visually. 
+	So it simplifies API development & helps developers to accurately model resources & APIs.
+	2. 'Swagger Codegen': This tool can generate API boilerplate code & API models (server stubs) etc from the specification in 20+ languages. 
+	This greatly reduces developers' effort to manually write those code. 
+	Swagger Codegen can generate client side code to consume the APIs. 
+	This tool can generate client side SDK as well in-case developers want to use SDK at the client app.
+	3. 'Mocking API': SwaggerHub provides the capability to mock the APIs defined in the specification on the fly. 
+	This facility greatly helps to test APIs in a cleaner way without spending extra money & time to create mock servers during the development life cycle. 
+	The offline Swagger UI does not provide this capability.
+	4. 'API Documentation': Maintaining API documentation manually is hard as API keeps evolving & for every minor change you don't need to create a new API version. 
+	Swagger has out of the box capability to create & sync documentation from OAS. In case you want to generate documentation for already existing API, you can use Swagger Inflector to create documentation in run time using annotations or using Swagger Inspector , you can hit an API end point & generate open API specification from this interface & generate documentation from that specification as well.
+	5. 'API Testing': Using Swagger Inspector, you can hit end point with proper request & check out the response.
+
+-------------	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

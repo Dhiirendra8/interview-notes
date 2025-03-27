@@ -1,0 +1,88 @@
+
+https://www.interviewbit.com/spring-boot-interview-questions/
+----------------------------------------------------------------------------------------
+Spring Boot
+
+1. What Is Spring Boot and What Are Its Main Features
+-> Spring Boot is a framework for RAD (Rapid Application Development) built on top of the Spring Framework. 
+-> With its auto-configuration and embedded application server support, combined with the extensive documentation and community support it enjoys, 
+
+-> Here are a few features:
+	=> Starters - a set of dependency descriptors to include relevant dependencies at a go
+	=> Auto-configuration - a way to automatically configure an application based on the dependencies present on the classpath
+	=> Actuator - to get production-ready features such as monitoring
+	=> Security
+	=> Logging
+
+
+2. Spring vs Spring Boot
+-> The Spring Framework provides multiple features that make the development of web applications easier. 
+	These features include dependency injection, data binding, aspect-oriented programming, data access and many more.
+
+-> Over the years, Spring has been growing more and more complex, and the amount of configuration such application requires can be intimidating.
+	This is where Spring Boot comes in handy — it makes configuring a Spring application a breeze.
+	
+-> Essentially, while Spring is unopinionated, Spring Boot takes an opinionated view of the platform and libraries, letting us get started quickly.
+	
+-> Here are two of the most important benefits Spring Boot brings in:
+
+	-> Auto-configure applications based on the artifacts it finds on the classpath
+	-> Provide non-functional features common to applications in production, such as security or health checks
+	
+3. How does Spring Boot works?
+-> Spring Boot automatically configures your application based on the dependencies you have added to the project by using annotation. 
+-> The entry point of the spring boot application is the class that contains @SpringBootApplication annotation and the main method.
+
+-> Spring Boot automatically scans all the components included in the project by using @ComponentScan annotation.
+
+4. What does the @SpringBootApplication annotation do internally?
+-> The @SpringBootApplication annotation is equivalent to using @Configuration, @EnableAutoConfiguration, and @ComponentScan with their default attributes.
+-> Spring Boot enables the developer to use a single annotation instead of using multiple. 
+-> But, as we know, Spring provided loosely coupled features that we can use for each annotation as per our project needs.
+	
+5. What are starter dependencies?
+-> Spring boot starter is a maven template that contains a collection of all the relevant transitive dependencies that are needed to start 
+	a particular functionality.
+-> Like we need to import spring-boot-starter-web dependency for creating a web application.
+	
+6. What is Actuator?
+-> In essence, Actuator brings production-ready features to our application.
+-> Monitoring our app, gathering metrics, understanding traffic, or the state of our database become trivial with this dependency.	
+-> The main benefit of this library is that we can get production-grade tools without having to actually implement these features ourselves.	
+-> Actuator is mainly used to expose operational information about the running application — health, metrics, info, dump, env, etc. 
+		It uses HTTP endpoints or JMX beans to enable us to interact with it.	
+-> Once this dependency is on the classpath, several endpoints are available for us out of the box.
+	
+7. Can we override or replace the Embedded tomcat server in Spring Boot?
+-> Yes, we can replace the Embedded Tomcat server with any server by using the Starter dependency in the pom.xml file. 
+	Like you can use spring-boot-starter-jetty as a dependency for using a jetty server in your project.
+
+8. How to disable a specific auto-configuration class?
+	-> You can use exclude attribute of @EnableAutoConfiguration if you want auto-configuration not to apply to any specific class.
+
+	//use of exclude
+	@EnableAutoConfiguration(exclude={className})
+
+
+
+
+9. Difference between @ConfigurationProperties and @Value
+-> The main differences in @ConfigurationProperties annotation and @Value annotation are: 
+@ConfigurationProperties annotation is used to inject a similar group (prefix) of values from properties file while @Value annotation injects the single/specific value
+
+
+
+
+
+10. 
+
+
+
+
+
+
+
+
+
+
+	

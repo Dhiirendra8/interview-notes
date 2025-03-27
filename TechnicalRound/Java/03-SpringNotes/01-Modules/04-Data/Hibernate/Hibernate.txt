@@ -1,0 +1,521 @@
+
+https://www.digitalocean.com/community/tutorials/hibernate-tutorial-for-beginners
+https://www.digitalocean.com/community/tutorials/hibernate-interview-questions-and-answers#hibernate-overview
+
+Hibernate
+
+1.	Hibernate 
+	-> is a Java framework that simplifies the development of Java application to interact with the database. 
+		It is an open source, lightweight, ORM (Object Relational Mapping) tool. 
+		Hibernate implements the specifications of JPA (Java Persistence API) for data persistence. 
+	-> Hibernate framework provide option to map plain old java objects to traditional database tables with the use of JPA annotations 
+		as well as XML based configuration.
+
+2. ORM Tool
+	An ORM tool simplifies the data creation, data manipulation and data access. 
+	It is a programming technique that maps the object to the data stored in the database
+
+3. The ORM tool internally uses the JDBC API to interact with the database. 
+
+4. What is JPA?
+	Java Persistence API (JPA) is a Java specification that provides certain functionality and standard to ORM tools. 
+	The javax.persistence package contains the JPA classes and interfaces.
+	
+5. Benefits
+-> Hibernate eliminates all the boiler-plate code that comes with JDBC and takes care of managing resources, so we can focus on business logic.
+-> Hibernate framework provides support for XML as well as JPA annotations, that makes our code implementation independent.
+-> Hibernate provides a powerful query language (HQL) that is similar to SQL. However, HQL is fully object-oriented and 
+	understands concepts like inheritance, polymorphism and association.
+-> Hibernate is an open source project from Red Hat Community and used worldwide. This makes it a better choice than others 
+	because learning curve is small and there are tons of online documentations and help is easily available in forums.
+-> Hibernate is easy to integrate with other Java EE frameworks, it's so popular that Spring Framework provides built-in support 
+	for integrating hibernate with Spring applications.
+-> Hibernate supports lazy initialization using proxy objects and perform actual database queries only when it's required.
+-> Hibernate cache helps us in getting better performance.
+-> For database vendor specific feature, hibernate is suitable because we can also execute native sql queries.
+	
+6. Hibernate over JDBC
+	-> Hibernate removes a lot of boiler-plate code that comes with JDBC API, the code looks more cleaner and readable.
+	-> Hibernate supports inheritance, associations and collections. These features are not present with JDBC API.
+	-> Hibernate implicitly provides transaction management, in fact most of the queries can't be executed outside transaction. 
+		In JDBC API, we need to write code for transaction management using commit and rollback.
+	-> JDBC API throws SQLException that is a checked exception, so we need to write a lot of try-catch block code. 
+		Most of the times it's redundant in every JDBC call and used for transaction management. 
+		Hibernate wraps JDBC exceptions and throw JDBCException or HibernateException un-checked exception, so we don't need to write code to handle it. 
+		Hibernate built-in transaction management removes the usage of try-catch blocks.
+	-> Hibernate Query Language (HQL) is more object oriented and close to java programming language. For JDBC, we need to write native sql queries.
+	-> Hibernate supports caching that is better for performance, JDBC queries are not cached hence performance is low.
+	-> Hibernate provide option through which we can create database tables too, for JDBC tables must exist in the database.
+	-> Hibernate configuration helps us in using JDBC like connection as well as JNDI DataSource for connection pool. 
+		This is very important feature in enterprise application and completely missing in JDBC API.
+	-> Hibernate supports JPA annotations, so code is independent of implementation and easily replaceable with other ORM tools. 
+		JDBC code is very tightly coupled with the application.
+	
+7. Important interfaces of Hibernate framework
+	SessionFactory (org.hibernate.SessionFactory): 
+		-> SessionFactory is an immutable thread-safe cache of compiled mappings for a single database. 
+		-> We need to initialize SessionFactory once and then we can cache and reuse it. 
+		-> SessionFactory instance is used to get the Session objects for database operations.
+		-> Internal state of SessionFactory is immutable, so it's thread safe. Multiple threads can access it simultaneously to get Session instances.		
+		
+	Session (org.hibernate.Session): 
+		-> Session is a single-threaded, short-lived object representing a conversation between the application and the persistent store. 
+		-> It wraps JDBC java.sql.Connection and works as a factory for org.hibernate.Transaction. 
+		-> We should open session only when it's required and close it as soon as we are done using it. 
+		-> Session object is the interface between java application code and hibernate framework and provide methods for CRUD operations.
+		-> Hibernate Session object is not thread safe, every thread should get it's own session instance and close it after it's work is finished.
+		-> Session is the interface between java application layer and hibernate. 
+		-> This is the core interface used to perform database operations. 
+		-> Lifecycle of a session is bound by the beginning and end of a transaction.
+		-> Session provide methods to perform create, read, update and delete operations for a persistent object. 
+		-> We can execute HQL queries, SQL native queries and create criteria using Session object.
+		
+	Transaction (org.hibernate.Transaction): 
+		-> Transaction is a single-threaded, short-lived object used by the application to specify atomic units of work. 
+		-> It abstracts the application from the underlying JDBC or JTA transaction. 
+		-> A org.hibernate.Session might span multiple org.hibernate.Transaction in some cases.
+		
+8. Hibernate configuration file
+	-> Hibernate configuration file contains database specific configurations and used to initialize SessionFactory. 
+	-> We provide database credentials or JNDI resource information in the hibernate configuration xml file. 
+	-> Some other important parts of hibernate configuration file is Dialect information, so that hibernate knows the database type 
+		and mapping file or class details.
+	
+9. Hibernate mapping file
+	-> Hibernate mapping file is used to define the entity bean fields and database table column mappings. 
+	-> We know that JPA annotations can be used for mapping but sometimes XML mapping file comes handy when we are using third party classes and 
+		we can't use annotations.
+	
+10. Annotations used for Hibernate mapping
+	javax.persistence.Entity: 
+		-> Used with model classes to specify that they are entity beans.
+		
+	javax.persistence.Table: 
+		-> Used with entity beans to define the corresponding table name in database.
+		
+	javax.persistence.Access: 
+		-> Used to define the access type, either field or property. 
+		-> Default value is field and if you want hibernate to use getter/setter methods then you need to set it to property.
+		
+	javax.persistence.Id: 
+		-> Used to define the primary key in the entity bean.
+		
+	javax.persistence.EmbeddedId: 
+		-> Used to define composite primary key in the entity bean.
+		
+	javax.persistence.Column: 
+		-> Used to define the column name in database table.
+		
+	javax.persistence.GeneratedValue: 
+		-> Used to define the strategy to be used for generation of primary key. 
+		-> Used in conjunction with javax.persistence.GenerationType enum.
+	
+	javax.persistence.OneToOne: 
+		-> Used to define the one-to-one mapping between two entity beans. 
+		-> We have other similar annotations as OneToMany, ManyToOne and ManyToMany
+	
+	org.hibernate.annotations.Cascade: 
+		-> Used to define the cascading between two entity beans, used with mappings. 
+		-> It works in conjunction with org.hibernate.annotations.CascadeType
+	
+	javax.persistence.PrimaryKeyJoinColumn: 
+		-> Used to define the property for foreign key. 
+		-> Used with org.hibernate.annotations.GenericGenerator and org.hibernate.annotations.Parameter
+		
+	Below are two classes showing usage of these annotations.
+	1. Employee Class
+	package com.journaldev.hibernate.model;
+
+	import javax.persistence.Access;
+	import javax.persistence.AccessType;
+	import javax.persistence.Column;
+	import javax.persistence.Entity;
+	import javax.persistence.GeneratedValue;
+	import javax.persistence.GenerationType;
+	import javax.persistence.Id;
+	import javax.persistence.OneToOne;
+	import javax.persistence.Table;
+
+	import org.hibernate.annotations.Cascade;
+
+	@Entity
+	@Table(name = "EMPLOYEE")
+	@Access(value=AccessType.FIELD)
+	public class Employee {
+
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		@Column(name = "emp_id")
+		private long id;
+
+		@Column(name = "emp_name")
+		private String name;
+
+		@OneToOne(mappedBy = "employee")
+		@Cascade(value = org.hibernate.annotations.CascadeType.ALL)
+		private Address address;
+
+		//getter setter methods
+	}
+	
+	
+	2. Address class
+	package com.journaldev.hibernate.model;
+
+	import javax.persistence.Access;
+	import javax.persistence.AccessType;
+	import javax.persistence.Column;
+	import javax.persistence.Entity;
+	import javax.persistence.GeneratedValue;
+	import javax.persistence.Id;
+	import javax.persistence.OneToOne;
+	import javax.persistence.PrimaryKeyJoinColumn;
+	import javax.persistence.Table;
+
+	import org.hibernate.annotations.GenericGenerator;
+	import org.hibernate.annotations.Parameter;
+
+	@Entity
+	@Table(name = "ADDRESS")
+	@Access(value=AccessType.FIELD)
+	public class Address {
+
+		@Id
+		@Column(name = "emp_id", unique = true, nullable = false)
+		@GeneratedValue(generator = "gen")
+		@GenericGenerator(name = "gen", strategy = "foreign", parameters = { @Parameter(name = "property", value = "employee") })
+		private long id;
+
+		@Column(name = "address_line1")
+		private String addressLine1;
+
+		@OneToOne
+		@PrimaryKeyJoinColumn
+		private Employee employee;
+
+		//getter setter methods
+	}
+
+--------------------------------
+#Hibernate/Persistant lifecycle states
+	1. Transient State -> Creation of object and set the properties using setter or constructor
+	2. Persistent State -> Call save(object)/update(object) method of Session class
+	3. Detached State -> Call close()/clear() methods of Session class
+	4. Removed State -> Call delete() method of Session class 
+	
+-------------------------------
+
+		Configuration cfg = new Configuration();
+        cfg.configure("hibernate.cfg.xml");
+        SessionFactory factory = cfg.buildSessionFactory();
+        Session session = factory.openSession();
+
+#HQL
+	1. Select/Pagination
+		String queryStr = "FROM Student as s WHERE s.id = :sid and s.name = :name";
+		Query query = session.createQuery(queryStr);
+		query.setParameter("sid", "1234");
+		query.setParameter("name", "Dhirenra");
+		
+		List<Student> students = query.list();
+		
+		//Pagination 
+		query.setFirstResult(index); //starting index (starts from 0)
+		query.setMaxResult(length); //page size
+		
+	2. Delete/Update
+		Transaction tx = session.beginTransaction();
+		A. //delete
+			Query delQuery = session.createQuery("DELETE FROM Student as s WHERE s.id = :sid")
+			delQuery.setParameter("sid", "1234");
+			
+			int deletedRows = delQuery.executeUpdate();
+
+		B. //update
+			Query updateQuery = session.createQuery("UPDATE Student set name = :name, age = :myage WHERE s.id = :sid")
+			updateQuery.setParameter("name", "DHIRENDRA SINGH");
+			updateQuery.setParameter("myage", 35);
+			updateQuery.setParameter("sid", "1234");
+			
+			int updatedRows = delQuery.executeUpdate();
+		
+		//commit
+		tx.commit();
+		
+	3. Join
+		String queryStr = "SELECT que.questionId, que.question, ans.answer FROM Question as que INNER JOIN que.answers as ans";
+		Query query = session.createQuery(queryStr);
+		
+		List<Object[]> list = query.getResultList();
+
+
+--------------------------------------------
+# SQL in Hibernate
+	String queryStr =  "SELECT * FROM student";
+	NativeQuery nq = session.createSQLQuery(queryStr);
+	List<Object[]> students = nq.list();
+	
+	for(Object[] student: students){
+		S.o.p(Arrays.deepToString(student));	
+		}
+
+
+
+
+--------------------------------------------
+#Caching
+	-> to enhance the performance
+	-> use to reduce the no. of db queries
+  
+	#1. First Level Caching 
+		-> Associated with Session Object
+		-> By default enabled
+		
+
+
+	#2. Second Level Caching
+		-> Associated with SessionFactory Object 
+		-> ehcache and hibernate-ehcache dependecies required
+		-> in configuration file add below properies
+			<property name="cache.use_second_level_cache">true</property>
+			<property name="cache.region.factory_class">org.hibernate.cache.ehcache.internal.EhcacheRegionFactory</property>
+		
+		-> use below annotations to target entity class
+			@Entity
+			@Cacheable
+			@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+			public class Student {
+				......
+			}
+--------------------------------------------
+#Composite Key
+1. @IdClass(TimePK.class)
+	public class TimePK implements Serializable {
+		protected Integer levelStation;
+		protected Integer confPathID;
+
+		public TimePK() {}
+
+		public TimePK(Integer levelStation, Integer confPathID) {
+			this.levelStation = levelStation;
+			this.confPathID = confPathID;
+		}
+		// equals, hashCode
+	}
+
+	// And the entity:
+	@Entity
+	'@IdClass(TimePK.class)'
+	class Time implements Serializable {
+		@Id
+		private Integer levelStation;
+		@Id
+		private Integer confPathID;
+
+		private String src;
+		private String dst;
+		private Integer distance;
+		private Integer price;
+
+		// getters, setters
+	}
+
+2. @Embeddable and @EmbeddedId
+	'@Embeddable'
+	public class TimePK implements Serializable {
+		protected Integer levelStation;
+		protected Integer confPathID;
+
+		public TimePK() {}
+
+		public TimePK(Integer levelStation, Integer confPathID) {
+			this.levelStation = levelStation;
+			this.confPathID = confPathID;
+		}
+		// equals, hashCode
+	}
+
+	@Entity
+	class Time implements Serializable {
+		'@EmbeddedId'
+		private TimePK timePK;
+
+		private String src;
+		private String dst;
+		private Integer distance;
+		private Integer price;
+
+		//...
+	}	
+	
+--------------------------------------------
+OneToMany: LAZY
+ManyToOne: EAGER
+ManyToMany: LAZY
+OneToOne: EAGER
+
+--------------------------------------------
+A. Cascading : 
+	https://www.geeksforgeeks.org/hibernate-different-cascade-types/
+	-> Works with related entities
+	-> Cascading in Hibernate refers to the automatic persistence of related entities. 
+	When a change is made to an entity, such as an update or deletion, the changes can be cascaded to related entities as well. 
+	Cascading can be configured using annotations, such as @OneToMany(cascade = CascadeType.ALL), or through XML configuration files. 
+	It is important to use cascading carefully, as it can lead to unwanted changes being made to related entities if not configured properly
+
+
+
+	Different Cascade Types in Hibernate
+	Hibernate provides several types of cascade options that can be used to manage the relationships between entities. Here are the different cascade types in Hibernate:
+	
+	CascadeType.ALL
+	CascadeType.PERSIST
+	CascadeType.MERGE
+	CascadeType.REMOVE
+	CascadeType.REFRESH
+	CascadeType.DETACH
+	CascadeType.REPLICATE
+	CascadeType.SAVE_UPDATE
+	These cascade types can be used individually or in combination to manage the relationships between entities based on the requirements of the application. It is important to use cascade types carefully, as they can lead to unintended consequences if not used properly.
+	
+	
+1. CascadeType.ALL
+	CascadeType.ALL is a cascading type in Hibernate that specifies that all state transitions (create, update, delete, and refresh) should be cascaded from the parent entity to the child entities.
+	When CascadeType.ALL is used, and any operation performed on the parent entity will be automatically propagated to all child entities. This means that if you persist, update, or delete a parent entity, all child entities associated with it will also be persisted, updated, or deleted accordingly.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. By using CascadeType.ALL, any operation performed on the Customer entity (such as persist, merge, remove, or refresh) will also be propagated to all associated Order entities.
+	Here's an example of how CascadeType.ALL can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.ALL)
+	private Set<Order> orders;
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that all state transitions should be cascaded to the associated orders. This means that when a Customer entity is saved, updated, or deleted, all of its associated Order entities will also be saved, updated, or deleted accordingly.
+2. CascadeType.PERSIST
+	CascadeType.PERSIST is a cascading type in Hibernate that specifies that the create (or persist) operation should be cascaded from the parent entity to the child entities.
+	When CascadeType.PERSIST is used, any new child entities associated with a parent entity will be automatically persisted when the parent entity is persisted. 
+	However, updates or deletions made to the parent entity will not be cascaded to the child entities.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+	By using CascadeType.PERSIST, any new Order entities associated with a Customer entity will be persisted when the Customer entity is persisted. 
+	However, if you update or delete a Customer entity, any associated Order entities will not be automatically updated or deleted.
+	Here's an example of how CascadeType.PERSIST can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.PERSIST)
+	private Set<Order> orders;
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the persistent operation should be cascaded to the associated orders. This means that when a Customer entity is persisted, any new Order entities associated with it will also be persisted automatically. However, updates or deletions made to the Customer entity will not be cascaded to the associated Order entities.
+3. CascadeType.MERGE
+	CascadeType.MERGE is a cascading type in Hibernate that specifies that the update (or merge) operation should be cascaded from the parent entity to the child entities.
+	When CascadeType.MERGE is used, any changes made to a detached parent entity (i.e., an entity that is not currently managed by the persistence context) will be automatically merged with its associated child entities when the parent entity is merged back into the persistence context.
+	However, new child entities that are not already associated with the parent entity will not be automatically persisted.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+	By using CascadeType.MERGE, any changes made to a detached Customer entity (such as changes made in a different session or transaction) will be automatically merged with its associated Order entities when the Customer entity is merged back into the persistence context.
+	Here's an example of how CascadeType.MERGE can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.MERGE)
+	private Set<Order> orders;
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the merge operation should be cascaded to the associated orders. This means that when a detached Customer entity is merged back into the persistence context, any changes made to the Customer entity will be automatically merged with its associated Order entities. 
+	However, new Order entities that are not already associated with the Customer entity will not be automatically persisted.
+4. CascadeType.REMOVE
+	CascadeType.REMOVE is a cascading type in Hibernate that specifies that the delete operation should be cascaded from the parent entity to the child entities.
+	When CascadeType.REMOVE is used, any child entities associated with a parent entity will be automatically deleted when the parent entity is deleted. 
+	However, updates or modifications made to the parent entity will not be cascaded to the child entities.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+	By using CascadeType.REMOVE, any Order entities associated with a Customer entity will be automatically deleted when the Customer entity is deleted.
+	Here's an example of how CascadeType.REMOVE can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.REMOVE)
+	private Set<Order> orders;
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the remove operation should be cascaded to the associated orders. 
+	This means that when a Customer entity is deleted, any associated Order entities will also be deleted automatically. 
+	However, updates or modifications made to the Customer entity will not be cascaded to the associated Order entities.
+5. CascadeType.REFRESH
+	CascadeType.REFRESH is a cascading type in Hibernate that specifies that the refresh operation should be cascaded from the parent entity to the child entities.
+	When CascadeType.REFRESH is used, any child entities associated with a parent entity will be automatically refreshed when the parent entity is refreshed. 
+	This means that the latest state of the child entities will be loaded from the database and any changes made to the child entities will be discarded.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+	By using CascadeType.REFRESH, any associated Order entities will be automatically refreshed when the Customer entity is refreshed.
+	Here's an example of how CascadeType.REFRESH can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.REFRESH)
+	private Set<Order> orders;
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the refresh operation should be cascaded to the associated orders. 
+	This means that when a Customer entity is refreshed, any associated Order entities will also be refreshed automatically. 
+	Any changes made to the Order entities will be discarded, and the latest state of the Order entities will be loaded from the database.
+6. CascadeType.DETACH
+	CascadeType.DETACH is a cascading type in Hibernate that specifies that the detach operation should be cascaded from the parent entity to the child entities.
+	When CascadeType.DETACH is used, any child entities associated with a parent entity will be automatically detached when the parent entity is detached. 
+	This means that the child entities will become detached from the persistence context and their state will no longer be managed by Hibernate.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+	By using CascadeType.DETACH, any associated Order entities will be automatically detached when the Customer entity is detached.
+	Here's an example of how CascadeType.DETACH can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.DETACH)
+	private Set<Order> orders;
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the detach operation should be cascaded to the associated orders. 
+	This means that when a Customer entity is detached, any associated Order entities will also be detached automatically. 
+	The Order entities will become detached from the persistence context and their state will no longer be managed by Hibernate.
+7. CascadeType.REPLICATE
+CascadeType.REPLICATE is a cascading type in Hibernate that specifies that the replicate operation should be cascaded from the parent entity to the child entities.
+When CascadeType.REPLICATE is used, any child entities associated with a parent entity will be automatically replicated when the parent entity is replicated. 
+This means that new child entities will be created and persisted in the database with the same state as the original child entities.
+For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+By using CascadeType.REPLICATE, any associated Order entities will be automatically replicated when the Customer entity is replicated.
+Here's an example of how CascadeType.REPLICATE can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.REPLICATE)
+	private Set<Order> orders;
+This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the replicate operation should be cascaded to the associated orders. 
+This means that when a Customer entity is replicated, new Order entities will be created and persisted in the database with the same state as the original Order entities. 
+However, any changes made to the original Order entities after the replication operation will not be replicated to the new Order entities.
+8. CascadeType.SAVE_UPDATE
+CascadeType.SAVE_UPDATE is a cascading type in Hibernate that specifies that the save or update operation should be cascaded from the parent entity to the child entities.
+When CascadeType.SAVE_UPDATE is used, any child entities associated with a parent entity will be automatically saved or updated 
+	when the parent entity is saved or updated. 
+This means that any changes made to the child entities will be persisted in the database along with the parent entity.
+For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. By using CascadeType.SAVE_UPDATE, any associated Order entities will be automatically saved or updated when the Customer entity is saved or updated.
+	Here's an example of how CascadeType.SAVE_UPDATE can be used:
+	Java
+	@OneToMany(mappedBy="customer", cascade=CascadeType.SAVE_UPDATE)
+	private Set<Order> orders;
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the save or update operation should be cascaded to the associated orders. This means that when a Customer entity is saved or updated, any associated Order entities will also be saved or updated automatically. Any changes made to the Order entities will be persisted in the database along with the Customer entity.
+	
+#Conclusion
+	In conclusion, Hibernate provides various cascade types that can be used to define how operations on a parent entity 
+		should be cascaded to its child entities. 
+	These cascade types include CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REPLICATE, and CascadeType.SAVE_UPDATE.
+	Each cascade type specifies a different behavior for cascading operations from the parent entity to its child entities. 
+	By choosing the appropriate cascade type for a given relationship, you can simplify your code and reduce the amount.
+
+--------------------------------------------------------------------------------------------------------------------	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,189 @@
+
+https://www.javainuse.com/webseries/spring-security-jwt/chap3
+
+
+---------------------------------------
+
+# Spring Security Framework
+	-> Framework for securing Java-based applications. 
+	-> It provides a comprehensive (detailed) set of authentication and authorization features for both web 
+		and method-level security. 
+	-> The architecture of Spring Security is based on a chain of Servlet filters that are applied to inbound HTTP requests. 
+	-> These filters perform tasks such as authentication, authorization, and session management. 
+	-> Spring Security also provides a variety of options for storing user information and managing user sessions. 
+	-> Additionally, it has a robust configuration system that allows for easy customization and extension of the security features.
+
+
+- CORS (Cross-Origin Resource Sharing)
+	-> CORS is a security feature implemented by web browsers, which blocks web pages from making requests to a different 
+		domain than the one that served the web page. 
+	-> Spring Security allows you to configure CORS in a Spring application by using the 
+		org.springframework.web.cors.CorsConfiguration class. 
+	-> This class can be used to set allowed origins, headers, and methods for CORS requests. 
+	-> You can also configure Spring Security to only apply CORS rules to certain URLs or to certain types of requests.
+	
+- CSRF (Cross-Site Request Forgery)
+	-> CSRF is a type of attack where a malicious website or attacker tricks a user into performing an action on a different 
+		website where the user is already authenticated. 
+	-> This could allow an attacker to perform actions on a website on behalf of the user without their knowledge or consent. 
+	-> Spring Security provides built-in protection against CSRF attacks by including a CSRF token 
+		in any forms or Ajax requests made by the web application. 
+	-> This token is verified on the server-side, ensuring that the request was made by the same user who made the original request. 
+	-> Spring Security automatically generates and manages these tokens, making it easy to protect your application against CSRF attacks 
+		without writing any additional code.
+--------------------------------------
+# Filters :
+	Inbuilt Filters :
+	-> to check registered filters inside spring security
+	1. @EnableWebSecurity(debug = true) 
+	2. add below property in aplication.properties file
+		logging.level.org.springframework.security.web.FilterChainProxy=DEBUG
+		
+		
+-------------------------------------
+### Understanding Spring Security Architecture
+
+1. Filters  
+	-> Before the request reaches the Dispatcher Servlet, it is first intercepted by a chain of filters.
+	-> These filters are responsible for Spring Security. 
+	-> So any incoming request will go through these filters and it is here that authentication and authorization takes place. 
+	-> Based on the type of requests there are different Authentication Filters 
+		like the BasicAuthenticationFilter,UsernamePasswordAuthenticationFilter etc
+
+2. Authentication
+	-> When the request is intercepted by the appropriate AuthenticationFilter it retrieves the username and password from the request and 
+		creates the Authentication Object. 
+	-> If the extracted credentials are username and password, then UsernamePasswordAuthenticationToken is created.
+
+3. AuthenicationManager (ProviderManager)
+	-> Using the Authentication Object created the filter will then call the authenticate method of the Authentication Manager. 
+	-> The Authentication Manager is only a interface and 
+		actual implementation of the authenticate method is provided by the 'ProviderManager'.
+	-> Important point to note here is that the Authentication Manager takes an Authentication object as input and 
+		after successful authentication again returns an object of type Authentication.
+	
+	-> The ProviderManager has a list of AuthenticationProviders. 
+	-> From it's authenticate method it calls the authenticate method of the appropriate AuthenticateProvider. 
+	-> In response it gets the Principal Authentication Object if the authentication is successful.
+
+4. AuthenticationProvider 
+	-> The AuthenicationProvider is an interface with a single authenticate method.
+	-> It has various implementations like CasAuthenticationProvider,DaoAuthenticationProvider. 
+	-> Depending on the implementation an appropriate AuthenicationProvider implementation is used. 
+	-> It is in the AuthenticationProvider Implementation authenticate method where all the actual authentication takes place.
+	
+	-> Using the UserDetails service the AuthenticationProvider fetches the User Object corresponding to the username. 
+	-> It fetches this User Object from either a database, internal memory or other sources. 
+	-> This User object credentials are then compared with the incoming Authentication Object credentials. 
+	-> If Authentication is successful then the Principal Authentication Object is returned in response.
+
+
+5. UserDetailsService 
+	-> The UserDetailsService is an interface having a single method named loadUserByUsername.
+
+	-> It has various implementations CachingUserDetailsService, JDBCDaoImpl etc. 
+		Based on the implementation an appropriate UserDetailsService is called.
+	
+	-> It is responsible for fetching the User Object with username and password against which the incoming User Object will be compared.
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Add Spring Security to Spring Boot
+-> We will need to add the Spring Security Starter dependency in the pom.xml
+
+-> As soon as we add the spring security dependency to the project the basic authentication gets activated by default. 
+-> If we now start the application, Basic Security is enabled by default by Spring security due to the spring auto configurations.
+-> In the console we get the password while the username is user
+
+Spring Boot Security
+	Let us have a look Spring Security Autoconfigurations.
+	When no Spring Security dependency is added -
+	Spring Boot Security no dependency
+	When Spring Security is added -
+	Spring Boot Security autoconfiguration
+	We will now be creating our own custom Spring Security Configuration by extending the WebSecurityConfigurerAdapter 
+	In this class we will be making use of the PasswordEncoder.
+	package com.javainuse.springsecurity.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+@EnableWebSecurity
+public class SpringSecurityConfiguration  extends WebSecurityConfigurerAdapter{	
+	@Autowired
+	CustomUserDetailsService userDetailsService;	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}	
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception
+	{
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	}
+	
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		// We don't need CSRF for this example
+		httpSecurity.csrf().disable()
+				.authorizeRequests().antMatchers("/helloadmin")
+				.hasRole("ADMIN")
+				.antMatchers("/hellouser")
+				.hasAnyRole("ADMIN","USER")
+				.and().httpBasic();
+	}
+
+}
+Create a custom UserDetails Service class-
+package com.javainuse.springsecurity.config;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		List<SimpleGrantedAuthority> roles=null;
+		if(username.equals("admin"))
+		{
+		roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		return new User("admin", "$2y$12$I0Di/vfUL6nqwVbrvItFVOXA1L9OW9kLwe.1qDPhFzIJBpWl76PAe",
+					roles);
+		}
+		else if(username.equals("user"))
+		{
+		roles = Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+		return new User("user", "$2y$12$VfZTUu/Yl5v7dAmfuxWU8uRfBKExHBWT1Iqi.s33727NoxHrbZ/h2",
+					roles);
+		}
+		throw new UsernameNotFoundException("User not found with username: " + username);
+	}
+
+}
+
+----------------------------------------------------------
+# Springboot security 3
+
+
+
+
+
+

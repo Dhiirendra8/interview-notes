@@ -1,0 +1,128 @@
+# Apache Kafka
+-> It works as a broker between two parties, i.e., a sender and a receiver. It can handle about trillions of data events in a day.
+-> Apache Kafka is a software platform which is based on a distributed streaming process. 
+It is a publish-subscribe messaging system which let exchanging of data between applications, servers, and processors as well. 
+Apache Kafka was originally developed by LinkedIn, and later it was donated to the Apache Software Foundation. 
+Currently, it is maintained by Confluent under Apache Software Foundation. 
+Apache Kafka has resolved the lethargic trouble of data communication between a sender and a receiver.
+
+#What is a messaging system
+-> A messaging system is a simple exchange of messages between two or more persons, devices, etc. 
+A publish-subscribe messaging system allows a sender to send/write the message and a receiver to read that message. 
+In Apache Kafka, a sender is known as a producer who publishes messages, and a receiver is known as a consumer who consumes that message by subscribing it.
+
+
+
+
+1. What is Apache Kafka, and what are its key components?
+- Apache Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, and 
+    real-time data processing. 
+    Its key components include producers, consumers, brokers, topics, partitions, and ZooKeeper.
+
+2. What is a Kafka topic? How is it different from a queue or a topic in a traditional messaging system?
+- A Kafka topic is a category or feed name to which records are published by producers. 
+    It is a logical concept representing a stream of data. 
+    Unlike traditional messaging systems, Kafka topics can have multiple consumers, and 
+    each consumer group receives a copy of the message.
+
+3. What are Kafka producers and consumers? How do they interact with Kafka brokers?
+- Kafka producers publish records to Kafka topics, while consumers subscribe to these topics and consume the records. 
+    Producers send messages to Kafka brokers, and consumers fetch messages from brokers.
+
+4. What is a Kafka broker? What role does it play in a Kafka cluster?
+- A Kafka broker is a server in the Kafka cluster responsible for storing and managing topic partitions, 
+    handling producer requests, and serving consumer fetch requests.
+
+5. What is the role of ZooKeeper in Apache Kafka?
+- ZooKeeper is used by Kafka for maintaining metadata, coordinating distributed processes, and 
+    managing broker membership within the Kafka cluster.
+
+6. How does Kafka ensure fault tolerance and reliability?
+- Kafka ensures fault tolerance and reliability through data replication, distributed commit logs, and 
+    fault tolerance mechanisms like leader election and ISR (In-Sync Replicas).
+
+7. What is a Kafka partition? Why are partitions used in Kafka?
+- A Kafka partition is a portion of a Kafka topic's log and serves as the unit of parallelism in Kafka. 
+    Partitions enable distributed processing, scalability, and fault tolerance in Kafka.
+
+8. What is replication in Kafka? Why is it important?
+- Replication in Kafka involves maintaining multiple copies (replicas) of each partition across different brokers. 
+    Replication provides fault tolerance, high availability, and data durability.
+
+9. What is Kafka offset? How is it used in Kafka consumers?
+- Kafka offset is a unique identifier assigned to each message within a partition. 
+    Consumers use offsets to keep track of the position in the partition from which they have consumed messages.
+
+10. What is the difference between Kafka's push and pull messaging models?
+- Kafka's push messaging model involves producers sending messages to Kafka brokers, 
+    while consumers pull messages from brokers using consumer fetch requests.
+
+11. How does Kafka handle message retention? What are the different retention policies?
+- Retention in Apache Kafka refers to the policy that determines how long messages are retained in a Kafka topic 
+before they are eligible for deletion
+- Kafka handles message retention through configurable retention policies like time-based retention, 
+    size-based retention, or log compaction.
+
+12. What is the role of Kafka Connect in Kafka architecture?
+- Kafka Connect is a framework for streaming data between Apache Kafka and external data systems, 
+    enabling seamless integration of Kafka with databases, file systems, and other data sources/sinks.
+
+13. What is Kafka Streams? How does it differ from Kafka Consumer API?
+- Kafka Streams is a client library for building real-time stream processing applications using Kafka. 
+    It allows developers to consume, process, and produce data streams directly within the Kafka ecosystem.
+
+14. What are the key factors to consider when designing a Kafka cluster for high availability and scalability?
+- Key factors for designing a Kafka cluster include considerations for fault tolerance, scalability, performance, 
+    storage requirements, network bandwidth, and resource utilization.
+
+15. How do you monitor and troubleshoot a Kafka cluster?
+- Monitoring and troubleshooting Kafka clusters involve monitoring key metrics like broker health, throughput, 
+    latency, disk usage, and ZooKeeper status, as well as diagnosing issues related to replication, partitioning, and consumer lag.
+
+
+-------------------------------------------------------
+Interceptoprs - 
+ProducerInterceptor - props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, CustomProducerInterceptor.class.getName());
+public interface ProducerInterceptor<K, V> extends Closeable {
+    void configure(Map<String, ?> configs);
+    ProducerRecord<K, V> onSend(ProducerRecord<K, V> record);
+	//This method is called before the producer sends a message to Kafka.
+    void onAcknowledgement(RecordMetadata metadata, Exception exception);
+	//This method is called after the producer receives acknowledgement (success or failure) from Kafka for a sent message.
+    void close();
+}
+
+ConsumerInterceptor - props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, CustomConsumerInterceptor.class.getName());
+public interface ConsumerInterceptor<K, V> extends Closeable {
+    void configure(Map<String, ?> configs);
+	// Perform initialization logic if needed
+    ConsumerRecords<K, V> onConsume(ConsumerRecords<K, V> records);
+	// This method is called before the consumer reads messages from Kafka and processes them.
+    void onCommit(Map<TopicPartition, OffsetAndMetadata> offsets);
+	//This method is called after the consumer commits offsets to Kafka.
+    void close();
+	// Perform cleanup logic if needed
+}
+
+-------------------------------------------------------
+
+
+
+-------------------------------------------------------
+
+
+-------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

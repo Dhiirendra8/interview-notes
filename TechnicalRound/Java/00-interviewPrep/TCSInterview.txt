@@ -1,0 +1,15 @@
+1. Spring vs Springboot
+2. Soap vs Rest
+3. Current Role --> Modules
+4. Spring Rest Annotations
+5. JdbcTemplate , packages
+6. J2EE Based web application
+7. Security or Quality tool to test code
+8. 
+
+
+caching\
+profile
+
+
+

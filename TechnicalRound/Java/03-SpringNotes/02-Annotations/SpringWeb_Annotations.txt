@@ -1,0 +1,124 @@
+org.springframework.web.bind.annotation
+
+1. @RequestMapping 
+	- marks request handler methods inside @Controller classes
+	- it can be configured using:
+		> path, or its aliases, name, and value: which URL the method is mapped to
+		> method: compatible HTTP methods
+		> params: filters requests based on presence, absence, or value of HTTP parameters
+		> headers: filters requests based on presence, absence, or value of HTTP headers
+		> consumes: which media types the method can consume in the HTTP request body
+		> produces: which media types the method can produce in the HTTP response body
+		
+		@Controller
+		class VehicleController {
+		
+			@RequestMapping(value = "/vehicles/home", method = RequestMethod.GET)
+			String home() {
+				return "home";
+			}
+		}
+		
+		> Moreover, @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, and @PatchMapping are different variants of @RequestMapping 
+			with the HTTP method already set to GET, POST, PUT, DELETE, and PATCH respectively.
+			These are available since Spring 4.3 release.
+			
+			
+2. @RequestBody
+	- maps the body of the HTTP request to an object:
+	
+		@PostMapping("/save")
+		void saveVehicle(@RequestBody Vehicle vehicle) {
+			// ...
+		}
+		
+		
+3. @PathVariable
+	- This annotation indicates that a method argument is bound to a URI template variable.
+	
+	  @RequestMapping("/{id}")
+		Vehicle getVehicle(@PathVariable("id") long id) {
+			// ...
+		}
+		
+4. @RequestParam : 
+	- We use @RequestParam for accessing HTTP request parameters:
+	
+		@RequestMapping
+		Vehicle getVehicleByParam(@RequestParam("id") long id) {
+			// ...
+		}
+
+-----
+@PathVariable vs @RequestParam
+	- @RequestParam is used to retrieve query parameters, anything after? in the URL, 
+		while @PathVariable is used to retrieve values from URI itself.
+-------
+		
+Response Handling Annotations
+	
+5. @ResponseBody : 
+		- If we mark a request handler method with @ResponseBody, Spring treats the result of the method as the response itself:
+			@ResponseBody
+			@RequestMapping("/hello")
+			String hello() {
+				return "Hello World!";
+			}
+
+
+6. @ExceptionHandler :
+		- we can declare a custom error handler method
+		- Spring calls this method when a request handler method throws any of the specified exceptions.
+		
+			@ExceptionHandler(IllegalArgumentException.class)
+			void onIllegalArgumentException(IllegalArgumentException exception) {
+				// ...
+			}
+
+
+7. @ResponseStatus :
+		- desired HTTP status of the response
+		
+			@ExceptionHandler(IllegalArgumentException.class)
+			@ResponseStatus(HttpStatus.BAD_REQUEST)
+			void onIllegalArgumentException(IllegalArgumentException exception) {
+				// ...
+			}
+
+
+Other Web Annotations
+
+8. @Controller :
+	- We can define a Spring MVC controller with @Controller.
+
+9. @RestController
+	- The @RestController combines @Controller and @ResponseBody.
+
+10. @ModelAttribute
+	- With this annotation we can access elements that are already in the model of an MVC @Controller, by providing the model key:
+	
+		@PostMapping("/assemble")
+		void assembleVehicle(@ModelAttribute("vehicle") Vehicle vehicleInModel) {
+			// ...
+		}
+	
+	- Besides, @ModelAttribute has another use: if we annotate a method with it, Spring will automatically add the method's return value to the model:
+	
+		@ModelAttribute("vehicle")
+		Vehicle getVehicle() {
+			// ...
+		}
+		
+	- Before Spring calls a request handler method, it invokes all @ModelAttribute annotated methods in the class.
+
+11. @CrossOrigin
+	- enables cross-domain communication for the annotated request handler methods:
+	- We can fine-tune CORS behavior with this annotation's arguments.
+		
+		@CrossOrigin
+		@RequestMapping("/hello")
+		String hello() {
+			return "Hello World!";
+		}
+
+	

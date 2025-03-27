@@ -1,0 +1,90 @@
+#JAVA MEMORY MANAGEMENT
+
+#Java Memory Structure
+1. Heap Area
+2. Method Area
+3. JVM Stacks
+4. Native Method Stack
+5. PC Register
+
+1. Heap Area
+    -> It is a shared runtime data area and stores the actual object in a memory. 
+    -> It is instantiated during the virtual machine start-up.
+    -> This memory is allocated for all class instances and array. Heap can be of fixed or dynamic size depending upon the system’s configuration.
+    -> JVM provides the user control to initialize or vary the size of heap as per the requirement. 
+    -> When a new keyword is used, object is assigned a space in heap, but the reference of the same exists onto the stack.
+    -> There exists one and only one heap for a running JVM process.
+    -> Scanner sc = new Scanner(System.in);
+    -> The above statement creates the object of Scanner class which gets allocated to heap whereas the reference ‘sc’ gets pushed to the stack.
+    -> Note: Garbage collection in heap area is mandatory.
+
+
+2. Method Area
+    -> It is a logical part of the heap area and is created on virtual machine start-up.
+    -> This memory is allocated for class structures, method data and constructor field data, and also for interfaces 
+        or special method used in class. 
+    -> Heap can be of fixed or dynamic size depending upon the system’s configuration.
+    -> Can be of a fixed size or expanded as required by the computation. Needs not to be contiguous.
+    -> Note: Though method area is logically a part of heap, it may or may not be garbage collected 
+        even if garbage collection is compulsory in heap area.
+    
+3. JVM Stacks
+    -> A stack is created at the same time when a thread is created and is used to store data 
+        and partial results which will be needed while returning value for method and performing dynamic linking.
+    -> Stacks can either be of fixed or dynamic size. 
+    -> The size of a stack can be chosen independently when it is created.
+    -> The memory for stack needs not to be contiguous.
+    
+4. Native Method Stack
+    -> Also called as C stacks, native method stacks are not written in Java language. 
+    -> This memory is allocated for each thread when its created. And it can be of fixed or dynamic nature.
+    
+5. PC Register
+    -> Each JVM thread which carries out the task of a specific method has a program counter register associated with it. 
+    -> The non native method has a PC which stores the address of the available JVM instruction 
+        whereas in a native method, the value of program counter is undefined. 
+    -> PC register is capable of storing the return address or a native pointer on some specific platform.
+
+
+
+=> In Java, the memory structure consists of different areas that are used for various purposes during the execution of a Java program. These areas include:
+
+    1. Heap
+    The heap is the area of memory where objects are allocated. It is a runtime data area shared by all threads in a Java application. Objects created using the 'new' keyword are allocated on the heap. The heap is further divided into two regions: the Young Generation and the Old Generation.
+    
+    - Young Generation: 
+        This is where new objects are created. It consists of two parts: Eden space and Survivor spaces (usually two). Objects are initially allocated in the Eden space, and then, through a process called garbage collection, surviving objects are moved to the survivor spaces.
+    
+    - Old Generation: 
+        This region holds objects that have survived multiple garbage collection cycles in the Young Generation. It generally contains long-lived objects and is subject to less frequent garbage collection.
+    
+    2. Method Area:
+    The method area, also known as the permanent generation (PermGen) in older versions of Java, is where class-level structures such as class definitions, static variables, and method bytecode are stored. In Java 8 and later versions, the concept of the permanent generation has been replaced by a new area called the Metaspace, which is allocated from the native memory.
+    
+    3. Java Stack:
+    Each thread in a Java program has its own stack, known as the Java stack. The Java stack holds method-specific variables, method parameters, and intermediate results. Each time a method is called, a new frame is pushed onto the stack, and when a method completes, its frame is popped off the stack. The stack is organized as a stack of frames, with each frame corresponding to a method call.
+    
+    4. PC Register:
+    The program counter (PC) register stores the address of the current executing instruction. Each thread has its own PC register, which keeps track of the next instruction to be executed.
+    
+    5. Native Method Stack:
+    The native method stack is used for executing native (non-Java) code. It is separate from the Java stack and contains information related to native methods called from Java code.
+    
+    6. Direct Memory:
+    In addition to the areas mentioned above, Java also provides direct memory access through classes like `ByteBuffer`. Direct memory is allocated outside of the Java heap, in the native memory space, and is managed by the JVM.
+    
+    It's important to note that the memory structure described above is a simplified representation and can vary across different Java implementations and versions.
+    
+# Working of a Garbage Collector
+    -> JVM triggers this process and as per the JVM garbage collection process is done or else withheld. 
+    -> It reduces the burden of programmer by automatically performing the allocation or deallocation of memory.
+    -> Garbage collection process causes the rest of the processes or threads to be paused and thus is costly in nature. 
+    -> This problem is unacceptable for the client but can be eliminated by applying several garbage collector based algorithms. 
+    -> This process of applying algorithm is often termed as Garbage Collector tuning and is important for improving the performance of a program.
+    -> Another solution is the generational garbage collectors that adds an age field to the objects that are assigned a memory. 
+    -> As more and more objects are created, the list of garbage grows thereby increasing the garbage collection time. 
+    -> On the basis of how many clock cycles the objects have survived, objects are grouped and are allocated an ‘age’ accordingly. 
+    -> This way the garbage collection work gets distributed.
+    -> In the current scenario, all garbage collectors are generational, and hence, optimal.
+    
+

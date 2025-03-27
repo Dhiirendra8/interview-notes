@@ -1,0 +1,12 @@
+#Working of a Garbage Collector:
+
+-> JVM triggers this process and as per the JVM garbage collection process is done or else withheld. 
+-> It reduces the burden of programmer by automatically performing the allocation or deallocation of memory.
+-> Garbage collection process causes the rest of the processes or threads to be paused and thus is costly in nature. 
+-> This problem is unacceptable for the client but can be eliminated by applying several garbage collector based algorithms. 
+-> This process of applying algorithm is often termed as Garbage Collector tuning and is important for improving the performance of a program.
+-> Another solution is the generational garbage collectors that adds an age field to the objects that are assigned a memory. 
+-> As more and more objects are created, the list of garbage grows thereby increasing the garbage collection time. 
+-> On the basis of how many clock cycles the objects have survived, objects are grouped and are allocated an ‘age’ accordingly. 
+-> This way the garbage collection work gets distributed.
+-> In the current scenario, all garbage collectors are generational, and hence, optimal.

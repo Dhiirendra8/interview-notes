@@ -1,0 +1,122 @@
+Google Cloud Platform (GCP) compute services to their counterparts in Amazon Web Services (AWS):
+
+1. Google Compute Engine (GCE): This is akin to Amazon Elastic Compute Cloud (EC2) in AWS. 
+	It provides virtual machines (VMs) for running workloads.
+
+2. Google Kubernetes Engine (GKE): Similar to Amazon Elastic Kubernetes Service (EKS), 
+	GKE is a managed Kubernetes service for running containerized applications.
+
+3. Google App Engine: While AWS doesn't have a direct equivalent, 
+	Google App Engine is a platform-as-a-service (PaaS) offering for building and deploying applications without managing the underlying infrastructure. AWS Elastic Beanstalk can be considered somewhat similar, although it's not as tightly integrated with the AWS ecosystem.
+
+4. Google Cloud Functions: Comparable to AWS Lambda, 
+	Google Cloud Functions allows you to run event-driven functions without provisioning or managing servers.
+
+5. Google Cloud Run: This is a managed platform for deploying and scaling containerized applications. 
+	It's somewhat similar to AWS Fargate, which allows you to run containers without managing the underlying infrastructure.
+
+6. Google Anthos: Anthos is Google's hybrid and multi-cloud platform, enabling you to build and manage applications across on-premises, Google Cloud, and other cloud environments. 
+	AWS doesn't have a direct equivalent, but services like AWS Outposts and AWS Hybrid Cloud can be used for hybrid cloud deployments.
+
+------------------------------
+## GCP Network Services
+1. GCP Network Service Tiers
+    A. Premier Tier (Default)
+    B. Standard Tier 
+
+2. Load Balancers
+    - LB distributes trafic across multiple GCE VMs in  a single or multiple region
+    A. HTTP(S) load balancer - provides global load balancing
+    B. Network load balancer - balances regionsl TCP and UDP traffic
+
+    - both can be used internal or external load balancer
+
+3. VPC (Virtual Private Cloud)
+    - providing private networking for VMs
+    - global resource with regionsl subnets
+    - Each VPC is logically isolated from each other
+    - Resouces within VPC communicated via IPV4 addresses
+    - VPC networks can be connected to other VPC networks through VPC peering
+    - VPC networks are securely connected in hybrid environments using Cloud VPN or Cloud Interconnect
+    - 
+4. Hybrid Connectivity
+    - extends local data center to GCP
+    - 3 GCP services enable hybrid conn:
+    A. Cloud Interconnect - extends on-premises network to GCP via Dedicated or Partner Interconnect
+
+    B. Cloud VPN - connects on-premises environment to GCP securely ove internet through IPSec VPN
+
+    C. Peering - enables direct access to Google Cloud resources with reduced Internet egress fee
+
+## IAM (Identify & Access Management)
+1. IAM Users/Members
+    - Google account 
+    - Service account
+    - Google group
+    - G Suite domain
+    - Cloud Identity domain
+    - allAuthenticatedUsers
+    - allUsers 
+    - 
+2. IAM Permissions
+    - determines the operations performed on a resources
+    - Correspond 1:1 with REST methods of GCP resources
+    - Each GCP resource exposes REST APIs to perform operations
+    - Permission are directly mapped to each REST API
+        - Publisher.Publish() -> pubsub.topic.publish
+    - Permissions cannot be assigned directly to Members/Users
+    - One or more permissions are assigned to an IAM Role
+
+3. IAM Roles
+    - Primitive roles
+        - Owner
+        - Editor
+        - Viewer
+    - Predefined roles
+        - roles/pubsub.publisher 
+        - roles/compute.admin
+        - roles/storage.objectAdmin
+    - Custom roles
+        - Collection of assorted set of permissions
+        - Fine-grained access to resources
+
+4. Key Elements
+    - Resource - Any GCP resource
+        - Project 
+        - Cloud Storage Buckets
+        - Compute Engine Instances
+
+    - Permission - determines operations allowed on a resource
+        - <service>.<resource>.<verb>
+        - pubsub.subscriptions.consume 
+        - compute.instances.insert
+
+    - Roles - A collection of permissions
+        - Compute.instanceAdmin
+            - compute.instances.start 
+            - compute.instances.stop 
+            - compute.instances.delete 
+            - ...
+    - Users - Represents an Identity
+        - Google Account
+        - Google group
+        - G Suite Domain 
+
+5. IAM Service Accounts
+    - A special Google account that belong to an application or VM
+    - Service account is identified by its unique email address
+    - associated with key-pairs used for authentication
+    - 2 Types
+        - User managed
+        - Google managed 
+    - Each service account is associated with one or more roles
+    
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,293 @@
+1. Transient and volatile keywords
+
+'Transient' (क्षणिक) : 
+	-> The transient modifier tells the Java object serialization subsystem to exclude the field when serializing an instance of the class. 
+	-> When the object is then deserialized, the field will be initialized to the default value; 
+		i.e. null for a reference type, and zero or false for a primitive (प्राचीन) type. 
+		
+'Volatile' (परिवर्तनशील) : 
+	-> Volatile keyword is used to modify the value of a variable by different threads. It is also used to make classes thread safe. 
+		It means that multiple threads can use a method and instance of the classes at the same time without any problem. 
+	-> The value of a volatile variable will never be stored in the cache. All read and write will be done from and to the main memory.
+	-> The volatile keyword can be used either with primitive type or objects.
+	-> You can use the volatile keyword with variables. Using volatile keyword with classes and methods is illegal.
+--------------------------------------------------------------------------------------------------------------------------------------------------------		
+		
+2. Synchronization
+	-> Synchronization in java is the capability to control the access of multiple threads to any shared resource.
+	-> The synchronization is mainly used to
+		1. To prevent thread interference.
+		2. To prevent consistency problem.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+3. Custom Exception
+	-> Java custom exceptions are used to customize the exception according to user need.
+	-> class InvalidAgeException extends Exception{  
+		InvalidAgeException(String s){  
+		super(s);  
+		 }  
+		}  
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------		
+4. Throw vs Throws Keywords
+	Throw :
+		 -> throw keyword throw the exception explicitly from a method or a block of code	
+	
+	Throws : 
+		-> The Java throws keyword is used to declare an exception
+		-> 
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Classloader
+	-> The Java ClassLoader is a part of the Java Runtime Environment that dynamically loads Java classes into the Java Virtual Machine. 
+	-> The Java run time system does not need to know about files and file systems because of classloaders.
+
+	-> Java classes aren't loaded into memory all at once, but when required by an application. 
+	-> At this point, the Java ClassLoader is called by the JRE and these ClassLoaders load classes into memory dynamically.
+	
+	->  All classes are loaded based on their names and if any of these classes are not found then 
+		it returns a NoClassDefFoundError or ClassNotFoundException.
+
+Types of ClassLoaders in Java
+
+	1. BootStrap ClassLoader: 
+		-> A Bootstrap Classloader is a Machine code which kickstarts the operation when the JVM calls it. 
+		-> It is not a java class. Its job is to load the first pure Java ClassLoader. 
+		-> Bootstrap ClassLoader loads classes from the location 'rt.jar'. 
+		-> Bootstrap ClassLoader doesn't have any parent ClassLoaders. 
+		-> It is also called as the Primodial ClassLoader.
+		
+	2. Extension ClassLoader: 
+		-> The Extension ClassLoader is a child of Bootstrap ClassLoader and loads the extensions of core java classes 
+			from the respective JDK Extension library. 
+		-> It loads files from jre/lib/ext directory or any other directory pointed by the system property java.ext.dirs.
+		
+	3. System/Application ClassLoader:  
+		-> It loads the Application type classes found in the environment variable CLASSPATH, -classpath or -cp command line option.
+		-> The Application ClassLoader is a child class of Extension ClassLoader.
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+6. Deep and shallow cloning
+
+Shallow : default
+
+Deep : with "new" keyword
+
+
+#Shallow Copy
+	Whenever we use default implementation of clone method we get shallow copy of object means it creates new instance and 
+	copies all the field of object to that new instance and returns it as object type, we need to explicitly cast it back to our original object.
+	//code illustrating shallow copy
+	public class Ex {
+	  
+		private int[] data;
+	  
+		// makes a shallow copy of values
+		public Ex(int[] values) {
+			data = values;
+		}
+	  
+		public void showData() {
+			System.out.println( Arrays.toString(data) );
+		}
+	}
+	
+	public class UsesEx{
+  
+		public static void main(String[] args) {
+			int[] vals = {3, 7, 9};
+			Ex e = new Ex(vals);
+			e.showData(); // prints out [3, 7, 9]
+			vals[0] = 13;
+			e.showData(); // prints out [13, 7, 9]
+	  
+			// Very confusing, because we didn't
+			// intentionally change anything about 
+			// the object e refers to.
+		}
+	}
+	
+# Deep Copy
+	Whenever we need own copy not to use default implementation we call it as deep copy, 
+	whenever we need deep copy of the object we need to implement according to our need.
+	
+	// Code explaining deep copy
+	public class Ex {
+      
+		private int[] data;
+	  
+		// altered to make a deep copy of values
+		public Ex(int[] values) {
+			data = new int[values.length];
+			for (int i = 0; i < data.length; i++) {
+				data[i] = values[i];
+			}
+		}
+	  
+		public void showData() {
+			System.out.println(Arrays.toString(data));
+		}
+	}
+	
+	public class UsesEx{
+		public static void main(String[] args) {
+			int[] vals = {3, 7, 9};
+			Ex e = new Ex(vals);
+			e.showData(); // prints out [3, 7, 9]
+			vals[0] = 13;
+			e.showData(); // prints out [3, 7, 9]
+
+		// changes in array values will not be
+		// shown in data values.
+		}
+	}
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+7. equals() and hashcode() method contract
+	-> If two objects are equal to each other based on equals() method, then the hash code must be the same, 
+		but if the hash code is the same, then equals() can return false.
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+8. Why String is Immutable? - https://www.geeksforgeeks.org/java-string-is-immutable-what-exactly-is-the-meaning/
+-> Immutable objects are objects which once declared elements can't be modified after it.
+-> 
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+9. How to create Immutable class in Java?
+-> Immutable class in java means that once an object is created, we cannot change its content. 
+-> In Java, all the wrapper classes (like Integer, Boolean, Byte, Short) and String class is immutable
+-> We can create our own immutable class as well. Following are the requirements: 
+	-> The class must be declared as final so that child classes can't be created.
+	-> Data members in the class must be declared private so that direct access is not allowed.
+	-> Data members in the class must be declared as final so that we can't change the value of it after object creation.
+	-> A parameterized constructor should initialize all the fields performing a deep copy 
+		so that data members can't be modified with an object reference.
+	-> Deep Copy of objects should be performed in the getter methods to return a copy rather than returning the actual object reference
+	-> Note: There should be no setters or in simpler terms, there should be no option to change the value of the instance variable.
+
+e.g.
+final class Student {
+ 
+    // Member attributes of final class
+    private final String name;
+    private final int regNo;
+    private final Map<String, String> metadata;
+ 
+    // Constructor of immutable class
+    // Parameterized constructor
+    public Student(String name, int regNo,
+                   Map<String, String> metadata)
+    {
+ 
+        // This keyword refers to current instance itself
+        this.name = name;
+        this.regNo = regNo;
+ 
+        // Creating Map object with reference to HashMap
+        // Declaring object of string type
+        Map<String, String> tempMap = new HashMap<>();
+ 
+        // Iterating using for-each loop
+        for (Map.Entry<String, String> entry :
+             metadata.entrySet()) {
+            tempMap.put(entry.getKey(), entry.getValue());
+        }
+ 
+        this.metadata = tempMap;
+    }
+ 
+    // Method 1
+    public String getName() { return name; }
+ 
+    // Method 2
+    public int getRegNo() { return regNo; }
+   
+    // Note that there should not be any setters
+ 
+    // Method 3
+    // User -defined type
+    // To get meta data
+    public Map<String, String> getMetadata()
+    {
+ 
+        // Creating Map with HashMap reference
+        Map<String, String> tempMap = new HashMap<>();
+ 
+        for (Map.Entry<String, String> entry :
+             this.metadata.entrySet()) {
+            tempMap.put(entry.getKey(), entry.getValue());
+        }
+        return tempMap;
+    }
+}
+ 
+// Class 2
+// Main class
+class GFG {
+ 
+    // Main driver method
+    public static void main(String[] args)
+    {
+ 
+        // Creating Map object with reference to HashMap
+        Map<String, String> map = new HashMap<>();
+ 
+        // Adding elements to Map object
+        // using put() method
+        map.put("1", "first");
+        map.put("2", "second");
+ 
+        Student s = new Student("ABC", 101, map);
+ 
+        // Calling the above methods 1,2,3 of class1
+        // inside main() method in class2 and
+        // executing the print statement over them
+        System.out.println(s.getName());
+        System.out.println(s.getRegNo());
+        System.out.println(s.getMetadata());
+ 
+        // Uncommenting below line causes error
+        // s.regNo = 102;
+ 
+        map.put("3", "third");
+        // Remains unchanged due to deep copy in constructor
+        System.out.println(s.getMetadata());
+        s.getMetadata().put("4", "fourth");
+        // Remains unchanged due to deep copy in getter
+        System.out.println(s.getMetadata());
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------
+10. Q1: Where do these String objects go? 
+-> Well, these exist in memory, and one of the key goals of any programming language is to make efficient use of memory.
+As applications grow, it's very common for String literals to occupy a large area of memory, which can even cause redundancy. 
+So, in order to make Java more efficient, the JVM sets aside a special area of memory called the “String constant pool”.
+When the compiler sees a String literal, it looks for the String in the pool. 
+If a match is found, the reference to the new literal is directed to the existing String and no new String object is created. 
+The existing String simply has one more reference. Here comes the point of making String objects immutable:
+
+-> In the String constant pool, a String object is likely to have one or many references. 
+If several references point to the same String without even knowing it, it would be bad if one of the references modified that String value. 
+That's why String objects are immutable.
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+11. What happens if someone overrides the functionality of the String class? 
+-> As String class is marked final so that nobody can override the behavior of its methods.
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------

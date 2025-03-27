@@ -1,0 +1,54 @@
+
+java.util.concurrent package - Java 1.5
+
+- The problems with traditional synchronized keyword
+	1. We are not having any flexibility to try for a lock without waiting
+	2. Thre is no way to specify maximum waiting time for a thread to get lock so that thread will wait untill getting the lock which may creates performance problems which may cause deadlock
+	3. If a thread releases the lock then which waiting thread will get that lock we are not having any control on this
+	4. Thre is no APi to list out to all waiting threads for a lock
+	5. The synchronized keyword we compulsory have to use either at method lvl or withing a method and it is not possible to use accross multiple methods
+	
+	To overcome above problems Sun people introduced java.util.concurrent.locks package in 1.5 version
+	- It also provides several enhacements to the programmer to provide more control on concurrency
+	
+	Interface - Lock
+		- Lock object is simmilar to implecit lock aquired by a thread to excute synchronized method or synchronized block 
+		- Lock implementation provide more extensive operations than traditional implicit locks
+		
+		Methods of Lock Interface
+			1. void lock()
+				- We can use this method to aquire a lock if lock is already available then immediately current thread will get that lock
+				- If the lock is not already available then it will wait untill getting the lock
+				- It is exactly same behaviour of traditional synchronized keyword
+			
+			2. boolean tryLock()
+				- To aquire the lock without waiting
+				- If the lock is available then the thread aquire the lock and returns true if the lock is not available then this method returns false and can continue its execution without waiting , in this case thread never be entered into waiting state				
+					if(l.tryLock()){
+						Perform safe operations
+					}else{
+							Perform alternative operations
+					}
+	
+			3. boolean tryLock(long time, TimeUnit unit)
+				- If lock is available then the thread will get the lock and continue its execution
+				- If the lock is not available then the thread will wait until specified amount of time , still if the lock is not available then thread can continue its execution
+				- TimeUnit is enum , present in java.util.concurrent package
+					if(l.tryLock(1000, TimeUnit.MILLISECONDS)){
+					
+					}
+			4. void lockInterruptibly()
+				- Aquires the lock if it is available and returns immediately
+				- If the lock is not available then it will wait
+				- While waiting if the thread is intrrupted then thread wont get the lock
+				- If the thread not intrrupted
+			
+			5. void unlock()
+				- To release the lock
+				- To call this method compulsory current thread should be owner of the lock otherwise we'll get runtime exception saying IllegalMonitorStateException
+				
+			
+	Implementation of Lock - ReentrantLock
+		- 
+	
+

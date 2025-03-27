@@ -1,0 +1,77 @@
+
+--------------------------------------------------------------------------
+# Introduction, Working Experience
+I have been working as a java developer in past 7 yrs
+
+I'm well verse in core java spring and spring boot,hibernate, oracle
+
+
+--------------------------------------------------------------------------
+# Projects and role in it
+
+Roles and Responsibilities : 
+	-> Gathering the requirements from the customers along with grooming discussion 
+	-> involved majorly into implementation of the changes, unit testing and bug fixing
+
+
+-------------------------------------------------------------------------
+#
+I'm directly working and reporting to Client so I always communicate with them about expected due dates for my assignments first. 
+Then I create my own deadline based on my assigned due dates. 
+Typically, I like to give myself at least a day or two in advance, that way I can complete my work and still have time to review everything 
+thoroughly before turning it in.
+
+-------------------------------------------------------------
+
+In the project (TSB- Digital Decoupling) currently I'm working, I am the most experienced developer from Accenture 
+so I can lead the development process from scratch within the team.
+
+-------------------------------------------------------------
+
+I have just started my journey with Accenture and also with TSB so I'm learning day by day and doing tasks while keeping my priorities along with me. 
+Since my development team is very small there are only 2 developers so we are helping each other, dividing our tasks and try to complete them within 
+the deadlines.
+
+-------------------------------------------------------------
+
+Initially before coming to TSB project I haven't get opportunity to work on advance API development technologies such as SpringBoot 
+(I have working knowledge in Spring Core and Spring MVC), Kafka, Scylla (Cassandra), Consul, Reactive Programming, Jenkins Pipeline, AWS etc. 
+and in this project the Client is using all the above in development so I learned enough by myself to do my task in development and 
+I am still learning day by day with new challenges. 
+
+-------------------------------------------------------------
+
+I'm doing the java development from past 5 years and I would like to get other opportunities, roles and responsibilities.
+
+ 
+-------------------------------------------------------------
+
+#Project
+
+1. Core Java -- OOPs, Comparable/Comparator, 
+2. Java 8 - functional interface, lambda, stream-api
+3. Spring - DI
+4. Spring MVC - Controller/Rest-Controller, Rest API implementation
+5. Spring boot
+
+---------------
+6. No-sql
+7. Logging API
+8. Devops tool - Jenkins , github
+9. Pub-sub, point-to-pont
+10. Kafka
+
+--------
+Reduce load and cost 
+Mainframe to distributed environment
+Consumed by channel layer (java - documentbs)
+
+
+
+Project # 5	:  TSB - Digital Decoupling 
+Client		:  TSB
+Environment	:  Spring Boot, Spring Web, Confluent Kafka, Scylla (Cassandra), AWS 
+Role		:  Developer.
+Duration		:  Decempber 2021 to current date
+
+Description: This is migration project from mainframe environment to distributed to reduce the load and the cost.

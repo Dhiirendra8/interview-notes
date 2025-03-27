@@ -1,0 +1,92 @@
+
+"SAGA" pattern is a design pattern that is a long-lived sequence of smaller transactions. 
+This pattern is used to manage and maintain data consistency across multiple microservices. 
+Each transaction is executed by a single service, and the state changes are broadcasted to other services involved in the Saga. 
+It helps to maintain data consistency by providing an alternative approach to the traditional ACID transactions model that may not be feasible in a distributed environment.
+-> It is responsible for managing the overall transaction and coordinating the compensating actions required in case of any failures. 
+It is useful when dealing with complex business processes that involve multiple services, such as order processing, shipping, and billing. In such cases, it is often necessary to coordinate the execution of multiple transactions to maintain data consistency across the services involved.
+
+#Features of SAGA Pattern
+1. Coordinated transactions: 
+    The SAGA pattern provides a way to coordinate transactions that involve multiple services or processes. 
+    The pattern defines a sequence of steps, each of which can involve a separate service or process, that are executed in a coordinated manner to complete the transaction.
+2. Compensation and rollback: 
+    The SAGA pattern includes a mechanism for compensating or rolling back the transaction if one of the steps fails. 
+    This mechanism ensures that the transaction remains consistent even if one or more of the steps fail.
+3. Distributed transactions: 
+    The SAGA pattern supports distributed transactions that span multiple services or processes. 
+    The pattern provides a way to coordinate the transaction across these services or processes in a consistent manner.
+4. Asynchronous processing: 
+    The SAGA pattern can support asynchronous processing, which allows for greater concurrency and performance. 
+    This is especially important in distributed systems where the processing time of different services or processes may vary.
+5. Error handling: 
+    The SAGA pattern provides a standardized way to handle errors that occur during the transaction. 
+    The pattern ensures that errors are handled consistently across all services or processes involved in the transaction.
+6. Scalability: 
+    The SAGA pattern can scale to handle large and complex transactions that involve multiple services or processes. 
+    The pattern provides a way to break down the transaction into smaller, more manageable steps, which can be executed in parallel across different services or processes.
+
+#Example:
+
+Let us take a look at an example of how the SAGA pattern works in practice. 
+Consider an e-commerce application that allows users to purchase products. 
+When an order is placed, the payment must be processed, the seller’s inventory must be checked and reserved, and 
+finally, the order must be shipped. 
+If any of these steps fail, the entire order should be rolled back.
+
+To implement the pattern, we can create a separate service for each of the above functionality. 
+It has to be designed in such a manner, that all these transactions are synchronized with each other.
+
+A typical flow for such a website should look like this:
+
+1. Begin Order: 
+    Start the order saga and create a new order in the database.
+2. Process Payment: 
+    Attempt to charge the user's debit card/credit card. If successful, mark the order as paid in the database. 
+    "If unsuccessful, cancel the order and roll back any previous steps."
+3. Check Inventory: 
+    Check if the items in the order are in stock. 
+    "If not, cancel the order and roll back any previous steps."
+4. Reserve Inventory: 
+    Reserve the items in the order. 
+    "If unsuccessful, cancel the order and roll back any previous steps."
+5. Ship Order: 
+    Mark the order as shipped in the database.
+
+It is evident that each step is dependent on its previous step. Each of the steps would be implemented as a separate service. 
+When a step is completed successfully, it would send a message to the next step. 
+If a step fails, it would send a message to the previous step to roll back any changes made so far.
+
+
+A typical architecture for the SAGA pattern.
+
+Implementation:
+
+Here is an overview of how the SAGA pattern can be implemented for the flow:
+
+1. Begin Order: 
+When a new order is initiated, create a new saga instance and store it in a database. 
+The saga instance should include all the data required to perform the order process, such as the user's information and the order details. 
+The initial step in the saga is to create a new order in the database.
+
+2. Process Payment: 
+The next step in the saga is to process the payment. If the payment is successful, update the saga instance to mark the order as paid in the database. 
+If the payment fails, the saga should trigger a compensation step to cancel the order and roll back any previous steps.
+
+3. Check Inventory: 
+After the payment has been processed successfully, the next step is to check the inventory to see if all the items in the order are available. 
+If any items are out of stock, the saga should trigger a compensation step to cancel the order and roll back any previous steps.
+
+4. Reserve Inventory: 
+If all the items are available, the next step is to reserve the inventory for the order. 
+If the inventory cannot be reserved for any reason, the saga should trigger a compensation step to cancel the order and roll back any previous steps.
+
+5. Ship Order: 
+The final step in the saga is to ship the order. If the order has been paid for, all the items are available, and the inventory has been reserved, mark the order as shipped in the database. 
+If any of the previous steps fail, the saga should trigger the appropriate compensation steps to cancel the order and roll back any previous steps.
+
+Events are used to coordinate the different steps of the order process across multiple services or processes. 
+For instance, the service responsible for processing the payment can publish an event when the payment is successfully processed. 
+This event can be consumed by the service responsible for marking the order as paid, which in turn can publish an order-paid event. 
+This event can be consumed by the service responsible for reserving the inventory, which can publish an inventory-reserved event. 
+This event can be consumed by the service responsible for shipping the order, which can publish an order shipped event to update the order status in the database.

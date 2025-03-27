@@ -1,0 +1,48 @@
+1. Setting up Apache JMeter
+    The first step is to go to the Apache JMeter folder
+    Go inside the bin folder 
+    Select the JMeter .bat file
+    Double click on this file
+
+2. Adding a Thread Group 
+    Right-click on the Performance Testing
+    Go to add, then go to Threads (Users) and select Thread Group
+
+    Here, the thread group can be understood as users, i.e., the number of users. 
+
+    - It has several options, like 
+    -> Action to be taken after there is an error: you can choose it the way you want
+    -> Then, there is a “number of threads” where you can choose the number of users you want
+    -> Then, there is a “ramp-up period in seconds” that states the time gap between the users' hits
+    -> There is a “loop count” option where you can choose how many times the test will run for the  number of users. You can also choose the test to run infinite times 
+    -> There is also a scheduler here to help you schedule the start time and the test's end time
+    -> For now, make the number  of threads to be 2. And loop count to be 100.
+
+3. Adding HTTP Request
+Right-click on the Thread group, go to add option and go to the sampler option
+In the menu that appears, select the HTTP request option
+You can see a Server Name or IP box; it will give the server name or the IP in that. 
+
+This demo will use Simplilearn's website, here.
+
+Go to Simplilearn's website : www.simplilearn.com
+Copy the URL from here
+Come back to the JMeter window 
+Paste the URL in the Server Name box
+Don't give http or HTTPS since these are protocols that will come in the other box and that will be automatically taken in the http request case.
+
+In the path dialog box, leave a forward slash.
+
+The forward slash is used since the aim is to access the route page.
+
+Here, this demo will rename this HTTP request as Simple.
+
+4. Adding Listeners 
+-> Listeners are something that is used to provide the outputs of a load test.
+You can use three different listeners here to have an idea about the representation that the JMeter provides
+
+Right-click on the Thread Group
+Go to Add, select the Listener option, and go for the view Results in Tree option
+
+
+5. Running the Test

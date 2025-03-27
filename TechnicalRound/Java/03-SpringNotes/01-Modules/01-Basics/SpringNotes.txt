@@ -1,0 +1,148 @@
+Spring
+
+1. Spring is a lightweight framework. It can be thought of as a framework of frameworks because it provides support to various frameworks 
+		such as Struts, Hibernate, Tapestry, EJB, JSF etc.
+
+* A library is a collection of functions / objects that serves one particular purpose. you could use a library in a variety of projects.
+* A framework is a collection of patterns and libraries to help with building an application.
+* An API is an interface for other programs to interact with your program without having direct access.
+
+The advantages of Spring Framework.
+	-> Because of Spring Frameworks layered architecture, you can use what you need and leave which you don't.
+	-> Spring Framework enables POJO (Plain Old Java Object) Programming which in turn enables continuous integration and testability.
+	-> JDBC is simplified due to Dependency Injection and Inversion of Control.
+	-> It is open-source and has no vendor lock-in.
+
+2. Inversion Of Control (IOC) and Dependency Injection
+	-> These are the design patterns that are used to remove dependency from the programming code.
+	-> IOC makes the code loosely coupled. In such case, there is no need to modify the code if our logic is moved to new environment.
+	e.g. Let's understand this with the following code: 
+		    class Employee{  
+				Address address;  
+				Employee(){  
+					address=new Address();  
+				}  
+			} 
+			
+		-> In such case, there is dependency between the Employee and Address (tight coupling).
+	-> In the Inversion of Control scenario, we do this something like this: 
+			    class Employee{  
+					Address address;  
+					Employee(Address address){  
+						this.address=address;  
+					}  
+				}  
+	
+	-> In Spring framework, IOC container is responsible to inject the dependency. 
+		We provide metadata to the IOC container either by XML file or annotation.
+	
+	-> In Dependency Injection, you do not have to create your objects but have to describe how they should be created. 
+		You don’t connect your components and services together in the code directly, 
+		but describe which services are needed by which components in the configuration file. The IoC container will wire them up together.
+
+
+3. IOC Container 
+	-> Inversion of control (IoC) is the principle where the control flow of a program is inverted
+		instead the programmer controls the flow of a program, the external sources (framework, services, other components) take control of it. 
+		As the name implies Inversion of control means now we have inverted the control of creating the object from our own using new operator 
+		to container or framework. Now it’s the responsibility of container to create object as required.
+		
+	-> The IoC container is responsible to instantiate, configure and assemble the objects.
+	
+	-> At the core of the Spring Framework, lies the Spring container. The container creates the object, wires them together, 
+	configures them and manages their complete life cycle.
+	
+	-> The Spring container makes use of Dependency Injection to manage the components that make up an application. 
+	The container receives instructions for which objects to instantiate, configure, and assemble by reading the configuration metadata provided. 
+	This metadata can be provided either by XML, Java annotations or Java code.
+	
+	-> There are two types of IoC containers. They are:
+		1. BeanFactory
+			-> A BeanFactory is like a factory class that contains a collection of beans. 
+			The BeanFactory holds Bean Definitions of multiple beans within itself and then instantiates the bean whenever asked for by clients.
+
+			-> The BeanFactory is the actual container which instantiates, configures, and manages a number of beans. 
+			These beans typically collaborate with one another, and thus have dependencies between themselves. 
+			These dependencies are reflected in the configuration data used by the BeanFactory
+
+			-> BeanFactory also takes part in the life cycle of a bean, making calls to custom initialization and destruction methods.
+			-> BeanFactory is like a factory class that contains a collection of beans. It instantiates the bean whenever asked for by clients.
+			-> It uses Lazy initialization
+			-> It doesn’t supports internationalization
+			-> It doesn’t supports annotation based dependency
+			
+		2. ApplicationContext
+			-> The ApplicationContext interface is built on top of the BeanFactory interface. 
+			-> It provides some extra functionality on top BeanFactory.
+			-> It uses Eager/ Aggressive initialization
+			-> It supports annotation based dependency
+			-> It supports internationalization
+			
+4. Bean Scopes -> 5 Scopes
+	'Singleton': This provides scope for the bean definition to single instance per Spring IoC container.
+			How to make a bean as singleton in spring?
+				Beans defined in spring framework are singleton beans. There is an attribute in bean tag called ‘singleton’. 
+				If it is specified as true then bean becomes singleton and if it sets to false then the bean becomes a prototype bean, 
+				it is non-singleton class. By default this property is set to true. 
+				So, all the beans in spring framework are by default singleton beans.
+	
+	'Prototype': This provides scope for a single bean definition to have any number of object instances.
+	
+	'Request': This provides scope for a bean definition to an HTTP-request. 
+	
+	'Session': This provides scope for a bean definition to an HTTP-session. 
+	
+	'Global-session': This provides scope for a bean definition to a Global HTTP-session. 
+	
+	
+5. Spring supports 2 types of dependency injection, they are:
+
+	1) 'Constructor-based dependency injection': It is accomplished when the container invokes a class constructor with a number of arguments, 
+	each representing a dependency on other class.
+
+	2) 'Setter-based dependency injection': It is accomplished by the container calling setter methods on your beans after invoking 
+	a no-argument constructor or no-argument static factory method to instantiate your bean.
+	
+6. Spring auto-wiring modes
+	In Spring framework, you can wire beans automatically with auto-wiring feature. To enable it, just define the “autowire” attribute in <bean>. 
+	In Spring, 5 Auto-wiring modes are supported.
+
+	no: Default, no auto wiring, set it manually via “ref” attribute
+
+	byName: Auto wiring by property name. If the name of a bean is same as the name of other bean property, auto wire it.
+
+	byType: Auto wiring by property data type. If data type of a bean is compatible with the data type of other bean property, auto wire it.
+
+	constructor: byType mode in constructor argument.
+
+	autodetect: If a default constructor is found, use “autowired by constructor”; Otherwise, use “autowire by type”.
+	
+	
+7. What are the limitations and disadvantages of spring autowiring?
+	Answer:
+		Autowiring works best when it is used consistently across a project. 
+		If autowiring is not used in general, it might be confusing to developers to use it to wire only one or two bean definitions. 
+		
+		Consider the limitations and disadvantages of autowiring:
+		Explicit dependencies in property and constructor-arg settings always override autowiring. 
+		You cannot autowire so-called simple properties such as primitives, Strings, and Classes (and arrays of such simple properties). 
+		This limitation is by-design.
+		Autowiring is less exact than explicit wiring. Although, as noted in the above table, Spring is careful to avoid guessing in case of ambiguity 
+		that might have unexpected results, the relationships between your Spring-managed objects are no longer documented explicitly.
+		Wiring information may not be available to tools that may generate documentation from a Spring container.
+		Multiple bean definitions within the container may match the type specified by the setter method or constructor argument to be autowired. 
+		For arrays, collections, or Maps, this is not necessarily a problem. However for dependencies that expect a single value,
+		this ambiguity is not arbitrarily resolved. If no unique bean definition is available, an exception is thrown.
+			
+
+8. Is the spring singleton bean thread safe?
+	Answer:
+		Spring framework does not do anything under the hood concerning the multi-threaded behavior of a singleton bean. 
+		It is the developer’s responsibility to deal with concurrency issue and thread safety of the singleton bean.
+		While practically, most spring beans have no mutable state, and as such are trivially thread safe. 
+		But if your bean has mutable state, so you need to ensure thread safety. 
+		The most easy and obvious solution for this problem is to change bean scope of mutable beans from “singleton” to “prototype“.
+		
+		
+		
+		

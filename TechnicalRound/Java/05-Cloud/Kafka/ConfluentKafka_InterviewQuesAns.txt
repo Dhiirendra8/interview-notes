@@ -1,0 +1,44 @@
+
+https://www.interviewbit.com/kafka-interview-questions/
+-------------------------------------------------
+1. What is Kafka
+	-> Apache Kafka is a streaming platform that is free and open-source. 
+	-> Kafka was first built at LinkedIn as a messaging queue, but it has evolved into much more. 
+	-> It's a versatile tool for working with data streams that may be applied to a variety of scenarios.
+
+	-> Kafka is a distributed system, which means it can scale up as needed. 
+	-> All you have to do now is add new Kafka nodes (servers) to the cluster.
+	
+	-> Kafka can process a large amount of data in a short amount of time. 
+	-> It also has low latency, making it possible to process data in real-time. 
+	-> Although Apache Kafka is written in Scala and Java, it may be used with a variety of different programming languages.
+
+	-> Traditional message queues, like RabbitMQ, are not the same as Kafka. 
+		-> RabbitMQ eliminates messages immediately after the consumer confirms them, whereas Kafka keeps them for a period of time (default is 7 days) 
+			after they've been received. 
+		
+		-> RabbitMQ also sends messages to consumers and monitors their load. 
+			It determines how many messages each consumer should be processing at any one time. 
+		On the other hand, Consumers can retrieve messages from Kafka by pulling. 
+			It is built to be scalable horizontally by adding more nodes.
+
+	-> It is used for fault-tolerant storage as well as publishing and subscribing to a stream of records. 
+	-> The programs are intended to process timing and consumption records. 
+	-> Kafka replicates log partitions from many hosts. 
+	
+	-> Developers and users contribute coding updates, which it keeps, reads, and analyses in real-time. 
+		For messaging, website activity tracking, log aggregation, and commit logs, Kafka is employed. 
+		Although Kafka can be used as a database, it lacks a data schema and indexes.
+		
+--------------------
+2. Features of Kafka
+	-> Kafka is a messaging system built for high throughput and fault tolerance.
+	-> Kafka has a built-in patriation system known as a Topic.
+	-> Kafka Includes a replication feature as well.
+	-> Kafka provides a queue that can handle large amounts of data and move messages from one sender to another.
+	-> Kafka can also save the messages to storage and replicate them across the cluster.
+	-> For coordination and synchronization with other services, Kafka collaborates with Zookeeper.
+	-> Apache Spark is well supported by Kafka.
+	
+--------------------
+3. 

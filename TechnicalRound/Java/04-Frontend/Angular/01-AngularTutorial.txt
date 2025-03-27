@@ -1,0 +1,169 @@
+Angular 2
+
+-Built using TypeScript, has great support of ES6(ECMAScript6 JS standars is officially called ES6)
+
+-TypeScript is opensource programming language developed by microsoft
+	- Superset of JS
+	- Transpilation compiles TypeScript to JavaScript
+	
+-Use to develope SPA (Single Page Application)
+	
+-----------------------------------------------------------------------------------------------------------------------------------------------
+	
+Visual Studio Code
+	- install node and npm
+		nodejs.org/en/download
+	- node version 4.6.x & npm version 3.x.x
+	- Install Visual Studio Code 
+	- copy code from GIT
+	- npm install
+	
+- npm start 
+
+
+Angular CLI 
+	npm install -g @angular/cli
+	ng new my-dream-app
+	cd my-dream-app
+	ng serve
+
+	
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+Architechture
+	1. Module 
+	2. Component - JS class with metadata attached to it
+	3. Directives - Metadata + class
+	4. Services - 
+	5. Routers - are based on URLs
+	
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Topics : https://www.tektutorialshub.com/angular-tutorial/
+
+#Components
+The Component is the main building block of an Angular Application. A Component contains the definition of the View and the data that defines how the View looks and behaves.  The Angular Components are plain javascript classes and defined using. @component Decorator. This Decorator provides the component with the View to display & Metadata about the class.
+
+The Component passes the data to the view using a process called Data Binding. This is done by Binding the DOM Elements to component properties. Binding can display component class property values to the user, change element styles, respond to a user event, etc.
+
+Introduction to Angular Components
+Data Binding in Angular
+Interpolation in Angular
+Property Binding in Angular
+Event Binding in Angular
+Two-way Binding & ngModel in Angular
+ngModelChange & Change Event
+Adding Child Component in Angular
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+package.json - libraries, modules 
+typing.json - 
+tsconfig.json - generate JS code from TS
+systemjs.config.json
+style.css
+index.html
+main.ts -- application starts from here
+app.component.ts -- 
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+flow
+	app.component.ts
+		@Component : decorator
+		selector : html tag
+		template : actual html
+	main.ts
+		bootstrap : 
+		
+Custom Component
+	create new component file
+	import Component class from @angular/core
+	name the class of component
+	attach @Component decorator
+	in parent component, 
+		import new Component
+		in decorator
+			directive: [new Component]
+	
+	
+Styling Components - restricted to component
+		in @component decorator
+			styles : [`h2{
+				color: red;}`]
+				
+				
+Interpolation {{one way data binding}} and Property Data Binding [deal with properties]
+
+
+Event Binding and Reference
+	-capture the data from view to component
+	- use () for event binding
+	- reference with reference variable using #
+		<input type="text" #varName> 
+		
+		
+2 Way data binding
+	- import { FormsModule } from '@angular/forms'; and add into imports of @NgModule decorator
+	- [(ngModel)] directive
+	
+Structural Directives
+	- *ngIf , [ngSwitch] --> *ngSwitchWhen, *ngSwitchDefault, *ngFor
+	
+	
+Attribute Directives
+	- [ngClass] , [ngStyle]
+	
+Inputs and Outputs
+	from Parent to Child
+		@Component decorator in child
+			inputs : ['varName']
+			
+	from child to parent
+		- use events
+		-@Component decorator in child
+			outputs : ['childEvent']
+		- import EventEmitter from @angular/core
+		(see tutorial 14)
+		
+Pipes
+	{{name | upercase}}, {{name | lowercase}}
+	{{name | slice : '2'}} , {{name | slice:'2':'4'}}
+	{{name | replace:'str1':'str2'}}
+	For Numbers
+		{{numberString | number:'2.2-3'}}
+	For Currency
+		{{currencyString | currency:'EUR':true}}
+	For Dates
+		{{dateString | date:'fullDate'}}
+		{{dateString | date:'shortDate'}}
+		{{dateString | date:'mediumTime'}}
+		{{dateString | date:'shortTime'}}
+		
+		
+		
+Final Release Template
+	import new component in app.module.ts and add that into declarations
+	
+Template Driven Forms
+	- import FormsModules from @angular/forms in app.modeule.ts and add into imports
+	
+	- 
+	
+	

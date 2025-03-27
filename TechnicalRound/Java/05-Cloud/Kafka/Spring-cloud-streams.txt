@@ -1,0 +1,10 @@
+https://www.baeldung.com/spring-cloud-stream-kafka-avro-confluent
+#Spring Cloud Stream 
+- Spring Cloud Stream is a framework for building message-driven applications. 
+    It can simplify the integration of Kafka into our services.
+
+
+
+
+
+

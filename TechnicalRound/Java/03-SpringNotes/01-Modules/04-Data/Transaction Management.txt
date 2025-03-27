@@ -1,0 +1,97 @@
+2. What Is @Transactional?
+	We can use @Transactional to wrap a method in a database transaction.
+
+	It allows us to set propagation, isolation, timeout, read-only, and rollback conditions for our transaction. 
+	We can also specify the transaction manager.
+
+2.1. @Transactional Implementation Details
+Spring creates a proxy, or manipulates the class byte-code, to manage the creation, commit, and rollback of the transaction. 
+In the case of a proxy, Spring ignores @Transactional in internal method calls.
+
+---------------------------------------------------------------------------------------------------------------------
+3. Transaction Propagation
+	-> Propagation defines our business logic's transaction boundary. 
+	-> Spring manages to start and pause a transaction according to our propagation setting.
+
+	> Spring calls 'TransactionManager::getTransaction' to get or create a transaction according to the propagation. 
+	> It supports some of the propagations for all types of TransactionManager, 
+	> but there are a few of them that are only supported by specific implementations of TransactionManager.
+
+Let's go through the different propagations and how they work.
+
+3.1. REQUIRED Propagation (DEFAULT)
+	Spring checks if there is an active transaction, and if nothing exists, it creates a new one. 
+	Otherwise, the business logic appends to the currently active transaction.
+
+3.2. SUPPORTS Propagation
+	Spring first checks if an active transaction exists. If a transaction exists, then the existing transaction will be used. 
+	If there isn't a transaction, it is executed Non-Transactional.
+
+3.3. MANDATORY Propagation
+	If there is an active transaction, then it will be used. 
+	If there isn't an active transaction, then Spring throws an Exception.
+
+3.4. NEVER Propagation
+	 Spring throws an Exception if there's an active transaction.
+
+3.5. NOT_SUPPORTED Propagation
+	If a current transaction exists, first Spring suspends it, and then the business logic is executed without a transaction:
+
+3.6. REQUIRES_NEW Propagation
+	Spring suspends the current transaction if it exists, and then creates a new one:
+
+3.7. NESTED Propagation
+	Spring checks if a transaction exists, and if so, it marks a save point. 
+	This means that if our business logic execution throws an exception, then the transaction rollbacks to this save point. 
+	If there's no active transaction, it works like REQUIRED.
+
+---------------------------------------------------------------------------------------------------------------------
+4. Transaction Isolation
+	Isolation is one of the common ACID properties: Atomicity, Consistency, Isolation, and Durability. 
+	Isolation describes how changes applied by concurrent transactions are visible to each other.
+
+Each isolation level prevents zero or more concurrency side effects on a transaction:
+
+	-> Dirty read: read the uncommitted change of a concurrent transaction
+	-> Nonrepeatable read: get different value on re-read of a row if a concurrent transaction updates the same row and commits
+	-> Phantom read: get different rows after re-execution of a range query if another transaction adds or removes some rows in the range and commits
+
+We can set the isolation level of a transaction by @Transactional::isolation. 
+It has these five enumerations in Spring: DEFAULT, READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE.
+
+4.1. Isolation Management in Spring
+	The default isolation level is DEFAULT. As a result, when Spring creates a new transaction, 
+	the isolation level will be the default isolation of our RDBMS. Therefore, we should be careful if we change the database.
+	We should also consider cases when we call a chain of methods with different isolation. In the normal flow, 
+	the isolation only applies when a new transaction is created. 
+	Thus, if for any reason we don't want to allow a method to execute in different isolation, we have to set TransactionManager::setValidateExistingTransaction to true.
+
+
+4.2. READ_UNCOMMITTED Isolation
+	READ_UNCOMMITTED is the lowest isolation level and allows for the most concurrent access.
+	As a result, it suffers from all three mentioned concurrency side effects. 
+	A transaction with this isolation reads uncommitted data of other concurrent transactions. 
+	Also, both non-repeatable and phantom reads can happen. Thus we can get a different result on re-read of a row or re-execution of a range query.
+
+
+4.3. READ_COMMITTED Isolation
+	The second level of isolation, READ_COMMITTED, prevents dirty reads.
+	The rest of the concurrency side effects could still happen. 
+	So uncommitted changes in concurrent transactions have no impact on us, but if a transaction commits its changes, 
+		our result could change by re-querying.
+
+
+4.4. REPEATABLE_READ Isolation
+	The third level of isolation, REPEATABLE_READ, prevents dirty, and non-repeatable reads. 
+	So we are not affected by uncommitted changes in concurrent transactions.
+	Also, when we re-query for a row, we don't get a different result. 
+	However, in the re-execution of range-queries, we may get newly added or removed rows.
+	Moreover, it is the lowest required level to prevent the lost update. 
+	The lost update occurs when two or more concurrent transactions read and update the same row. 
+	REPEATABLE_READ does not allow simultaneous access to a row at all. Hence the lost update can't happen.
+
+4.5. SERIALIZABLE Isolation
+	SERIALIZABLE is the highest level of isolation. 
+	It prevents all mentioned concurrency side effects, but can lead to the lowest concurrent access rate 
+		because it executes concurrent calls sequentially.
+	In other words, concurrent execution of a group of serializable transactions has the same result as executing them in serial.

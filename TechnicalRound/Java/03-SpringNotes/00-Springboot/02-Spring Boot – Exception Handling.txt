@@ -1,0 +1,9 @@
+https://reflectoring.io/spring-boot-exception-handling/
+
+-----------------------------------------------------------------
+Spring Boot provides us tools to handle exceptions beyond simple 'try-catch' blocks. 
+To use these tools, we apply a couple of annotations that allow us to treat exception handling as a cross-cutting concern:
+
+1. @ResponseStatus
+2. @ExceptionHandler
+3. @ControllerAdvice

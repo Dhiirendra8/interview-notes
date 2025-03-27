@@ -1,0 +1,50 @@
+ThreadPool Executer Service
+
+4 Types of Pools
+
+1. Fixed Thread Pool
+	-> it has fixed no. of threads
+	-> task is in blocking queue (thread safe)
+	
+	ExecutorService service = Executors.newFixedThreadPool(coreCount);
+
+
+2. Cached Thread Pool
+	-> do not have fixed no. of threads and do not have blocking queue
+	-> have synchronous queue (can hold only one task)
+	-> If all the threads are busy then create a new thread for the task and place it in the pool
+	-> Life Cycle : if thread is idle for 60sec (no task to execute) then kill the thread
+	
+	ExecutorService service = Executors.newCachedThreadPool();
+
+
+3. Scheduled Thread Pool
+	-> Schedule the tasks to run based on time delay (and re-trigger for fixedRate / fixedDelay)
+	-> Delay Queue
+	-> service.schedule
+	  service.scheduleAtfixedRate
+	  service.scheduleAtfixedDelay
+	-> Life Cycle : More threads are created if required
+	
+
+	ExecutorService service = Executors.newScheduledThreadPool(coreCount);
+	//task to run after 10 sec delay
+	service.schedule(new Task(), delay: 10, SECONDS);
+	
+	//task to run repeatedly every 10 seconds
+	service.scheduleAtfixedRate(new Task(), initialDealy: 15, period: 10, SECONDS);
+	
+	//task to run repeatedly 10 seconds after previous task completes
+	service.scheduleAtfixedDelay(new Task(), initialDealy: 15, period: 10, TimeUnit.SECONDS);
+
+4. Single ThreadedExecutor
+	-> same as fixed but size of pool is 1
+	-> have blocking queue
+	-> Life Cycle : Recreates thread if killed because of task
+	
+	
+	
+	
+	
+Advanced 
+	

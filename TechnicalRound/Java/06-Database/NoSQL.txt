@@ -1,0 +1,56 @@
+#What is NoSQL database
+-> Nowadays, developers are dealing with a large volume of data which is called big data. 
+So naturally, big complexity and big issues will be there. 
+Once most of the systems are getting online, so data load increases. 
+NoSQL helps to manage unstructured, messy, and complicated data. This is not a traditional database or relational database management.
+
+#Types of NoSQL Database
+-> here are four types of mechanisms:
+A. Graph database
+B. Key value calculation
+C. Document oriented
+D. Column view presentation
+
+
+#Difference between vertical and horizontal databases?
+
+        Vertical Database	                            Horizontal Database
+-> You can do vertical scaling,                     Here you can do horizontal scaling with more equipment.
+    adding more power to the present PC.	
+-> All data will be stored in a single node.	    Only part data will be stored in all nodes.
+-> Multi-core scaling will be done.	                Single-core scaling will be done.
+-> Example: Amazon cloud	                        Example: Cassandra
+
+#when you should use NoSQL in place of the normal database?
+-> If you are looking for key-value stores with massive high-speed performances, you can use NoSQL. 
+Because in the relational databases, we use ACID transactions. 
+Once we use this kind of transaction, the schema-based process will slow down the database performance. 
+
+Suggestive possible situations to use NoSQL are:
+A. If you use multiple JOIN queries.
+B. If the client wants high traffic site.
+C. If you are using denormalized data.
+
+#NoSQL's different features?
+Ans: These are different features of NoSQL:
+
+A. It can store a big amount of unstructured, structured, and semi-structured data.
+B. It is object-oriented programming based, which is best for a web application.
+C. It is agile, sprints based, which is best for project management.
+D. It is cost-effective with scale-out architecture and efficiency.
+
+
+#
+
+
+
+
+
+
+
+
+
+
+
+
+

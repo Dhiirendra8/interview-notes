@@ -1,0 +1,22 @@
+
+
+1. CrudRepository 
+    -> provides CRUD functions
+2. PagingAndSortingRepository 
+    -> provides methods to do pagination and sort records
+3. JpaRepository 
+    -> provides JPA related methods such as flushing the persistence context and delete records in a batch
+
+    And so, because of this inheritance relationship, 
+        the JpaRepository contains the full API of CrudRepository and PagingAndSortingRepository.
+
+
+
+
+#Downsides of Spring Data Repositories
+-1. we couple our code to the library and to its specific abstractions, such as `Page` or `Pageable`; 
+    that's of course not unique to this library – but we do have to be careful not to expose these internal implementation details
+-2. by extending e.g. CrudRepository, we expose a complete set of persistence method at once. 
+    This is probably fine in most circumstances as well but we might run into situations where we'd like to gain more fine-grained 
+    control over the methods exposed, e.g. to create a ReadOnlyRepository that doesn't include the save(…) and delete(…) 
+    methods of CrudRepository

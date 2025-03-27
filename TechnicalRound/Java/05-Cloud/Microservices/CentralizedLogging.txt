@@ -1,0 +1,27 @@
+#Centralized Logging Solution
+-> The Centralised logging approach enables us to consolidate all the logs from distributed application services and monitor them 
+from one interface. 
+-> It provides easy access to logs for analysis in one single dashboard and we do not have to search on each server to troubleshoot.
+
+-> The most popular implementation of a centralized logging solution is Elastic Search, Logstash, Kibana (ELK). 
+-> However, these can also be replaced with alternatives.
+
+
+#Central Logging in Microservice - ELK (Elastic-Search, Logstash, Kibana)
+The ELK Stack began as a collection of three open-source products — Elasticsearch, Logstash, and Kibana 
+— all developed, managed and maintained by Elastic. 
+The introduction and subsequent addition of Beats turned the stack into a four legged project.
+
+"Elasticsearch" is a full-text search and analysis engine, based on the Apache Lucene open source search engine. 
+
+"Logstash" is a log aggregator that collects data from various input sources, executes different transformations and enhancements and 
+then ships the data to various supported output destinations. 
+It's important to know that many modern implementations of ELK do not include Logstash. 
+To replace its log processing capabilities, most turn to lightweight alternatives like Fluentd, which can also collect logs from data sources and forward them to Elasticsearch. 
+
+"Kibana" is a visualization layer that works on top of Elasticsearch, providing users with the ability to analyze and visualize the data. 
+And last but not least — Beats are lightweight agents that are installed on edge hosts to collect different types of data for forwarding into the stack.
+
+Together, these different components are most commonly used for monitoring, troubleshooting and securing IT environments 
+(though there are many more use cases for the ELK Stack such as business intelligence and web analytics). 
+Beats and (formerly) Logstash take care of data collection and processing, Elasticsearch indexes and stores the data, and Kibana provides a user interface for querying the data and visualizing it.

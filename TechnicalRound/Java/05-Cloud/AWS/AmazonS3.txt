@@ -1,0 +1,56 @@
+#Amazon S3 - https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html
+-> Amazon Simple Storage Service (Amazon S3) is an object storage service that offers industry-leading scalability, data availability, 
+    security, and performance. 
+-> Customers of all sizes and industries can use Amazon S3 to store and protect any amount of data for a range of use cases, 
+    such as data lakes, websites, mobile applications, backup and restore, archive, enterprise applications, IoT devices, and 
+    big data analytics. 
+-> Amazon S3 provides management features so that you can optimize, organize, and configure access to your data to meet your 
+    specific business, organizational, and compliance requirements.
+
+#Features of Amazon S3
+1. Storage classes
+-> Amazon S3 offers a range of storage classes designed for different use cases. 
+For example, you can store mission-critical production data in "S3 Standard" for frequent access, 
+    save costs by storing infrequently accessed data in "S3 Standard-IA or S3 One Zone-IA", and 
+    archive data at the lowest costs in "S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, and S3 Glacier Deep Archive".
+
+2. Storage management
+-> Amazon S3 has storage management features that you can use to manage costs, meet regulatory requirements, reduce latency, and 
+    save multiple distinct copies of your data for compliance requirements.
+    A. "S3 Lifecycle" => Configure a lifecycle configuration to manage your objects and store them cost effectively 
+        throughout their lifecycle. 
+    You can transition objects to other S3 storage classes or expire objects that reach the end of their lifetimes.
+
+    B. "S3 Object Lock" => Prevent Amazon S3 objects from being deleted or overwritten for a fixed amount of time or indefinitely. 
+    You can use Object Lock to help meet regulatory requirements that require write-once-read-many (WORM) storage or 
+    to simply add another layer of protection against object changes and deletions.
+    
+    C. "S3 Replication" => Replicate objects and their respective metadata and object tags to one or more destination buckets in 
+        the same or different AWS Regions for reduced latency, compliance, security, and other use cases.
+    
+    D. "S3 Batch Operations" => Manage billions of objects at scale with a single S3 API request or a few clicks in the Amazon S3 console. 
+    You can use Batch Operations to perform operations such as Copy, Invoke AWS Lambda function, and Restore on millions or billions of objects.
+
+
+3. Access management and security
+
+
+4. Data processing
+
+
+5. Storage logging and monitoring
+
+
+6. Analytics and insights
+
+
+7. Strong consistency
+
+
+
+
+
+
+
+
+

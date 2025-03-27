@@ -1,0 +1,3 @@
+Authentication is stating that you are who are you are and 
+Authorization is asking if you have access to a certain resource. 
+When working with REST APIs you must remember to consider security from the start.

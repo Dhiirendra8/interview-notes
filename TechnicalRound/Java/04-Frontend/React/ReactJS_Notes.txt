@@ -1,0 +1,624 @@
+links : 
+	https://www.javatpoint.com/pros-and-cons-of-react
+	
+
+################################################################################################################################
+DOM (Document Objerct Model)
+	- When a web page is loaded, the browser creates a Document Object Model of the page.
+	- The HTML DOM is a standard for how to get, change, add, or delete HTML elements.
+	- The HTML DOM model is constructed as a tree of Objects:
+	
+	<Document>
+		<html> ==> Root Element
+			<head> ==> Element
+				<title></title>
+			</head>
+			<body> ==> Element
+				...other tags....
+			</body>
+		</html>
+	</Document>
+
+################################################################################################################################
+React :	- React is a declarative, efficient, and flexible JavaScript library for building user interfaces. 
+		- It lets you compose complex UIs from small and isolated pieces of code called “components”.
+		
+
+1. Open source JavaScript Library
+2. Created and maintained by Facebook
+3. Focuses on UI only
+4. Component Based Architectre
+5. React is declarative ---> with react dom
+	### Why learn ReactJS? ###
+		- Today, many JavaScript frameworks are available in the market(like angular, node), but still, React came into the market and gained popularity 
+		- The previous frameworks follow the traditional data flow structure, which uses the DOM (Document Object Model). 
+		- DOM is an object which is created by the browser each time a web page is loaded. 
+			It dynamically adds or removes the data at the back end and when any modifications were done, then each time a new DOM is created 
+			for the same page. This repeated creation of DOM makes unnecessary memory wastage and reduces the performance of the application.
+
+		* Therefore, a new technology ReactJS framework invented which remove this drawback. 
+		- ReactJS allows you to divide your entire application into various components. 
+		- ReactJS still used the same traditional data flow, but it is not directly operating on the browser's DOM immediately; 
+		- instead, it operates on a virtual DOM. 
+		- It means rather than manipulating the document in a browser after changes to our data, it resolves changes on a DOM built 
+			and run entirely in memory. 
+		- After the virtual DOM has been updated, React determines what changes made to the actual browser's DOM. 
+		- The React Virtual DOM exists entirely in memory and is a representation of the web browser's DOM. 
+		- Due to this, when we write a React component, we did not write directly to the DOM;
+		- instead, we are writing virtual components that react will turn into the DOM.
+	
+	### Virtual DOM ###
+		- A virtual DOM object is a representation of the original DOM object. 
+		- It works like a one-way data binding. 
+		- Whenever any modifications happen in the web application, the entire UI is re-rendered in virtual DOM representation. 
+		- Then it checks the difference between the previous DOM representation and new DOM. 
+		- Once it has done, the real DOM will update only the things that have actually changed. 
+		- This makes the application faster, and there is no wastage of memory.
+
+
+6. Prerequisites
+	JavaScript --> 'this' keyword
+			filter
+			map
+			reduce
+
+	ES6 --> let & const
+		arrow functions
+		template literals		
+		default parameters
+		object literals
+		rest & spread opretors
+		destructuring assignment
+
+
+========== Installation ==================
+7. Node js.org  download
+	IDE --> VS Code
+
+8. Create React App --> With no configuration
+	a) npx create-react-app hello-word
+	b) npm install create-react-app -g
+		create-react-app<project_name>
+	to run --> cd to hello-world
+			npm start
+
+===========Folder Structure ============
+9. package.json --> contains dependencies
+   node_modules folder ---> all the dependencies are installed
+   public folder --> index.html --> single page application
+   src folder --> 
+	index.js --> root dom node
+	app.js --> responsible for html displayed on browser
+
+	
+==================================================================================================================================
+10. Components : represents a part of UI & resuable
+			a component can contains other components
+	for eg : Root --> controls all components
+		SideNav
+		Header
+		Footer
+		Main Content
+
+	Types : 
+		1. Stateless Functional Component
+			JavaScript Functions
+
+	function welcome(props){
+		return <h1> Hello, {props.name} </h1>;
+	}
+			
+		2. Stateful Class Component
+			Class exdending Component Class
+			Render method returning HTML
+
+	class Welcome exdends React.Component {
+		render(){
+			return <h1> Hello, {props.name} </h1>;
+		}
+	}
+	
+	## THEORY ##
+	- The entire application is divided into a small logical group of code, which is known as components.
+	- A Component is considered as the core building blocks of a React application. 
+	- It makes the task of building UIs much easier. 
+	- Each component exists in the same space, but they work independently from one another and merge all in a parent component, 
+		which will be the final UI of your application.
+	- In ReactJS, we have mainly two types of components. They are
+		1. Functional Components
+			- The functional component is also known as a stateless component because they do not hold or manage state.
+			- They are simply JavaScript functions that may or may not receive data as parameters
+			
+			
+		2. Class Components
+		
+		
+		https://www.javatpoint.com/react-components
+
+==================================================================================================================================
+11. JSX : JavaScript XML
+	- It is a JavaScript syntax extension.
+	- Its an XML or HTML like syntax used by ReactJS. 
+	- This syntax is processed into JavaScript calls of React Framework. 
+	- It extends the ES6 so that HTML like text can co-exist with JavaScript react code. 
+	- It is not necessary to use JSX, but it is recommended to use in ReactJS.
+	
+	- All of the React components have a render function
+	- The render function specifies the HTML output of a React component
+	- JSX(JavaScript Extension), is a React extension which allows writing JavaScript code that looks like HTML. 
+	- In other words, JSX is an HTML-like syntax used by React that extends ECMAScript so that HTML-like syntax can co-exist with JavaScript/React code. 
+	- The syntax is used by preprocessors (i.e., transpilers like babel) to transform HTML-like syntax into standard JavaScript objects 
+		that a JavaScript engine will parse.
+	- JSX provides you to write HTML/XML-like structures (e.g., DOM-like tree structures) in the same file where you write JavaScript code, 
+		then preprocessor will transform these expressions into actual JavaScript code. 
+	- Just like XML/HTML, JSX tags have a tag name, attributes, and children.
+	
+	###Example###
+	Here, we will write JSX syntax in JSX file and see the corresponding JavaScript code which transforms by preprocessor(babel).
+
+		<div>Hello JavaTpoint</div>  
+			Corresponding Output : 	React.createElement("div", null, "Hello JavaTpoint");  
+		
+		The above line creates a react element and passing three arguments inside where 
+		the first is the name of the element which is div, 
+		second is the attributes passed in the div tag, and 
+		last is the content you pass which is the "Hello JavaTpoint."
+		
+	###Why use JSX?
+		- It is faster than regular JavaScript because it performs optimization while translating the code to JavaScript.
+		- Instead of separating technologies by putting markup and logic in separate files, React uses components that contain both.
+		- It is type-safe, and most of the errors can be found at compilation time.
+		- It makes easier to create templates.
+	### In Detail ###	
+	-- https://www.javatpoint.com/react-jsx
+
+==================================================================================================================================	
+	
+12.Props : 
+	passed to the component
+	function parameters
+	immutable
+	props - Functional Component
+	this.props - Class Component
+	
+	### Theory ###
+		- Props stand for "Properties." 
+		- They are read-only components. 
+		- It is an object which stores the value of attributes of a tag and work similar to the HTML attributes. 
+		- It gives a way to pass data from one component to other components. It is similar to function arguments. 
+		- Props are passed to the component in the same way as arguments passed in a function.
+		
+		- Props are immutable so we cannot modify the props from inside the component.
+		- Inside the components, we can add attributes called props. 
+		- These attributes are available in the component as 'this.props' and can be used to render dynamic data in our render method.
+		
+		- When you need immutable data in the component, you have to add props to reactDom.render() method in the main.js file of your ReactJS project 
+			and used it inside the component in which you need. 
+		- It is not necessary to always add props in the reactDom.render() element.
+		- You can also set default props directly on the component constructor.
+		
+		https://www.javatpoint.com/react-props
+
+==================================================================================================================================	
+13. State : 
+	managed within the component
+	variables declared in the function body
+	can be changed
+	useState Hook - Functional Component --> new feature in React
+	this.state - Class Component
+
+eg. Message.js in hello-world1 project
+
+never modify the state directly -- react will not re-render the component -- use setState
+
+	### Theory ###
+		- The state is an updatable structure that is used to contain data or information about the component. 
+		- They are also responsible for making a component dynamic and interactive.
+		- It can be set by using the setState() method 
+		- calling setState() method triggers UI updates.
+		- It can only be accessed or modified inside the component or by the component directly
+		- To set an initial state before any interaction occurs, we need to use the getInitialState() method
+	
+	### Defining State ###
+		- To define a state, you have to first declare a default set of values for defining the component's initial state. 
+		- To do this, add a class constructor which assigns an initial state using 'this.state'
+		- The 'this.state' property can be rendered inside render() method.
+		- To set the state, it is required to call the super() method in the constructor. 
+		- It is because this.state is uninitialized before the super() method has been called.
+
+		https://www.javatpoint.com/react-state
+
+
+14. Destructing props and state 
+	ES6 Feature ->to unpack values from arrays
+	code readability
+	For functions
+	1. in function parameter
+	2. in function body --> const {var1, var2, ...} = props
+	For Class
+	3. In render() method --> const {var1, var2, ...} = this.props or this.state
+	
+	
+### Difference between State and Props
+	------------------------------------------------------------------------------------------------------------------------------------
+	||SN		Props										||			State                                                          ||
+	||1.	Props are read-only.							||	State changes can be asynchronous.                                     ||
+	||2.	Props are immutable.							||	State is mutable.                                                      ||
+	||3.	Props allow you to pass data from one component ||	State holds information about the components.                          ||
+	||		to other components as an argument.				||	                                                                       ||
+	||4.	Props can be accessed by the child component.	||	State cannot be accessed by child components.                          ||
+	||5.	Props are used to communicate between components||	States can be used for rendering dynamic changes with the component.   ||
+	||6.	Stateless component can have Props.				||	Stateless components cannot have State.                                ||
+	||7.	Props make components reusable.					||	State cannot make components reusable.                                 ||
+	||8.	Props are external and controlled by whatever 	||	The State is internal and controlled by the React Component itself.    ||
+	||		renders the component.                          ||                                                                         ||
+	------------------------------------------------------------------------------------------------------------------------------------
+==================================================================================================================================
+### Constructor ###
+		- The constructor is a method used to initialize an object's state in a class. 
+		- It automatically called during the creation of an object in a class.
+		- The constructor in a React component is called before the component is mounted. 
+		- When you implement the constructor for a React component, you need to call super(props) method before any other statement. 
+		- If you do not call super(props) method, this.props will be undefined in the constructor and can lead to bugs.
+		 Constructor(props){  
+			super(props);  
+			}  
+	https://www.javatpoint.com/react-constructor
+
+
+==================================================================================================================================
+15. Event Handling
+	- An event is an action that could be triggered as a result of the user action or system generated event. 
+	- For example, a mouse click, loading of a web page, pressing a key, window resizes, and other interactions are called events.
+
+	- React has its own event handling system which is very similar to handling events on DOM elements. 
+	- The react event handling system is known as Synthetic Events. 
+	- The synthetic event is a cross-browser wrapper of the browser's native event.
+
+
+
+==================================================================================================================================
+	
+16. Binding Event Handlers --> Note : Learn how "this" keyword works in JavaScript
+	1. Binding in render method
+	use "bind" keyword --> e.g.  onClick = {this.yourHandler.bind(this)}
+	2. Arrow Function
+	e.g. onClick = {() => this.yourHandler}
+
+17. Methods as props
+
+18. Conditional Rendering
+	let flag
+	1.IF-Else
+		if(flag) { return (<div> ... </div>) }
+			else { return (<div> ... </div>) }
+	Note : if-else dont work inside the JSX
+	
+	2. let message
+		if(flag) {message = <div> ... </div> }
+			else { message = <div> ... </div> }
+	return <div>{message}</div>
+
+	3. Ternary
+		return flag ? (<div> ...true..</div>) : (<div> ...false..</div>)
+
+	4. Short Circuit (either something or nothing)
+		return flag && <div>...true...</div>
+
+19. List Rendering
+	Note : Use map method of JS
+		e.g : var arr = [1,4,9,16]
+			const map1 = arr.map(x => x*2)
+			Expected output: Array [2,8,18,32]
+	
+	
+	In React we can transforming list into JSX
+		e.g. function NameList() {
+				const names = ['Bruce', 'clark', 'Diana']
+				const nameList = names.map(name => <h2>{name}</h2>)
+				return ()
+				<div>
+				{
+					{nameList}
+				}
+				</div>
+				)
+				
+		}
+
+==================================================================================================================================		
+20. Lists and Keys
+		Warning : Each child in an array or iterator should have a unique "key" prop
+		
+		e.g : const personList = persons.map(person => <Person key={person.id} person={person} />)
+		
+		Keys:
+		1. A "key" is a special string attribute you need to include when creating lists of elements.
+		2. Keys give the elements a stable identity
+		3.Keys help React identify which items have changed, are added, or are removed.
+		4. Help in efficient update of the user interface.
+		
+		
+21. Index as Key Anti-pattern
+		- Avoid to use index as key
+		
+		function NameList() {
+				const names = ['Bruce', 'clark', 'Diana']
+				const nameList = names.map((name, index) => <h2 key={index}>{name}</h2>)
+				return ()
+				<div>
+				{
+					{nameList}
+				}
+				</div>
+				)
+				
+		}
+		
+	https://codepen.io/gopinav/pen/gQpepq
+	
+22.  Styling and CSS Basics
+	1. CSS stylesheets	
+	2. Inline styling
+	3. CSS Modules
+	4. CSS in JS Library
+
+23. Form Handling Basics
+		Controlled Components :
+			constructor
+			onChange handler --> handler method --> set state
+			onSubmit handler --> event.preventDefault()
+
+==================================================================================================================================			
+24. Component Lifecycle Methods
+		1. Mounting
+				When an instance of a component is being created and inserted into the DOM	
+				Methods : 
+					1. constructor
+					2. static getDerivedStateFromProps
+					3. render
+					4. componentDidMount
+			
+		2. Updating
+				When a component is being re-rendered as a result of changes to either its props or state
+				Methods : 					
+					1. static getDerivedStateFromProps
+					2. shouldcomponentUpdate
+					3. render
+					4. getSnapshotBeforeUpdate
+					5. componentDidUpdate
+				
+		3. Unmounting
+				When a component is being removed from the DOM
+				Methods :
+					1. componentWillUnmount
+				
+		4. Error Handling
+				When there is an error during rendering, in a lifecycle method, or in the constructor of any child component
+				
+				Methods : 
+				1. static getDerivedStateFromError
+				2. componentDidCatch
+				
+25. Mounting Lifecycle Methods with order of execution
+
+	1. constructor(props)
+		1. A Special function that will get called whenever a new component is created
+			B. Initializing state
+		2. Binding the event handlers
+		4. Do not cause side effects EX: Http requests
+		5. super(props)
+		6. Directly overwrite this.state
+		
+	2. static getDerivedStateFromProps(props, state)
+		1. When the state of the component depends on changes in props over time
+		2. Set the state		
+		3. Do not cause side effects. Ex. Http requests
+		4. return new state or null
+		
+	3. render()
+		1. only required method
+		2. Read props & state and return JSX
+		3. Do not change state or interact with DOM or make ajax calls.
+		4. children components lifecycle methods are also executed.
+		
+	4. componentDidMount()
+		1. Invoked immediately after a component and all its children components have been rendered to the DOM
+		2. Cause side effects. Ex: Interact with DOM or perform any ajax calls to load data.
+		
+26. Updating Lifecycle Methods
+		1. static getDerivedStateFromProps(props, state)
+			1. Methods is called every time a component is re-rendered
+			2. Set the state
+			3. Do not cause side effects. Ex: Http requests
+		
+		2. shouldComponentUpdate(nextProps, nextState)
+			1.Dictates if the component should re-render or not
+			2. Performance optimization
+			3. Do not cause side effects. Ex: Http requests
+			        Calling the setState method
+		3. render() 
+			1. only required method
+			2. Read props & state and return JSX
+			3. Do not change state or interact with DOM or make ajax calls.
+			4. children components lifecycle methods are also executed.
+		4. getSnapshotBeforeUpdate(prevProps, prevState)
+			1. Called right before the changes from the virtual DOM are to be reflected in the DOM
+			2. Capture some information from the DOM'
+			3. Methods will either return null or return a value.
+			4. Returned value will be passed as the third parameter to next method i.e. componentDidUpdate
+		5. componentDidUpdate(prevProps, prevState, snapshot)
+			1. Called after the render is finished in the re-render cycles
+			2. Cause side effects
+			
+27. Unmounting Phase Method
+		1. componentWillUnmount()
+			1. Method is invoked immediately before a component is unmounted and destroyed.
+			2. Cancelling any network requests, removing event handlers, cancelling any subscriptions and also invalidatind timers.
+			3. Do not call the setState method.
+			
+28. Error Handling Phase Methods
+		# When there is an error either during rendering, in a lifecycle method, or in the constructor of any child component.
+		1. static getDerivedStateFromError(error)
+				The static method getDerivedStateFromError method is used to render a fallback UI after an error is thrown
+		2. componentDidCatch(error,info)
+				the componentDidCatch method is used to log the error information
+
+		
+29. Fragments
+		1. <React.Fragment>
+				<h1> ... </h1>
+				<p> ... </p>
+		</React.Fragment>
+		2. key attribute can only pass into React.Fragment
+		4. <> .... </> -- can not pass key attribute 
+
+==================================================================================================================================		
+30. Pure Components
+
+==================================================================================================================================
+31. Memo
+
+
+==================================================================================================================================
+33. Refs
+
+34. Refs with class components
+
+==================================================================================================================================
+35. Forwarding
+
+
+
+==================================================================================================================================
+36. Portal
+
+
+
+==================================================================================================================================
+37. Error Boundary
+
+	# A class component that implements either one or both of the lifecycle methods getDerivedStateFromError or componentDidCatch becomes an error boundary
+	
+	# The static method getDerivedStateFromError method is used to render a fallback UI after an error is thrown and the componentDidCatch method is used to log the error information.
+	
+	# Error boundaries are React components that catch JavaScript error in their child component tree, log those errors, and display a fall-back UI.
+	
+	# A class component becomes an Error Boundary by defining either or both of getDerivedStateFromError and componentDidCatch lifecycle methods.
+	
+	# The placement of the Error Boundary also matters as it controls if the entire app should have the fall-back UI or just the component causing the problem.
+	
+	# Provide a way to gracefully handle error in application code.
+		
+
+		
+==================================================================================================================================
+38. Higher Order Components
+
+39. Render Props
+
+40. Context
+
+
+==================================================================================================================================
+41. Http
+
+
+
+
+==================================================================================================================================
+42. React Hooks
+
+	Prerequisites : 
+		Basics of React
+		Functional and class components, props, state, etc.
+		
+	what are Hooks
+		-> Hooks are a new feature addition in React version 16.8 which allow you to use React features without having to write a class.
+		Ex: State of a component
+		-> Hooks dont work inside class
+		
+	Why Hooks
+		1. Understand how "this" keyword works in JavaScript
+		2. Remember to bind event handlers in class components
+		3. Classes dont minify very well and make hot reloading very unreliable
+		
+		4.There is no perticular way to reuse stateful component logic
+		5. HOC and render props pattern do address this problem
+		6. Makes the code harder to follow
+		7. There is a need to share stateful logic in a better way
+		
+		8. Create components for complex scenarios such as data fetching and subscribing to events
+		9. Related code is not recognized in one placement
+			EX: Data fetching - In componentDidMount and componentDidUpdate
+			EX : Event listeners - In componentDidMount and componentWillUnmount
+		10. Because of stateful logic - Cannot break components into smaller ones
+		
+	Note :
+			- React version 16.8 or higher
+			- Completely opt in 
+			- Hooks dont contains any breaking changes and the release is 100% backwards-compatible.
+			- Classes wont be removed from React
+			- Cant use Hooks inside of a class component
+			- Hooks dont replace your existing knowledge of React concepts
+			- Instead, Hooks provide a more direct API to the React concepts you already knowledge
+			
+	
+	Types : 
+		1. useState Hook
+			
+	
+==================================================================================================================================	
+
+		
+		
+				
+		
+		
+				
+	
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	
+	
+
+
+	
+	
+	
+
+	
+	
+ 

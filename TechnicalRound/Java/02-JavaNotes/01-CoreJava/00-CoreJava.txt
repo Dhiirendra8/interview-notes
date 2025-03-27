@@ -1,0 +1,78 @@
+# What is Java ? 
+	-> Java is a programming language and a platform. Java is a high level, robust, object-oriented and secure programming language.
+	-> Platform: Any hardware or software environment in which a program runs, is known as a platform. 
+		Since Java has a runtime environment (JRE) and API, it is called a platform.
+
+# History Of Java
+	-> Java was developed by Sun Microsystems (which is now the subsidiary of Oracle) in the year 1995. 
+	-> James Gosling is known as the father of Java. Before Java, its name was Oak. 
+	-> Since Oak was already a registered company, so James Gosling and his team changed the Oak name to Java.
+		
+# Features of Java
+	1. Platform Independent : Java is platform independent because it is different from other languages like C, C++, etc. which are compiled 
+		into platform specific machines while Java is a write once, run anywhere language
+	
+	2. Secured : Java is secured because - 
+		-> No explicit pointer
+		-> Java Programs run inside a virtual machine sandbox
+		-> Classloader: 
+			-> Classloader in Java is a part of the Java Runtime Environment(JRE) which is used to load Java classes into the JVM dynamically. 
+			-> It adds security by separating the package for the classes of the local file system from those that are imported from network sources.
+		-> Bytecode Verifier: It checks the code fragments for illegal code that can violate access right to objects.
+		-> Security Manager: It determines what resources a class can access such as reading and writing to the local disk.
+	
+	3. Robust : Robust simply means strong. Java is robust because -
+		-> It uses strong memory management.
+		-> There is a lack of pointers that avoids security problems.
+		-> There is automatic garbage collection in java which runs on the JVM to get rid of objects 
+			which are not being used by a Java application anymore.
+		-> There are exception handling and the type checking mechanism in Java
+		
+	4. Architecture-neutral : Java is architecture neutral because there are no implementation dependent features, 
+			-> for example, the size of primitive types are fixed.
+			-> In C programming, int data type occupies 2 bytes of memory for 32-bit architecture and 4 bytes of memory for 64-bit architecture. 
+				However, it occupies 4 bytes of memory for both 32 and 64-bit architectures in Java.
+				
+	5. Portable : Java is portable because it facilitates you to carry the Java bytecode to any platform. It doesn't require any implementation.
+	
+# Java OOPs Concepts
+	-> Object-oriented programming System(OOPs) is a programming paradigm based on the concept of “objects” that contain data and methods.
+	-> Object oriented programming brings together data and its behaviour(methods) in a single location(object) makes it easier to understand how a program works.
+	
+	1. Object : It is a basic unit of Object Oriented Programming and represents the real life entities.
+				A typical Java program creates many objects, which as you know, interact by invoking methods.
+				# An object consists of:
+				State : It is represented by attributes of an object. It also reflects the properties of an object.
+				Behavior : It is represented by methods of an object. It also reflects the response of an object with other objects.
+				Identity : It gives a unique name to an object and enables one object to interact with other objects.
+				Example of an object: dog
+					Identity : Name of dog
+					State or Attribute :  	Breed, Age, Color
+					Behaviors : Bark, Sleep, Eat
+					
+	2. Class : 
+		-> A class can be considered as a blueprint using which you can create as many objects as you like.
+		->  It represents the set of properties or methods that are common to all objects of one type.
+			
+	3. Abstraction : Abstraction is a process where you show only “relevant” data and “hide” unnecessary details of an object from the user.
+		-> For example, when you login to your bank account online, you enter your user_id and password and press login, 
+				what happens when you press login, how the input data sent to server, 
+				how it gets verified is all abstracted away from the you.
+			
+		-> In java, abstraction is achieved by interfaces and abstract classes. We can achieve 100% abstraction using interfaces.
+						
+			Advantages of Abstraction
+				-> It reduces the complexity of viewing the things.
+				-> Avoids code duplication and increases reusability.
+				-> Helps to increase security of an application or program as only important details are provided to the user.
+			
+	4. Encapsulation : Encapsulation simply means binding object state(fields) and behavior(methods) together. 
+		-> If you are creating class, you are doing encapsulation.
+		-> Encapsulation is data hiding(information hiding) while Abstraction is detail hiding(implementation hiding).
+			
+	5. Inheritance
+	
+	6. Pollymorphism
+	
+# 
+	

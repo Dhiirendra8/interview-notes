@@ -1,0 +1,203 @@
+Java-8 Features
+
+1. Lambda Expressions 
+2. Functional Interface 
+3. Default and Static Methods
+4. Predefined Functional Interfaces 
+5. Double Colon Operator (::)	
+6. Streams 
+7. Date and Time API  
+8. Optional Class 
+9. Nashorn JavaScript Engine
+10. Base64 Encode Decode
+11. forEach() method
+12. Collectors class
+13. StringJoiner class
+14. Parallel Array Sort
+15. Type Inference
+16. Parameter Reflection
+17. Type Annotations
+18. JDBC Improvements
+
+
+------------------------------------------------------
+1. Lambda Expressions :
+------------------------------
+1930
+LISP -> first language to use Lambda Expression
+Python, LISP, C, C++, Ruby, Scala etc already uses lambda expression
+------------------------------
+Objective : 
+	-> To bring benifits of Functional Programming into Java.
+	
+Definition :
+	-> It is an Anonymous Function (Nameless)
+	-> without return type
+	-> without modifiers (public, private, ...)
+	-> for single line curly brackets are not required 
+	-> for single line and without curly brackets, keyword return is not required
+	-> type of argument not required to mention
+	-> for one argument bracket is not required
+	
+	e.g : 1. n -> n*n;
+		  2. s -> s.length();
+		  3. (a,b)-> a+b;
+		  4. () -> System.out.println("Hello");
+		  5. list -> {
+			Integer sum = 0;
+			for(Integer l : list){
+				sum += l;
+			}
+			return sum;
+		  }
+		  
+-------------------------------------------------------------------------------------
+
+2.Functional Interfaces :
+-----------------------
+Definition :
+	-> Those Interfaces which contain Single Abstract Method (SAM)
+	-> e.g: Runnable => run()
+		   Callable => call()
+		   Comparable => compareTo()
+		   ActionListener => actionPerformed()
+		   
+	-> can have any number of Default and Static Methods
+	-> @FunctionalInterface can be used to create Functional Interface (Optional)
+
+-> Before Java 8, we had to create anonymous inner class objects or implement these interfaces.
+
+	// Java program to demonstrate functional interface 
+
+		class Test 
+		{ 
+			public static void main(String args[]) 
+			{ 
+				// create anonymous inner class object 
+				new Thread(new Runnable() 
+				{ 
+					@Override
+					public void run() 
+					{ 
+						System.out.println("New thread created"); 
+					} 
+				}).start(); 
+			} 
+		} 
+
+-> Using Lambda Expressions
+	Lambda expressions basically express instances of functional interfaces
+	Lambda expressions implement the only abstract function and therefore implement functional interfaces
+	
+	// Java program to demonstrate Implementation of 
+	// functional interface using lambda expressions 
+	
+		class Test 
+		{ 
+			public static void main(String args[]) 
+			{ 
+			
+				// lambda expression to create the object 
+				new Thread(()-> 
+				{System.out.println("New thread created");}).start(); 
+			} 
+		}
+
+
+
+---------------------------------------------------------------
+3. Default and Static Methods
+
+Default Methods : Default methods were introduced to provide backward compatibility for old interfaces 
+	so that they can have new methods without affecting existing code
+	
+	-> Java interface default methods will help us in extending interfaces without having the fear of breaking implementation classes.
+	-> Java interface default methods has bridge down the differences between interfaces and abstract classes.
+	-> Java 8 interface default methods will help us in avoiding utility classes, such as all the Collections class method can be provided in the interfaces itself.
+	-> Java interface default methods will help us in removing base implementation classes, we can provide default implementation and the implementation classes can chose which one to override.
+	-> One of the major reason for introducing default methods in interfaces is to enhance the Collections API in Java 8 to support lambda expressions.
+	-> If any class in the hierarchy has a method with same signature, then default methods become irrelevant. A default method cannot override a method from java.lang.Object. 
+		The reasoning is very simple, it's because Object is the base class for all the java classes. 
+		So even if we have Object class methods defined as default methods in interfaces, it will be useless because Object class method will always be used. 
+		That's why to avoid confusion, we can't have default methods that are overriding Object class methods.
+	-> Java interface default methods are also referred to as Defender Methods or Virtual extension methods.
+	
+Static Methods : 
+	-> Java interface static method is part of interface, we can't use it for implementation class objects.
+	-> Java interface static methods are good for providing utility methods, for example null check, collection sorting etc.
+	-> Java interface static method helps us in providing security by not allowing implementation classes to override them.
+	-> We can't define interface static method for Object class methods, we will get compiler error 
+		as “This static method cannot hide the instance method from Object”. This is because it's not allowed in java, since Object is the base class for all the classes and we can't have one class level static method and another instance method with same signature.
+	-> We can use java interface static methods to remove utility classes such as Collections and move all of it's static methods to the corresponding interface, that would be easy to find and use.
+
+
+---------------------------------------------------------------
+4. Predefined Functional Interfaces
+	-> Predicate --> boolean test(T t);
+	-> Function  --> R apply(T t);
+	-> Consumer  --> void accept(T t);
+	-> Supplier  --> R get();
+	
+	-> BiPredicate --> boolean test(T t, U u);
+	-> BiFunction  --> R apply(T t, U u);
+	-> BiConsumer  --> void accept(T t, U u);
+	
+	-> UnaryOperator  --> public T apply(T t)
+	-> BinaryOperator --> public T apply(T t, T t)
+---------------------------------------------------------------
+5. Double Colon Operator (::)
+	-> Method Reference
+	-> Constructor Reference
+	-> special type of lambda expression
+-> :: is used
+	ReferencedClassName::MethodName
+	e.g. Test::add
+-> arguments should be same
+-> 3 types 
+	1. Static methods
+		ReferencedClassName::MethodName;
+		e.g. Test::add;
+	2. Instance methods
+		new ReferencedClassName()::MethodName;
+		e.g. Test t = new Test();
+			t::add;
+	3. constructor
+		ReferencedClassName::new;
+
+---------------------------------------------------------------		
+6. Streams 
+
+---------------------------------------------------------------
+7. Date and Time API  
+
+
+---------------------------------------------------------------
+8. Optional Class 
+
+
+---------------------------------------------------------------
+9. Nashorn JavaScript Engine
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

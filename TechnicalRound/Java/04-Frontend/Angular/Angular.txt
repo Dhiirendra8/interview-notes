@@ -1,0 +1,31 @@
+#Angular
+
+#SPA : Single Page Application
+ - having only one html file
+ - only the content of web page changed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

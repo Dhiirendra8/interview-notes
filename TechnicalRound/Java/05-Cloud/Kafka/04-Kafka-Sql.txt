@@ -1,0 +1,37 @@
+
+1. What is KSQL, and what is its purpose?
+   - KSQL is an open-source streaming SQL engine for Apache Kafka. 
+   It provides a SQL-like language for querying, analyzing, and processing data streams in real-time. 
+   KSQL simplifies stream processing tasks by allowing developers to express complex stream processing logic using familiar SQL syntax.
+
+2. How does KSQL differ from traditional SQL?
+   - While KSQL syntax resembles traditional SQL, it is optimized for stream processing tasks and includes additional constructs for working with unbounded data streams. 
+   KSQL supports windowing operations, aggregations over time-based windows, and joins between streams and tables, which are not typically supported in traditional SQL.
+
+3. What are the key components of a KSQL application?
+- A KSQL application consists of several key components, including:
+    - KSQL Server: The main processing engine that executes KSQL queries and manages the lifecycle of KSQL applications.
+    - KSQL CLI: The command-line interface for interacting with the KSQL Server and executing KSQL queries.
+    - Kafka Topics: The data streams that are queried and processed using KSQL.
+    - Tables: Materialized views of Kafka topics that represent the current state of the data stream at a specific point in time.
+
+4. What types of operations can you perform with KSQL?
+- With KSQL, you can perform a wide range of stream processing operations, including:
+   - Filtering: Selecting specific records from a stream based on a predicate.
+   - Projection: Selecting specific fields or columns from a stream.
+   - Aggregation: Computing aggregate statistics (e.g., sum, count, average) over a window of records.
+   - Joins: Combining records from multiple streams or tables based on a common key.
+   - Windowing: Grouping records into fixed-size or time-based windows for aggregation.
+
+5. How do you handle stateful stream processing in KSQL?
+   - KSQL provides built-in support for stateful stream processing through the use of windowed aggregations and joins. 
+   By defining windowed aggregations and joins, KSQL applications can maintain and update state over time based on the data stream's contents.
+
+6. What is the role of Kafka Connect in a KSQL application?
+   - Kafka Connect is used to ingest data from external systems into Kafka topics, which can then be queried and processed using KSQL. 
+   Kafka Connect provides connectors for integrating Kafka with databases, file systems, message queues, and other data sources, enabling seamless integration with KSQL applications.
+
+7. How do you monitor and manage KSQL applications?
+   - KSQL provides built-in monitoring and management capabilities through the KSQL Server and KSQL CLI. 
+   Administrators can use the CLI to monitor query execution, view query results, and manage the lifecycle of KSQL applications. 
+   Additionally, KSQL integrates with monitoring tools like Confluent Control Center for more advanced monitoring and management features.

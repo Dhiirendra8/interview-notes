@@ -1,0 +1,31 @@
+1. What does start() function do in multithreading in Java?
+-The purpose of start() is to create a separate call stack for the thread. A separate call stack is created by it, and then run() is called by JVM.
+
+2. Sleep vs wait() method. What will happen if wait() is called from message method [Class A { void message(){ wait();} }]
+
+3. Start the same thread twice ? – java.lang.IllegalThreadStateException
+
+4. What does start() function do in multithreading in Java?
+The purpose of start() is to create a separate call stack for the thread. A separate call stack is created by it, and then run() is called by JVM.
+
+Can we start a thread twice
+No. After starting a thread, it can never be started again. If you does so, an java.lang.IllegalThreadStateException is thrown. In such case, thread will run once but for second time, it will throw exception.
+
+
+What if we call run() method directly instead start() method?
+does not start a separate call stack 
+
+
+JVM doesn’t wait for daemon thread to finish but it waits for User Thread .
+For example, one might have noticed this behavior while running Java program in NetBeans that even if the main thread has finished, 
+the top left down button is still red, showing that Java program is still running. This is due to any user thread spawned from the main thread, 
+but with main thread one don’t see that red dot in NetBeans.
+
+Thread Priority : The User threads are high priority as compare to daemon thread means they won’t get CPU as easily as a user thread can get.
+Creation of Thread : User thread is usually created by the application for executing some task concurrently. On the other hand, 
+daemon thread is mostly created by JVM like for some garbage collection job.
+Termination of Thread : JVM will force daemon thread to terminate if all user threads have finished their execution but 
+The user thread is closed by application or by itself. A user thread can keep running by the JVM running but 
+a daemon thread cannot keep running by the JVM. This is the most critical difference between user thread and daemon thread.
+Usage : The daemons threads are not used for any critical task. Any important task is done by user thread. 
+A daemon thread is generally used for some background tasks which are not critical task.

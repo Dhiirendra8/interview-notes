@@ -1,0 +1,69 @@
+Thread Group : Group of threads , we can keen into singular unit.
+- Based on functionality we can keep threads into single unit, called thread group
+
+Sub Thread Group : Thread Group also contains Sub-Thread-Groups
+
+Advantage - 
+	- We can perform common operations easily
+	
+- Every thread in java belongs to some thread group
+- main thread belongs to main Thread Group
+ Thread.currentThread().getThreadGroup().getName()
+ 
+- Every thread group in java is child group of system Thread Group either directly or indirectly
+	
+	Thread.currentThread().getThreadGroup().getParent().getName()
+	
+- System group contains several System level threads like finalizer, Reference Handler, Signal Dispatcher, Attach Listener ... etc
+
+
+How to create Thread Group : 
+	- ThreadGroup is a java class and direct child of Object Class, present in java.lang package
+	- Constructors : 
+		1. ThreadGroup g = new ThreadGroup(String groupName);
+			e.g ThreadGroup g1 = new ThreadGroup("First Group")
+			- It creates a new group thrad with the specified group name
+			- This group will be child group of that group in which this line is executed
+			- So the parent of this new group is the thread group of curretly excuting thread
+		
+		2. ThreadGroup g = new ThreadGroup(ThreadGroup ParentGroup, String groupName);
+			e.g. ThreadGroup g2 = new ThreadGroup(g1, "Second Group")
+			- It creates a new thread group with the specified group name
+			- The parent of this new thread group is specified parent group
+			
+			
+Methods of ThreadGroup class : 
+	1. String getName() - returns name of the thread group
+	2. int getMaxPriority() - return max priority of thread group
+	3. void setMaxPriority() - to set max priority of thread group, default max priority is 10, thread in the thread group that already have higher priority (default is 5) wont be effected but newly added threads this max priority is applicable
+		ThreadGroup g1 = new ThreadGroup("tg");
+		Thread t1 = new Thread(g1, "First");
+		Thread t2 = new Thread(g1, "Second");
+		g1.setMaxPriority(3);
+		Thread t3 = new Thread(g1, "Third");
+		System.out.println(t1.getPriority()); //5
+		System.out.println(t2.getPriority()); //5
+		System.out.println(t3.getPriority()); //3
+		
+		Output:
+		5
+		5
+		3
+	
+	
+	4. ThreadGroup getParent() - return parent group of current thread
+	5. void list() - prints info about threadgroup to console
+	6. int activeCount() - returns no. of active threads present in Thread Group
+	7. int activeGroupCount() -  returns no. of active groups present in current thread group
+	8. int enumerate(Thread[] t) - to copy all active threads of current thread group into provided thread array and in this case sub-group threads also will be considered
+	9. int enumerate(ThreadGroup[] g) - to copy all active sub-thread groups into thread group array 
+	10. boolean isDaemon() - to check thread group is daemon or not
+	11. void setDaemon() - 
+	12. void interrupt() - to interrupt all waiting or sleeping threads present in thread group
+	13. void destroy() - to destroy thread group and its sub-thread groups
+	
+--------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------
+
+
+	
