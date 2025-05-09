@@ -76,6 +76,177 @@ The SOLID principle was introduced by Robert C. Martin, also known as Uncle Bob 
     So we can say that the TV remote is loosely coupled with the brand name. 
 -> Dependency Inversion makes your code more reusable.
 
+----------------------------------------------------------------------------------------------------------
+The **SOLID principles** are five core object-oriented design principles that make software **easier to understand, maintain, and extend**. They help avoid tightly coupled code, reduce bugs, and encourage cleaner architecture.
+
+---
+
+## 🔠 SOLID Acronym
+
+| Letter | Principle                                 | Purpose                                                                                            |
+| ------ | ----------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **S**  | **Single Responsibility Principle (SRP)** | One class should have **one and only one reason to change**.                                       |
+| **O**  | **Open/Closed Principle (OCP)**           | Software entities should be **open for extension but closed for modification**.                    |
+| **L**  | **Liskov Substitution Principle (LSP)**   | Subclasses should be **substitutable for their base classes** without altering correctness.        |
+| **I**  | **Interface Segregation Principle (ISP)** | Clients should not be forced to depend on **interfaces they do not use**.                          |
+| **D**  | **Dependency Inversion Principle (DIP)**  | High-level modules should not depend on low-level modules; both should depend on **abstractions**. |
+
+---
+
+## 🔍 Details + Java Example for Each
+
+---
+
+### 1. **S — Single Responsibility Principle**
+
+📌 A class should do **one thing**, and do it well.
+
+❌ **Bad**:
+
+```java
+class Invoice {
+    void calculateTotal() { ... }
+    void printInvoice() { ... }
+    void saveToDatabase() { ... }
+}
+```
+
+✅ **Good**:
+
+```java
+class InvoiceCalculator { void calculateTotal() { ... } }
+class InvoicePrinter { void print(Invoice i) { ... } }
+class InvoiceRepository { void save(Invoice i) { ... } }
+```
+
+---
+
+### 2. **O — Open/Closed Principle**
+
+📌 You should be able to **add new behavior without modifying existing code**.
+
+✅ Use **inheritance** or **interfaces**:
+
+```java
+interface Shape { double area(); }
+
+class Circle implements Shape { double area() { ... } }
+class Rectangle implements Shape { double area() { ... } }
+
+// New shape? Just implement Shape — no need to modify existing logic
+```
+
+---
+
+### 3. **L — Liskov Substitution Principle**
+
+📌 A derived class must be usable in place of its base class **without breaking the app**.
+
+❌ **Violation**:
+
+```java
+class Bird { void fly() { ... } }
+class Ostrich extends Bird { void fly() { throw new UnsupportedOperationException(); } }
+```
+
+✅ **Fix**: Use better hierarchy:
+
+```java
+interface Bird { }
+interface FlyingBird extends Bird { void fly(); }
+class Sparrow implements FlyingBird { ... }
+class Ostrich implements Bird { ... }
+```
+
+---
+
+### 4. **I — Interface Segregation Principle**
+
+📌 Don’t force clients to implement **unused methods**.
+
+❌ **Bad**:
+
+```java
+interface Machine {
+    void print(); void scan(); void fax();
+}
+class Printer implements Machine {
+    void print() { ... }
+    void scan() { throw new UnsupportedOperationException(); }
+}
+```
+
+✅ **Good**:
+
+```java
+interface Printer { void print(); }
+interface Scanner { void scan(); }
+```
+
+---
+
+### 5. **D — Dependency Inversion Principle**
+
+📌 Depend on **abstractions**, not concrete implementations.
+
+❌ **Bad**:
+
+```java
+class ReportService {
+    MySQLDatabase db = new MySQLDatabase();
+}
+```
+
+✅ **Good**:
+
+```java
+interface Database { void save(); }
+class MySQLDatabase implements Database { ... }
+class ReportService {
+    private Database db;
+    ReportService(Database db) { this.db = db; }
+}
+```
+
+---
+
+### ✅ Benefits of SOLID
+
+* Easier to **test** and **maintain**
+* Reduces **tight coupling**
+* Encourages **clean architecture**
+* Scales better with growing codebases
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

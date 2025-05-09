@@ -95,3 +95,104 @@ It has these five enumerations in Spring: DEFAULT, READ_UNCOMMITTED, READ_COMMIT
 	It prevents all mentioned concurrency side effects, but can lead to the lowest concurrent access rate 
 		because it executes concurrent calls sequentially.
 	In other words, concurrent execution of a group of serializable transactions has the same result as executing them in serial.
+	
+---------------------
+Great question! Let’s explore the **Spring AOP limitation** with `@Transactional`, and then I’ll give you a practical example with rollback and isolation in a Spring Boot REST setup.
+
+---
+
+## ⚠️ Why is `@Transactional` only effective on public methods? — **Spring AOP Limitation**
+
+### 📌 Reason: Spring uses **proxy-based AOP** by default
+
+When you annotate a method with `@Transactional`, Spring wraps the **bean** with a proxy that adds **transaction management logic**.
+
+### 🧱 How it works:
+
+* A proxy intercepts calls **from outside** the bean
+* The proxy starts and commits/rolls back the transaction
+* But **internal method calls** (i.e., `this.someTransactionalMethod()`) **bypass the proxy**
+
+---
+
+### ❌ Example That Won’t Work:
+
+```java
+@Service
+public class OrderService {
+    
+    @Transactional  // this won't take effect
+    private void internalTransaction() {
+        // No transaction here!
+    }
+
+    public void process() {
+        internalTransaction();  // direct call, bypasses proxy
+    }
+}
+```
+
+### ✅ Correct Usage:
+
+```java
+@Service
+public class OrderService {
+
+    @Transactional
+    public void externalTransaction() {
+        // This will be intercepted by Spring proxy
+    }
+
+    public void process() {
+        externalTransaction(); // this works only if called from another bean
+    }
+}
+```
+
+Or better: move transactional logic to a separate **helper/service class** so that proxying works.
+
+---
+
+## ✅ Now, a Spring Boot Example
+
+Let’s say we want to:
+
+* Save an order
+* Deduct inventory
+* Roll back if payment fails
+* Use `Isolation.READ_COMMITTED`
+
+### Service Layer
+
+```java
+@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepo;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+    public void placeOrder(Order order) throws Exception {
+        orderRepo.save(order);
+        inventoryService.reduceStock(order.getProductId(), order.getQuantity());
+
+        // This might throw an exception (e.g. card declined)
+        paymentService.charge(order);
+    }
+}
+```
+
+### What Happens:
+
+* If `paymentService.charge()` throws an exception, the **entire transaction rolls back**
+* Inventory is **not reduced**
+* Order is **not saved**
+
+
+

@@ -1,0 +1,19 @@
+### Apache Camel
+- Camel is a black box that receives messages from some endpoint and sends it to another one. 
+	Within the black box, the messages may be processed or simply redirected.
+- It is a message-oriented middleware that provides rule-based routing and mediation engine
+- Camel supports the Message Endpoint from the EIP patterns using the Endpoint interface.
+	Enterprise Integration Patterns: https://camel.apache.org/components/next/eips/enterprise-integration-patterns.html
+	Message Endpoint: https://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageEndpoint.html
+	Endpoint interface: https://www.javadoc.io/doc/org.apache.camel/camel-api/latest/org/apache/camel/Endpoint.html
+	
+##Architecture
+- The Camel architecture consists 3 components − Integration Engine and Router, Processors, and Components.
+	#Components: 
+		- The Components module provides an Endpoint interface to the external world. 
+		- The Endpoints are specified by URIs, such as file:/order and jms:orderQueue
+	#Processors: 
+		- The Processors module is used for manipulating and mediating messages between Endpoints
+	#Integration Engine and Router: 
+		- The Processors and Endpoints are wired together in Integration Engine and Router module using DSLs. 
+		- While wiring these, you may use filters to filter messages based on user-defined criteria

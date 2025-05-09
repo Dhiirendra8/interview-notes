@@ -1,0 +1,90 @@
+Kafka Rebalancing
+
+**Rebalancing** in Apache Kafka is the process of **redistributing partition assignments among consumer group members** when the group changes.
+
+---
+
+## 🔄 What Triggers Rebalancing?
+
+A **consumer group** rebalances when:
+
+1. A **new consumer joins** the group.
+2. An **existing consumer leaves** or crashes.
+3. **Topic partitions** change (e.g., a new partition is added).
+4. Kafka **coordinator detects a heartbeat timeout**.
+
+---
+
+## 🔁 What Happens During Rebalancing?
+
+1. Kafka **revokes partition assignments** from all consumers.
+2. The **group coordinator** recalculates new assignments.
+3. Partitions are **redistributed among available consumers**.
+4. Consumers are notified of their **new assignments** and begin consuming.
+
+> ⚠️ During rebalancing, **no messages are consumed**—this causes a **pause** in processing.
+
+---
+
+### 👥 Example
+
+**Before rebalance:**
+
+| Partition | Consumer |
+| --------- | -------- |
+| 0         | C1       |
+| 1         | C2       |
+
+**C2 crashes → rebalance happens**
+
+**After rebalance:**
+
+| Partition | Consumer |
+| --------- | -------- |
+| 0         | C1       |
+| 1         | C1       |
+
+---
+
+## 🧠 Why Is Rebalancing Important?
+
+* Ensures **load balancing** across consumers.
+* Maintains **fault tolerance**—reassigns partitions if a consumer dies.
+* Supports **elastic scaling**—new consumers can join at runtime.
+
+---
+
+## ⚙️ How to Optimize Rebalancing
+
+| Technique                                                   | Description                                                            |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `session.timeout.ms`                                        | Tune to control how fast Kafka detects dead consumers.                 |
+| `heartbeat.interval.ms`                                     | Keep small to detect failures quickly, but avoid too frequent.         |
+| `max.poll.interval.ms`                                      | Increase this for slow-processing consumers to avoid being kicked out. |
+| **Cooperative Rebalancing**                                 | Reduces downtime by avoiding full revocation. Enabled via:             |
+| `partition.assignment.strategy = CooperativeStickyAssignor` |                                                                        |
+
+---
+
+## 🔧 Types of Assignors
+
+Kafka uses a **partition assignment strategy** to decide which consumer gets what:
+
+| Strategy                    | Behavior                                                      |
+| --------------------------- | ------------------------------------------------------------- |
+| `RangeAssignor`             | Assigns consecutive partitions.                               |
+| `RoundRobinAssignor`        | Distributes partitions evenly.                                |
+| `StickyAssignor`            | Tries to **minimize movement**.                               |
+| `CooperativeStickyAssignor` | Minimizes disruption + supports **incremental rebalancing** ✅ |
+
+---
+
+## 📌 Summary
+
+* **Rebalancing** ensures each partition has a consumer.
+* It’s **automatic** but causes **temporary disruption**.
+* Use **cooperative assignment** to minimize downtime.
+
+---
+
+Would you like a diagram showing how rebalancing works step-by-step?

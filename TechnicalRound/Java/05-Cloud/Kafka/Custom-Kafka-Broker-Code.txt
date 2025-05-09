@@ -1,0 +1,160 @@
+Creating a **custom message broker** (similar to Kafka) from scratch in Java is a **complex task**, but I can show you a **very simplified prototype** that demonstrates:
+
+* A **broker** that holds messages in memory.
+* A **producer** that sends messages to the broker.
+* A **consumer** that polls messages from the broker.
+
+---
+
+## 🧠 Concept Overview
+
+* **Broker**: Holds topics, each with a list of messages.
+* **Producer**: Sends messages to a topic.
+* **Consumer**: Subscribes to a topic and receives messages.
+
+> ⚠️ This is for **educational/demo purposes** only — it lacks durability, scalability, replication, fault tolerance, etc.
+
+---
+
+## 📦 1. `CustomBroker.java`
+
+```java
+import java.util.*;
+import java.util.concurrent.*;
+
+public class CustomBroker {
+    private final Map<String, BlockingQueue<String>> topics = new ConcurrentHashMap<>();
+
+    public void createTopic(String topic) {
+        topics.putIfAbsent(topic, new LinkedBlockingQueue<>());
+    }
+
+    public void send(String topic, String message) {
+        BlockingQueue<String> queue = topics.get(topic);
+        if (queue != null) {
+            queue.add(message);
+        } else {
+            throw new RuntimeException("Topic " + topic + " does not exist.");
+        }
+    }
+
+    public String poll(String topic) {
+        BlockingQueue<String> queue = topics.get(topic);
+        if (queue != null) {
+            return queue.poll(); // non-blocking
+        } else {
+            throw new RuntimeException("Topic " + topic + " does not exist.");
+        }
+    }
+}
+```
+
+---
+
+## 🚀 2. `CustomProducer.java`
+
+```java
+public class CustomProducer {
+    private final CustomBroker broker;
+
+    public CustomProducer(CustomBroker broker) {
+        this.broker = broker;
+    }
+
+    public void send(String topic, String message) {
+        broker.send(topic, message);
+        System.out.println("Produced: " + message);
+    }
+}
+```
+
+---
+
+## 📥 3. `CustomConsumer.java`
+
+```java
+public class CustomConsumer implements Runnable {
+    private final CustomBroker broker;
+    private final String topic;
+
+    public CustomConsumer(CustomBroker broker, String topic) {
+        this.broker = broker;
+        this.topic = topic;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            String message = broker.poll(topic);
+            if (message != null) {
+                System.out.println("Consumed: " + message);
+            }
+            try {
+                Thread.sleep(100); // simulate polling delay
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+    }
+}
+```
+
+---
+
+## 🧪 4. `Main.java`
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        CustomBroker broker = new CustomBroker();
+        String topic = "test-topic";
+
+        broker.createTopic(topic);
+
+        CustomProducer producer = new CustomProducer(broker);
+        CustomConsumer consumer = new CustomConsumer(broker, topic);
+
+        Thread consumerThread = new Thread(consumer);
+        consumerThread.start();
+
+        for (int i = 1; i <= 5; i++) {
+            producer.send(topic, "Message " + i);
+        }
+
+        try {
+            Thread.sleep(1000); // allow consumer to process
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        consumerThread.interrupt();
+    }
+}
+```
+
+---
+
+### ✅ Output Example:
+
+```
+Produced: Message 1
+Produced: Message 2
+Produced: Message 3
+Produced: Message 4
+Produced: Message 5
+Consumed: Message 1
+Consumed: Message 2
+Consumed: Message 3
+Consumed: Message 4
+Consumed: Message 5
+```
+
+---
+
+### 🧰 Notes:
+
+* This is **in-memory only** — messages vanish when app shuts down.
+* No acknowledgment, offset, partitions, etc.
+* Meant to **demonstrate architecture**, not replace Kafka.
+
+Would you like to extend this to support multiple consumers or disk persistence?

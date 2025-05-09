@@ -10,3 +10,25 @@
 -> On the basis of how many clock cycles the objects have survived, objects are grouped and are allocated an ‘age’ accordingly. 
 -> This way the garbage collection work gets distributed.
 -> In the current scenario, all garbage collectors are generational, and hence, optimal.
+
+
+
+-----------------------------------
+Differnt Garbage collector algorithms supported by JVM
+1. Serial GC
+2. Parallel GC (Throughput GC)
+3. CMS (Concurrent Mark-Sweep) GC
+4. G1(Garbage First) GC - Default
+5. Z GC (ZGC)
+6. Epsilon GC (No-Op GC)
+
+
+
+
+
+
+
+
+
+
+

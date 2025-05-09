@@ -1,0 +1,215 @@
+Here's a breakdown of **commonly used Kafka Streams DSL methods** such as `map`, `flatMap`, `groupBy`, `windowedBy`, and others — including **what they do**, **when to use them**, and **key examples**:
+
+---
+
+## 🧩 1. `map()`
+
+### 🔹 Purpose:
+
+Transforms **each record’s key and value**.
+
+```java
+KStream<String, String> transformed = stream.map((key, value) -> KeyValue.pair(key.toUpperCase(), value + "-suffix"));
+```
+
+✅ Use when you want to **transform key or value** for each record.
+
+---
+
+## 🧩 2. `mapValues()`
+
+### 🔹 Purpose:
+
+Transforms **only the value** (key remains the same).
+
+```java
+KStream<String, Integer> lengths = stream.mapValues(value -> value.length());
+```
+
+✅ Use when **key must be preserved** and only value is modified.
+
+---
+
+## 🧩 3. `flatMap()`
+
+### 🔹 Purpose:
+
+For **one-to-many mapping** of key-value pairs.
+
+```java
+KStream<String, String> expanded = stream.flatMap(
+    (key, value) -> List.of(
+        KeyValue.pair(key, value.toLowerCase()),
+        KeyValue.pair(key, value.toUpperCase())
+    )
+);
+```
+
+✅ Use when **1 record → multiple records**.
+
+---
+
+## 🧩 4. `flatMapValues()`
+
+### 🔹 Purpose:
+
+For **one-to-many value mapping** (key is unchanged).
+
+```java
+KStream<String, String> words = stream.flatMapValues(value -> Arrays.asList(value.split("\\W+")));
+```
+
+✅ Useful for tokenizing strings, like splitting sentences into words.
+
+---
+
+## 🧩 5. `filter()` and `filterNot()`
+
+```java
+KStream<String, String> filtered = stream.filter((key, value) -> value.length() > 5);
+```
+
+✅ Filters records based on a predicate.
+
+---
+
+## 🧩 6. `groupByKey()` and `groupBy()`
+
+### 🔹 Purpose:
+
+Prepares a stream for aggregation (e.g., `count`, `reduce`, `aggregate`).
+
+```java
+KGroupedStream<String, String> grouped = stream.groupByKey();
+```
+
+```java
+KGroupedStream<String, String> grouped = stream.groupBy((key, value) -> value.toLowerCase());
+```
+
+✅ Group records by key (or new key derived from value).
+
+---
+
+## 🧩 7. `windowedBy()`
+
+### 🔹 Purpose:
+
+Used with **grouped streams** to define time windows for aggregation.
+
+```java
+TimeWindows windows = TimeWindows.ofSizeWithNoGrace(Duration.ofMinutes(5));
+KTable<Windowed<String>, Long> counts = grouped.windowedBy(windows).count();
+```
+
+✅ Required when you want **rolling or tumbling aggregations** over time.
+
+---
+
+## 🧩 8. `reduce()`, `count()`, `aggregate()`
+
+### 🔹 Purpose:
+
+Aggregate grouped/ windowed streams.
+
+```java
+grouped.count(); // Count per group
+
+grouped.reduce((agg, newVal) -> agg + newVal); // Reduce
+
+grouped.aggregate(
+    () -> "", // initializer
+    (key, value, agg) -> agg + value, // aggregator
+    Materialized.as("state-store-name")
+);
+```
+
+---
+
+## 🧩 9. `to()`
+
+### 🔹 Purpose:
+
+Sends the output of a stream to a Kafka topic.
+
+```java
+stream.to("output-topic");
+```
+
+---
+
+## 🧩 10. `through()`
+
+### 🔹 Purpose:
+
+Writes to a topic and **continues processing** from it.
+
+```java
+KStream<String, String> processed = stream.through("intermediate-topic");
+```
+
+✅ Use for **repartitioning** or **persisting intermediate data**.
+
+---
+
+## 🧩 11. `join()` / `leftJoin()` / `outerJoin()`
+
+Joins between KStreams, KTables, GlobalKTables.
+
+```java
+stream.join(otherStream,
+    (value1, value2) -> value1 + "-" + value2,
+    JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofMinutes(5))
+);
+```
+
+✅ Used to enrich or combine data from multiple topics.
+
+---
+
+## 🧩 12. `peek()`
+
+### 🔹 Purpose:
+
+Like `forEach`, but non-terminal — for **debugging/logging**.
+
+```java
+stream.peek((key, value) -> log.info("Key: {}, Value: {}", key, value));
+```
+
+---
+
+## 🧩 13. `branch()`
+
+### 🔹 Purpose:
+
+Split stream into multiple branches based on predicates.
+
+```java
+KStream<String, String>[] branches = stream.branch(
+    (key, value) -> value.contains("A"),
+    (key, value) -> value.contains("B")
+);
+```
+
+---
+
+## ✅ Summary Table
+
+| Method          | Description                    | Terminal? | Example Use Case              |
+| --------------- | ------------------------------ | --------- | ----------------------------- |
+| `map`           | Change key & value             | ❌         | Format transformation         |
+| `mapValues`     | Change value only              | ❌         | Text preprocessing            |
+| `flatMapValues` | 1-to-many values               | ❌         | Split sentences into words    |
+| `filter`        | Keep matching records          | ❌         | Ignore short messages         |
+| `groupBy`       | Group by new key               | ❌         | Aggregate by category         |
+| `windowedBy`    | Apply time window              | ❌         | Sliding/tumbling aggregations |
+| `count`         | Count per group                | ✅         | Word count                    |
+| `to`            | Send to topic                  | ✅         | Output sink                   |
+| `through`       | Write and re-read topic        | ❌         | Repartitioning                |
+| `peek`          | Log/inspect                    | ❌         | Debugging                     |
+| `join`          | Join with another stream/table | ❌         | Enrichment                    |
+
+---
+
+Would you like code examples for each of these in a running Kafka Streams app?

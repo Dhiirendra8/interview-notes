@@ -1,0 +1,7 @@
+Java 14:
+records
+
+
+Java 17: 
+1. Sealed Classes/interfaces in com.modernjava.sealed package
+    - allow Inheritance by permission

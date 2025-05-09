@@ -1,0 +1,90 @@
+enable.auto.commit
+max.poll.interval.ms
+max.poll.records
+fetch.min.byte
+fetch.max.bytes
+session.timeout.ms
+heartbeat.interval.ms
+at-most-once, at-least-once, exactly-once
+
+==================================================
+These are key **Kafka consumer configurations** and delivery semantics that control **how a Kafka consumer behaves** during polling, committing offsets, and ensuring message delivery guarantees. Here's a clear explanation of each:
+
+---
+
+## 🔧 Kafka Consumer Configuration Properties
+
+### 1. `enable.auto.commit`
+
+* **What it does**: Automatically commits offsets back to Kafka.
+* **Default**: `true`
+* **When to set to `false`**: When you want **manual offset commit** for more control (e.g., after successful processing).
+* ✅ **Set to `false` for at-least-once or exactly-once processing**.
+
+---
+
+### 2. `max.poll.interval.ms`
+
+* **What it does**: Maximum time between two poll() calls. If exceeded, the consumer is considered dead and **triggers a rebalance**.
+* **Default**: `300000` ms (5 minutes)
+* 📌 Increase this if your processing takes longer than default.
+
+---
+
+### 3. `max.poll.records`
+
+* **What it does**: Maximum number of records returned in a single `poll()` call.
+* **Default**: `500`
+* 🔧 Tuning tip: Lower for low-latency systems, higher for batch processing.
+
+---
+
+### 4. `fetch.min.bytes`
+
+* **What it does**: Minimum amount of data the broker should send before responding to a fetch request.
+* **Default**: `1` byte
+* 📌 Increase to improve throughput, decrease for low-latency reads.
+
+---
+
+### 5. `fetch.max.bytes`
+
+* **What it does**: Max amount of data the consumer will fetch per partition **per request**.
+* **Default**: `50MB`
+* 📌 Use to limit memory usage per consumer fetch.
+
+---
+
+### 6. `session.timeout.ms`
+
+* **What it does**: Time within which the consumer must send heartbeats to the broker; otherwise, it's considered dead.
+* **Default**: `10,000` ms
+* 🔁 Must be greater than `heartbeat.interval.ms`.
+
+---
+
+### 7. `heartbeat.interval.ms`
+
+* **What it does**: Interval at which the consumer sends heartbeats to the broker.
+* **Default**: `3000` ms
+* 📌 Should be lower than `session.timeout.ms`, typically 1/3rd of it.
+
+---
+
+## 🔁 Kafka Delivery Semantics
+
+| Semantic          | Offset Commit Timing       | Possibility of Reprocessing | Use Case                          |
+| ----------------- | -------------------------- | --------------------------- | --------------------------------- |
+| **At-most-once**  | Before processing          | ❌ No                        | Logging, where duplicates are bad |
+| **At-least-once** | After processing (manual)  | ✅ Yes                       | Default and safer                 |
+| **Exactly-once**  | Coordinated commit & write | ❌ No                        | Financial transactions, counters  |
+
+### ✅ Summary:
+
+* **At-most-once**: `enable.auto.commit = true`, commit before processing.
+* **At-least-once**: `enable.auto.commit = false`, commit manually after success.
+* **Exactly-once**: Needs Kafka transaction support (`isolation.level=read_committed`) and idempotent producers.
+
+---
+
+Would you like a visual diagram or code example showing how these fit together in a Spring Boot Kafka consumer?

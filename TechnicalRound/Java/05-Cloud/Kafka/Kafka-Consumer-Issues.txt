@@ -1,0 +1,166 @@
+Kafka consumers can run into various issues that affect **performance, reliability, and correctness** of message processing. 
+Here's a comprehensive breakdown of the **most common Kafka consumer issues**, what causes them, and how to mitigate them:
+
+1. Consumer Lag
+2. Frequent Rebalancing
+3. Duplicate Processing
+4. Message Loss
+5. Thread Safety Issues
+6. Offset Commit Failures
+7. `max.poll.interval.ms` Violations
+8. Deserialization Errors
+9. Backpressure and Resource Starvation
+10. Lack of Observability
+
+---
+
+## 🚫 1. **Consumer Lag**
+
+* **What**: The consumer is not keeping up with the rate at which messages are produced.
+* **Symptoms**: Messages pile up in partitions, increasing delay.
+* **Causes**:
+  * Slow message processing
+  * Too few consumers
+  * Heavy downstream systems (e.g., DB writes)
+* **Fixes**:
+  * Scale consumers horizontally
+  * Batch processing
+  * Tune `max.poll.records`, `fetch.min.bytes`
+
+---
+
+## 🔄 2. **Frequent Rebalancing**
+
+* **What**: Kafka reassigns partition ownership across consumers too often.
+* **Symptoms**: Pauses in consumption, unstable throughput
+* **Causes**:
+  * Consumers frequently joining/leaving
+  * Long GC pauses or timeouts
+  * Missed heartbeats
+* **Fixes**:
+
+  * Increase `session.timeout.ms` and `heartbeat.interval.ms`
+  * Tune `max.poll.interval.ms` appropriately
+  * Use static group membership (since Kafka 2.3+)
+
+---
+
+## 🧼 3. **Duplicate Processing**
+
+* **What**: The same message is processed more than once.
+* **Causes**:
+  * Auto-commit is enabled and offset is committed before processing completes
+  * Consumer crashes after commit but before persisting result
+* **Fixes**:
+
+  * Disable auto-commit: `enable.auto.commit=false`
+  * Use **manual, post-processing commits**
+  * Use **idempotent writes** or **deduplication logic**
+
+---
+
+## 🕰️ 4. **Message Loss**
+
+* **What**: Messages are skipped or disappear from consumer’s perspective.
+* **Causes**:
+  * Auto-commit with `at-most-once` semantics
+  * Consumer crashes before processing but after commit
+  * Retention period exceeded before consuming
+* **Fixes**:
+
+  * Use `at-least-once` or `exactly-once` semantics
+  * Commit only after successful processing
+  * Monitor lag and retention settings
+
+---
+
+## 🧵 5. **Thread Safety Issues**
+
+* **What**: Concurrency bugs or data corruption
+* **Causes**:
+  * Sharing a single `KafkaConsumer` instance across multiple threads
+* **Fixes**:
+  * One `KafkaConsumer` per thread
+  * Use message queues or thread pools for parallel processing
+
+---
+
+## ⚠️ 6. **Offset Commit Failures**
+
+* **What**: Offsets aren’t committed, causing message reprocessing on restart.
+* **Causes**:
+
+  * Network issues
+  * Kafka broker unavailability
+  * Committing after session timeout
+* **Fixes**:
+
+  * Use `try/catch` around commits
+  * Add retry logic or dead-letter handling
+
+---
+
+## ⏳ 7. **`max.poll.interval.ms` Violations**
+
+* **What**: Kafka kills the consumer if it doesn’t poll fast enough
+* **Error**: `org.apache.kafka.clients.consumer.ConsumerTimeoutException`
+* **Causes**:
+
+  * Long processing times
+  * Blocking code before `poll()`
+* **Fixes**:
+
+  * Increase `max.poll.interval.ms`
+  * Use worker threads to separate processing from polling
+
+---
+
+## 🔌 8. **Deserialization Errors**
+
+* **What**: Kafka can't convert the byte data into usable Java objects
+* **Causes**:
+
+  * Schema mismatch
+  * Corrupted data
+  * Wrong deserializer class
+* **Fixes**:
+
+  * Validate serializer/deserializer config
+  * Use try-catch blocks for error handling
+  * Set a custom `ErrorHandlingDeserializer`
+
+---
+
+## 📉 9. **Backpressure and Resource Starvation**
+
+* **What**: The consumer slows down due to downstream systems (DBs, APIs)
+* **Symptoms**: Lag grows, CPU/memory usage spikes
+* **Fixes**:
+
+  * Buffer/process messages asynchronously
+  * Apply backpressure-aware logic (e.g. pause/resume)
+  * Optimize external resource usage
+
+---
+
+## 🕵️ 10. **Lack of Observability**
+
+* **What**: Issues aren't detected until they cause outages
+* **Fixes**:
+
+  * Monitor:
+
+    * Consumer lag
+    * Rebalance frequency
+    * Commit failures
+  * Use tools like **Prometheus**, **Grafana**, **Burrow**, **Confluent Control Center**
+
+---
+
+Would you like a **Spring Boot Kafka consumer** example with:
+
+* Manual offset commit
+* Retry and DLQ handling
+* Observability metrics?
+
+Or want help designing **exactly-once or at-least-once consumers**?

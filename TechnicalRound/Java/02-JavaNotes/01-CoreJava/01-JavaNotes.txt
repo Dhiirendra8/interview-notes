@@ -50,6 +50,30 @@ each shard (segment) instead of putting a single lock for whole data (Map).
 		(such as in Spring) but this usually for the better since it makes the classes easier to use.
 		
 		
+--------------------------------------------------
+# Exception vs Error
+Both are subclass of Throwable class but serves different purpose and have distinct characterstics
+1. Origin
+Error: Typically occure due to system level issues beyond programer's control such as resource exhausted(e.g. 'OutOfMemoryError', 'StackOverflowError') or hardware failure.
+Exception: Arise from issues within the application code itself, such as invalid user input or incorrect API usage(e.g. 'IOException', 'NullPointerException')
+
+2. Recoverability
+Error: Generally considered unrecoverable. Attempting to catch and handle is not recommended unless for logging purpose.
+Exception: Can often be recoverable from using try-catch blocks to provide alternative behaviour or informative messages
+
+3. Types
+Error: All Errors are unchecked and extends the 'Error' class.
+Exception: Can be either checked or unchecked, extending the 'Exception' class
+
+4. Handling
+Error: Not meant to be caught or handled by the program, instead the program terminate or log the error.
+Exception: Can be caught or handled using try-catch blocks to maintain program flow.
+
+5. Predictability:
+Error: Often unpredictable and outside the application's control.
+Exception: Can be anticipated and handled through proper coding practices.
+		
+		
 		
 		
 		

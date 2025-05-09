@@ -1,0 +1,185 @@
+In **Spring Data JPA**, you can create a **composite key** by using **`@Embeddable`** and **`@EmbeddedId`** annotations. These allow you to combine multiple fields into a single primary key.
+
+### Steps to create a composite key in Spring Data JPA:
+
+---
+
+### 1. **Create an `@Embeddable` class** to define the composite key
+
+The composite key is represented by a separate class, annotated with `@Embeddable`, that contains the fields that together form the primary key.
+
+#### Example of `@Embeddable` Class:
+
+```java
+import javax.persistence.Embeddable;
+import java.io.Serializable;
+
+@Embeddable
+public class CompositeKey implements Serializable {
+
+    private Long employeeId;
+    private Long departmentId;
+
+    // Default constructor
+    public CompositeKey() {}
+
+    // Constructor, getters and setters
+
+    public CompositeKey(Long employeeId, Long departmentId) {
+        this.employeeId = employeeId;
+        this.departmentId = departmentId;
+    }
+
+    // Getters and Setters
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    // Equals and hashCode for composite key
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CompositeKey that = (CompositeKey) o;
+        return employeeId.equals(that.employeeId) && departmentId.equals(that.departmentId);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * employeeId.hashCode() + departmentId.hashCode();
+    }
+}
+```
+
+---
+
+### 2. **Use `@EmbeddedId` in the entity class**
+
+The composite key is used in the entity class by annotating a field with `@EmbeddedId`.
+
+#### Example of Entity Class with Composite Key:
+
+```java
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.EmbeddedId;
+
+@Entity
+public class EmployeeDepartment {
+
+    @EmbeddedId
+    private CompositeKey id;
+
+    private String employeeName;
+    private String departmentName;
+
+    // Default constructor
+    public EmployeeDepartment() {}
+
+    // Constructor, getters, and setters
+    public EmployeeDepartment(CompositeKey id, String employeeName, String departmentName) {
+        this.id = id;
+        this.employeeName = employeeName;
+        this.departmentName = departmentName;
+    }
+
+    public CompositeKey getId() {
+        return id;
+    }
+
+    public void setId(CompositeKey id) {
+        this.id = id;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+}
+```
+
+---
+
+### 3. **Repository Layer**
+
+Your repository will extend `JpaRepository`, and you can use the `CompositeKey` as part of the primary key for operations.
+
+#### Example of Repository Interface:
+
+```java
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeDepartmentRepository extends JpaRepository<EmployeeDepartment, CompositeKey> {
+    // Custom queries (if necessary)
+}
+```
+
+---
+
+### 4. **Using the Composite Key**
+
+To save or retrieve entities, you would create and use the `CompositeKey` like this:
+
+#### Example:
+
+```java
+public class ExampleUsage {
+
+    @Autowired
+    private EmployeeDepartmentRepository repository;
+
+    public void saveEmployeeDepartment() {
+        CompositeKey key = new CompositeKey(1L, 101L); // employeeId = 1, departmentId = 101
+        EmployeeDepartment employeeDepartment = new EmployeeDepartment(key, "John Doe", "HR");
+        repository.save(employeeDepartment);
+    }
+
+    public void getEmployeeDepartment() {
+        CompositeKey key = new CompositeKey(1L, 101L); // employeeId = 1, departmentId = 101
+        EmployeeDepartment employeeDepartment = repository.findById(key).orElse(null);
+        System.out.println(employeeDepartment.getEmployeeName());  // "John Doe"
+    }
+}
+```
+
+---
+
+### 🛠️ **Important Points**
+
+1. **Serializable**: The composite key class must implement `Serializable`.
+2. **Equality and Hashing**: Override `equals()` and `hashCode()` in the composite key class to ensure correct behavior in collections and database operations.
+3. **`@EmbeddedId`**: The `@EmbeddedId` annotation is used on the composite key field inside the entity.
+
+---
+
+### ✅ Summary
+
+* **`@Embeddable`**: Defines a composite key class with multiple fields.
+* **`@EmbeddedId`**: Used in the entity class to refer to the composite key.
+* **Repository**: Uses the composite key type (`CompositeKey`) as the ID type.
+
+Would you like to see how to handle custom queries or other advanced operations with composite keys in Spring Data JPA?

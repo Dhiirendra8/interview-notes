@@ -1,0 +1,164 @@
+To use **multiple databases** in a **Spring Boot application with Spring Data JPA**, you need to configure **multiple data sources**, each with its own:
+
+* **DataSource**
+* **EntityManagerFactory**
+* **TransactionManager**
+* **JPA repositories**
+
+---
+
+### ✅ Use Case Example:
+
+Let’s say:
+
+* **`db1`** is for `Customer` entities
+* **`db2`** is for `Order` entities
+
+---
+
+### 📦 1. **Add Dependencies**
+
+No special dependencies are needed beyond this:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+    <groupId>com.h2database</groupId> <!-- or any other driver -->
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
+
+---
+
+### ⚙️ 2. **Define Properties**
+
+In `application.yml` or `application.properties`:
+
+```yaml
+spring:
+  datasource:
+    db1:
+      url: jdbc:h2:mem:db1
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+
+    db2:
+      url: jdbc:h2:mem:db2
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+```
+
+---
+
+### 🏗️ 3. **Configuration for DB1**
+
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.example.db1.repository",
+    entityManagerFactoryRef = "db1EntityManagerFactory",
+    transactionManagerRef = "db1TransactionManager"
+)
+public class Db1Config {
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(prefix = "spring.datasource.db1")
+    public DataSource db1DataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @Primary
+    public LocalContainerEntityManagerFactoryBean db1EntityManagerFactory(
+            EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(db1DataSource())
+                .packages("com.example.db1.entity")
+                .persistenceUnit("db1")
+                .build();
+    }
+
+    @Bean
+    @Primary
+    public PlatformTransactionManager db1TransactionManager(
+            @Qualifier("db1EntityManagerFactory") EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
+}
+```
+
+---
+
+### 🏗️ 4. **Configuration for DB2**
+
+```java
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(
+    basePackages = "com.example.db2.repository",
+    entityManagerFactoryRef = "db2EntityManagerFactory",
+    transactionManagerRef = "db2TransactionManager"
+)
+public class Db2Config {
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource.db2")
+    public DataSource db2DataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean db2EntityManagerFactory(
+            EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(db2DataSource())
+                .packages("com.example.db2.entity")
+                .persistenceUnit("db2")
+                .build();
+    }
+
+    @Bean
+    public PlatformTransactionManager db2TransactionManager(
+            @Qualifier("db2EntityManagerFactory") EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
+}
+```
+
+---
+
+### 🧩 5. **Directory Structure**
+
+Keep entities and repositories separated:
+
+```
+com.example.db1.entity
+com.example.db1.repository
+
+com.example.db2.entity
+com.example.db2.repository
+```
+
+---
+
+### ✅ Summary
+
+| Component            | DB1                            | DB2                          |
+| -------------------- | ------------------------------ | ---------------------------- |
+| DataSource           | `@Primary` + `db1DataSource()` | `db2DataSource()`            |
+| EntityManagerFactory | `db1EntityManagerFactory()`    | `db2EntityManagerFactory()`  |
+| TransactionManager   | `db1TransactionManager()`      | `db2TransactionManager()`    |
+| Repositories Package | `com.example.db1.repository`   | `com.example.db2.repository` |
+| Entities Package     | `com.example.db1.entity`       | `com.example.db2.entity`     |
+
+---
+
+Would you like a working GitHub example or demo code project for this setup?

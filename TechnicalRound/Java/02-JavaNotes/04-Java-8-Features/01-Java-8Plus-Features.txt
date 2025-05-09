@@ -1,0 +1,160 @@
+Java 9 introduced a number of new features and enhancements. Here's a list of the most important features in Java 9:
+
+### 1. **Modules (Project Jigsaw)**
+
+* **Module System**: Java 9 introduces the Java Platform Module System (JPMS), which allows you to modularize your code and separate concerns into distinct modules. It provides better encapsulation, dependency management, and allows for scalable applications.
+* You can define modules with the `module-info.java` file, which specifies module dependencies, exports, and other module-related settings.
+
+### 2. **JShell (Java Shell)**
+
+* **Interactive REPL**: JShell is a Read-Eval-Print Loop that allows you to run Java code snippets interactively without the need to write a full program. It’s a great tool for prototyping, experimentation, and learning.
+
+### 3. **Improved Javadoc**
+
+* **Searchable HTML**: The Javadoc tool now generates more readable and searchable HTML output.
+* **HTML5 Support**: Javadoc now uses HTML5 for rendering documentation, making it more modern and easier to navigate.
+* **-linksource Option**: Adds the ability to generate source code links directly within the Javadoc.
+
+### 4. **Private Methods in Interfaces**
+
+* **Private Methods in Interfaces**: Java 9 allows private methods in interfaces, which was not possible in earlier versions. This allows you to write helper methods in interfaces without exposing them to implementing classes.
+
+### 5. **Stream API Enhancements**
+
+* **TakeWhile() and DropWhile()**: New methods were added to the Stream API to handle conditional streaming, allowing you to take or drop elements based on a condition.
+* **OfNullable()**: A new static method `Stream.ofNullable()` was introduced to create a stream from an object that might be null.
+
+### 6. **Collection Factory Methods**
+
+* Java 9 added factory methods to the `List`, `Set`, and `Map` interfaces to create immutable collections. Examples include:
+
+  ```java
+  List<String> list = List.of("a", "b", "c");
+  Set<String> set = Set.of("x", "y", "z");
+  Map<String, String> map = Map.of("key1", "value1", "key2", "value2");
+  ```
+* These collections are immutable, which helps prevent unintended modifications.
+
+### 7. **Compact Strings**
+
+* **String Optimization**: In Java 9, the String class has been optimized to save memory. It now uses a `byte[]` for the internal character storage, improving memory usage for strings that contain only Latin-1 characters.
+
+### 8. **Process API Improvements**
+
+* **Process API Updates**: Java 9 introduced new methods in the `Process` class to manage and interact with processes more easily. The new API also includes the `ProcessBuilder` improvements to handle process I/O better.
+
+### 9. **Reactive Streams API (java.util.concurrent.Flow)**
+
+* Java 9 introduces the `java.util.concurrent.Flow` API, which is a standard API for building reactive stream processing libraries. This is part of the broader move to support reactive programming in the Java platform.
+
+### 10. **Enhanced @Deprecated Annotation**
+
+* **@Deprecated Improvements**: The `@Deprecated` annotation has been enhanced to include more metadata. Now you can mark deprecated methods with the `forRemoval` and `since` attributes to indicate whether the method is intended to be removed and when it was deprecated.
+
+### 11. **Multi-Release JAR Files**
+
+* **Multi-Release JARs**: Java 9 supports multi-release JAR files, which means that a single JAR file can contain multiple versions of a class to accommodate different Java versions. This is particularly useful for libraries that need to support multiple versions of Java.
+
+### 12. **The `--upgrade-module-path` and `--module-path` Options**
+
+* These command-line options allow you to better handle module paths and dependencies when running or compiling Java applications with modules.
+
+### 13. **Deprecated and Removed Features**
+
+* Some older, less used or problematic features were deprecated or removed, including:
+
+  * The `javafxpackager` tool for packaging JavaFX applications.
+  * The `java` command option `-Xverify:none` for verification of class files.
+
+### 14. **Other Minor Enhancements**
+
+* **Concurrency improvements**: New methods in `Executor`, `CompletableFuture`, and `ForkJoinPool`.
+* **Improved security features**: Enhancements to the `javax.security` package and new security manager features.
+* **JVM Performance Improvements**: Enhancements to garbage collection (G1GC improvements) and JVM startup time.
+
+Java 9 was a significant release, introducing both the modularity system (Jigsaw) and several other smaller but impactful improvements to make Java development more efficient and future-proof.
+
+
+
+----------------------------------------------------------
+## 1. Pattern Matching For Switch Statements
+Note: case statements can now be written as `case …expression ->’ instead of  ‘case expression:’ since Java 12.
+Since the new Java 12 features, the same code can be simplified as follows:
+
+public static String getDayOfWeek(int dayNum) {
+    return switch (dayNum) {
+        case 1 -> "Monday";
+        case 2 -> "Tuesday";
+        case 3 -> "Wednesday";
+        case 4 -> "Thursday";
+        case 5 -> "Friday";
+        case 6 -> "Saturday";
+        case 7 -> "Sunday";
+        default -> "Invalid day";
+    };
+}
+=> the new feature of java 17 also allows developers to use variable patterns and type patterns. A variable pattern allows you to match against a specific value and assign it to a variable.
+A type pattern allows you to match against the type of a value.
+Java 17:
+private static void processPayment(Object payment) {
+        String result = switch (payment) {
+            case CreditCardPayment cc ->
+                 "Processing Credit Card payment with card number: " + cc.cardNumber();
+            case PayPalPayment pp -> "Processing PayPal payment with email: " + pp.email();
+            case Integer amount -> "Processing Cash payment of $" + amount;
+            case null -> "Invalid payment method: null";
+            default -> "Unknown payment method.";
+        };
+        System.out.println(result);
+    }
+	
+	
+## 2. Pattern Matching for instanceof
+// Old way with pattern matching (Before Java 17)
+
+if (obj instanceof String) {
+     String str = (String) obj;
+     System.out.println(str.length());
+}
+// New way with pattern matching (Since Java 17)
+
+if (obj instanceof String str) {
+    System.out.println(str.length());
+}
+
+## 3. Sealed Classes & Interfaces
+
+public sealed class Shape permits Circle, Square, Triangle {
+    // ...
+}
+- In the example, the “sealed” modifier is used to specify that the Shape class is a sealed class. 
+- The “permits” keyword is then used to specify the allowed subclasses of Shape, which are Circle, Square, and Triangle.
+
+
+In addition to specifying allowed subclasses, sealed classes also allow developers to define “non-sealed” or “final” subclasses that cannot be further extended. Here is an example of a non-sealed subclass:
+
+public non-sealed class Circle extends Shape {
+    // ...
+}
+In the example, the “non-sealed” modifier is used to specify that the Circle class is a non-sealed subclass of Shape. This means that Circle can be extended by any other class, but it cannot be further extended itself.
+
+
+
+## 4. Records (Finalized - JEP 395)
+Compact syntax for immutable data classes:
+
+public record User(String name, int age) {}
+- Auto-generates constructor, getters, equals, hashCode, and toString.
+
+
+## 5. Text Blocks (Standardized)
+Multiline string literals with cleaner syntax.
+
+String json = """
+    {
+      "name": "Alice",
+      "age": 30
+    }
+    """;
+
+
