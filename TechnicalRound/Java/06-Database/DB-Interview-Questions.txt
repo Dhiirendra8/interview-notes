@@ -136,7 +136,9 @@ SELECT NAME, AGE FROM STUDENT WHERE AGE > 18;
 
 ================================================================================================
 15. What is a view in DBMS? How does it differ from a table?
-A View is a virtual table created by querying one or more base tables. It does not store data physically but dynamically retrieves it when queried. Unlike a table, a view does not store its own data but presents data from other tables.
+A View is a virtual table created by querying one or more base tables. 
+It does not store data physically but dynamically retrieves it when queried. 
+Unlike a table, a view does not store its own data but presents data from other tables.
 
 ================================================================================================
 16. What are the different types of relationships in DBMS?
@@ -148,11 +150,14 @@ Many-to-Many (M:M): Multiple records in one table are associated with multiple r
 
 ================================================================================================
 17. Explain the concept of a schema in DBMS.
-A schema in DBMS is the structure that defines the organization of data in a database. It includes tables, views, relationships, and other elements. A schema defines the tables and their columns, along with the constraints, keys, and relationships.
+A schema in DBMS is the structure that defines the organization of data in a database. 
+It includes tables, views, relationships, and other elements. 
+A schema defines the tables and their columns, along with the constraints, keys, and relationships.
 
 ================================================================================================
 18. What are constraints in DBMS?
-Constraints in DBMS are rules that limit the type of data that can be inserted into a table to ensure data integrity and consistency. Common types of constraints include: NOT NULL, PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK, DEFAULT.
+Constraints in DBMS are rules that limit the type of data that can be inserted into a table to ensure data integrity and consistency. 
+Common types of constraints include: NOT NULL, PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK, DEFAULT.
 
 ================================================================================================
 19. What is the difference between DELETE and TRUNCATE in SQL?
@@ -161,7 +166,8 @@ TRUNCATE: Removes all rows from a table without logging individual row deletions
 
 ================================================================================================
 20. What is an index in DBMS and how is it used?
-An index is a data structure that improves the speed of data retrieval operations on a database table. It works like a table of contents in a book, allowing the database to quickly find the location of a record based on a column value.
+An index is a data structure that improves the speed of data retrieval operations on a database table. 
+It works like a table of contents in a book, allowing the database to quickly find the location of a record based on a column value.
 
 ================================================================================================
 21. What is the role of the Database Administrator (DBA)?
@@ -177,7 +183,8 @@ Troubleshooting: Identifying and resolving database-related issues.
 
 ================================================================================================
 22. What is an entity-relationship diagram (ERD)?
-An Entity-Relationship Diagram (ERD) is a visual representation of the entities within a system and the relationships between those entities. It is used in database design to model the structure of data and how different pieces of data relate to each other.
+An Entity-Relationship Diagram (ERD) is a visual representation of the entities within a system and the relationships between those entities. 
+It is used in database design to model the structure of data and how different pieces of data relate to each other.
 
 Entities: Objects or things within the system (e.g., Student, Course).
 Attributes: Properties or details about an entity (e.g., Student Name, Course Duration).
@@ -190,44 +197,48 @@ A relationship Enrolls connects Student and Course with attributes like Enrollme
 
 ================================================================================================
 23. What is a join in SQL? Name and explain different types of joins.
-A JOIN in SQL is an operation that combines columns from two or more tables based on a related column between them. Joins are used to query data from multiple tables in a relational database.
+A JOIN in SQL is an operation that combines columns from two or more tables based on a related column between them. 
+Joins are used to query data from multiple tables in a relational database.
 
 Here are the different types of joins in SQL:
 
-1. INNER JOIN: Returns only the rows where there is a match in both tables.
-
+1. INNER JOIN: 
+    Returns only the rows where there is a match in both tables.
 Example:
-
 SELECT * FROM Student
 INNER JOIN Course ON Student.ID = Course.StudentID;
-2. LEFT JOIN (or LEFT OUTER JOIN): Returns all rows from the left table and the matching rows from the right table. If there is no match, NULL values will be returned for columns from the right table.
 
+2. LEFT JOIN (or LEFT OUTER JOIN): 
+Returns all rows from the left table and the matching rows from the right table. 
+If there is no match, NULL values will be returned for columns from the right table.
 Example:
-
 SELECT * FROM Student
 LEFT JOIN Course ON Student.ID = Course.StudentID;
-3. RIGHT JOIN (or RIGHT OUTER JOIN): Returns all rows from the right table and the matching rows from the left table. If there is no match, NULL values will be returned for columns from the left table.
 
+3. RIGHT JOIN (or RIGHT OUTER JOIN): 
+Returns all rows from the right table and the matching rows from the left table. 
+If there is no match, NULL values will be returned for columns from the left table.
 Example:
-
 SELECT * FROM Student
 RIGHT JOIN Course ON Student.ID = Course.StudentID;
-4. FULL JOIN (or FULL OUTER JOIN): Returns all rows when there is a match in either the left or the right table. If there is no match, NULL values will be returned for the columns of the table without a match.
 
+4. FULL JOIN (or FULL OUTER JOIN): 
+Returns all rows when there is a match in either the left or the right table. 
+If there is no match, NULL values will be returned for the columns of the table without a match.
 Example:
-
 SELECT * FROM Student
 FULL JOIN Course ON Student.ID = Course.StudentID;
+
 5. CROSS JOIN: Returns the Cartesian product of two tables, i.e., every combination of rows from both tables.
-
 Example:
-
 SELECT * FROM Student
 CROSS JOIN Course;
-6. SELF JOIN: A SELF JOIN is a join where a table is joined with itself. It is used when we need to compare rows within the same table. To differentiate the two instances of the same table, aliases are used.
 
+6. SELF JOIN: 
+A SELF JOIN is a join where a table is joined with itself.
+It is used when we need to compare rows within the same table. 
+To differentiate the two instances of the same table, aliases are used.
 Example:
-
 SELECT E1.Employee_ID, E1.Employee_Name, E2.Employee_Name AS Manager_Name
 FROM Employee E1
 LEFT JOIN Employee E2 ON E1.Manager_ID = E2.Employee_ID;
@@ -366,26 +377,27 @@ Reliability	Reliable for matching data across tables.	Reliable when you need to 
 
 ================================================================================================
 34. What is data redundancy in a database? How can it be reduced?
-Data redundancy refers to the unnecessary repetition of data in a database. It can lead to inconsistencies, increased storage requirements, and maintenance challenges.
+Data redundancy refers to the unnecessary repetition of data in a database. 
+It can lead to inconsistencies, increased storage requirements, and maintenance challenges.
 
 Reduction methods:
-
 Normalization: Splitting large tables into smaller ones to eliminate redundancy.
 Eliminating duplicate data: Using constraints like UNIQUE and PRIMARY KEY to enforce data consistency.
 
 ================================================================================================
 35. What is a deadlock in DBMS? How can it be prevented?
-A deadlock occurs when two or more transactions are blocked because each transaction is waiting for the other to release resources. This results in a situation where none of the transactions can proceed.
+A deadlock occurs when two or more transactions are blocked because each transaction is waiting for the other to release resources. 
+This results in a situation where none of the transactions can proceed.
 
 Prevention techniques:
-
 Lock ordering: Ensuring that all transactions acquire locks in the same predefined order.
 Timeouts: Automatically rolling back transactions that have been waiting too long for resources.
 Deadlock detection: Periodically checking for deadlocks and aborting one of the transactions to break the cycle.
 
 ================================================================================================
 36. What is a database cursor? How is it used?
-A cursor in DBMS is a pointer to a result set of a query. It allows for row-by-row processing of query results, which is useful when dealing with large datasets.
+A cursor in DBMS is a pointer to a result set of a query. 
+It allows for row-by-row processing of query results, which is useful when dealing with large datasets.
 
 Types of cursors:
 
@@ -407,8 +419,13 @@ Update Lock (U Lock): Used when a transaction intends to update a resource.
 
 ================================================================================================
 38. What is the difference between a clustered and non-clustered index?
-Clustered Index: Organizes the data in the table according to the index. There can only be one clustered index per table because the data rows can only be sorted one way.
-Non-clustered Index: Creates a separate structure from the table that holds pointers to the actual data rows. Multiple non-clustered indexes can be created on a table.
+Clustered Index: 
+    Organizes the data in the table according to the index. 
+    There can only be one clustered index per table because the data rows can only be sorted one way.
+
+Non-clustered Index: 
+    Creates a separate structure from the table that holds pointers to the actual data rows. 
+    Multiple non-clustered indexes can be created on a table.
 
 ================================================================================================
 39. What is the importance of the COMMIT and ROLLBACK operations?
@@ -419,6 +436,7 @@ Both operations ensure the ACID properties of transactions: Atomicity and Durabi
 ================================================================================================
 40. What is the difference between a superkey and a candidate key?
 Superkey: A set of one or more attributes that can uniquely identify a row in a table. It may contain unnecessary attributes.
+
 Candidate Key: A minimal superkey that uniquely identifies a row, with no redundant attributes. A table can have multiple candidate keys, and one is chosen as the Primary Key.
 
 ================================================================================================
@@ -447,15 +465,19 @@ A table can have multiple unique keys.
 
 ================================================================================================
 43. What is referential integrity in DBMS?
-Referential Integrity ensures that relationships between tables are maintained correctly. It requires that the foreign key in one table must match a primary key or a unique key in another table (or be NULL). This ensures that data consistency is maintained, and there are no orphan records in the database.
+Referential Integrity ensures that relationships between tables are maintained correctly. 
+It requires that the foreign key in one table must match a primary key or a unique key in another table (or be NULL). 
+This ensures that data consistency is maintained, and there are no orphan records in the database.
 
 Example: In the Orders table, if the CustomerID is a foreign key, it should match a valid CustomerID in the Customers table or be NULL.
 
 
 ================================================================================================
 44. How does DBMS handle concurrency control?
-Concurrency control ensures that database transactions are executed in a way that prevents conflicts, such as data inconsistency, when multiple transactions are executed simultaneously. DBMS uses the following techniques:
-
+Concurrency control ensures that database transactions are executed in a way that prevents conflicts, 
+    such as data inconsistency, when multiple transactions are executed simultaneously. 
+    
+DBMS uses the following techniques:
 Locking: Transactions acquire locks (shared or exclusive) on the data to prevent other transactions from modifying it while one transaction is in progress. Types of Locks: Shared locks (S-lock) and exclusive locks (X-lock).
 Timestamp Ordering: Assigns a unique timestamp to each transaction and uses these timestamps to determine the order in which transactions should be executed.
 Optimistic Concurrency Control: Transactions are executed without locking data, but before committing, the system checks whether there were conflicts with other transactions.
@@ -470,15 +492,18 @@ Improved Query Efficiency: With foreign keys, database queries that join related
 
 ================================================================================================
 46. What is a transaction log in DBMS?
-A transaction log is a record that keeps track of all transactions executed on a database. It ensures that changes made by transactions are saved, and in case of a system failure, the log can be used to recover the database to its last consistent state. The transaction log contains:
+A transaction log is a record that keeps track of all transactions executed on a database. 
+It ensures that changes made by transactions are saved, and in case of a system failure, the log can be used to recover the database to its last consistent state. 
 
+The transaction log contains:
 The details of each transaction (e.g., start, commit, rollback).
 Information about data modifications (insertions, updates, deletions).
 Details about the data before and after the change.
 
 ================================================================================================
 47. What is a materialized view in DBMS?
-A materialized view is a database object that contains the results of a query. Unlike a regular view, which is a virtual table (it doesn’t store data), a materialized view stores data physically, improving query performance by precomputing and storing results.
+A materialized view is a database object that contains the results of a query. 
+Unlike a regular view, which is a virtual table (it doesn’t store data), a materialized view stores data physically, improving query performance by precomputing and storing results.
 
 Use Case: Materialized views are commonly used for performance optimization in data warehousing and reporting systems, where the same data is frequently queried.
 
@@ -500,7 +525,8 @@ Represents how data is physically organized in tables with constraints such as p
 
 ================================================================================================
 49. What is the purpose of the GROUP BY clause in SQL?
-The GROUP BY clause is used in SQL to group rows that have the same values in specified columns into summary rows, often with aggregate functions like COUNT, SUM, AVG, MIN, or MAX. It is typically used to organize data for reporting or analysis.
+The GROUP BY clause is used in SQL to group rows that have the same values in specified columns into summary rows, 
+often with aggregate functions like COUNT, SUM, AVG, MIN, or MAX. It is typically used to organize data for reporting or analysis.
 
 Example: This groups the employees by department and counts the number of employees in each department.
 
@@ -509,7 +535,8 @@ GROUP BY Department;
 
 ================================================================================================
 50. What are stored functions in DBMS?
-A stored function is a set of SQL statements that can be executed in the database. It accepts input parameters, performs some logic, and returns a value. Stored functions are similar to stored procedures but differ in that they must return a value.
+A stored function is a set of SQL statements that can be executed in the database. It accepts input parameters, performs some logic, and returns a value. 
+Stored functions are similar to stored procedures but differ in that they must return a value.
 
 Example:
 
@@ -520,6 +547,9 @@ BEGIN
    SELECT Salary INTO salary FROM Employee WHERE ID = EmployeeID;
    RETURN salary;
 END;
+
+========================================================
+========================================================
 Advanced DBMS Interview Questions
 DBMS Advanced Interview Questions focus on in-depth knowledge and problem-solving skills for complex database scenarios. This category evaluates your ability to handle large-scale data, optimize query performance, and understand advanced DBMS topics like distributed databases, indexing strategies, and concurrency control mechanisms. Being proficient in these areas is crucial for roles involving high-performance databases and large-scale systems.
 
@@ -551,6 +581,7 @@ Here, DeptName depends on DeptID. To bring this into 3NF:
 Employee (EmpID, EmpName, DeptID)
 Department (DeptID, DeptName)
 4. Boyce-Codd Normal Form (BCNF): A stricter version of 3NF where every determinant is a candidate key.
+determinant: (i.e., जो किसी चीज़ को uniquely पहचानता है) 
 
 Example:
 
@@ -568,6 +599,8 @@ Parsing: The SQL query is parsed to check its syntax and semantics. The DBMS ens
 Translation: The query is translated into an internal form, such as a relational algebra expression or an execution plan.
 Optimization: The DBMS optimizes the query to determine the most efficient execution plan, considering factors like indexes, joins, and available resources.
 Execution: The optimized query plan is executed by the query processor, which accesses the data from the database and returns the results.
+
+================================================================================================
 53. What are the different types of backups in DBMS?
 There are several types of backups in DBMS:
 
@@ -578,7 +611,8 @@ Transaction Log Backup: A transaction log backup copies the transaction log, whi
 
 ================================================================================================
 54. What is the use of the “WITH CHECK OPTION” in SQL views?
-The “WITH CHECK OPTION” is used when creating a view in SQL to ensure that any insert or update operation on the view must adhere to the conditions defined in the view’s WHERE clause. If the inserted or updated data violates these conditions, the operation will be rejected.
+The “WITH CHECK OPTION” is used when creating a view in SQL to ensure that any insert or update operation on the view must adhere to the conditions defined in the view’s WHERE clause. 
+If the inserted or updated data violates these conditions, the operation will be rejected.
 
 Example: Here, if a user tries to insert or update a Student record with a status other than ‘Active’, the operation will fail.
 
@@ -588,23 +622,27 @@ WITH CHECK OPTION;
 
 ================================================================================================
 55. Explain the concept of a B-tree and B+ tree in DBMS.
+
 B-tree (Balanced Tree):
-
 A B-tree is a self-balancing tree data structure that maintains sorted data and allows searches, insertions, deletions in logarithmic time.
-B-trees are used in databases and file systems to store large amounts of data. All nodes in a B-tree can have multiple children, which increases the efficiency of searching.
+B-trees are used in databases and file systems to store large amounts of data. 
+All nodes in a B-tree can have multiple children, which increases the efficiency of searching.
 Stores data in both internal and leaf nodes.
-B+ tree:
 
-A B+ tree is an extension of the B-tree and is widely used in databases for indexing. It differs in that it has a linked list at the leaf level and stores all records in the leaf nodes.
+B+ tree:
+A B+ tree is an extension of the B-tree and is widely used in databases for indexing. 
+It differs in that it has a linked list at the leaf level and stores all records in the leaf nodes.
 The internal nodes of the B+ tree store only keys and pointers to the next level of the tree, while the leaf nodes contain actual data or pointers to the data.
 Stores data only in the leaf nodes and uses the internal nodes for indexing.
 
 ================================================================================================
 56. What is a hashing technique in DBMS? How does it work?
-A hashing technique in DBMS is used to map data (such as a key) to a fixed-size value or address, using a hash function. It is primarily used for quick data retrieval, particularly in hash indexes or hash tables. Example: A hash function might map a StudentID of 123 to a bucket index of 3. The student’s record would be stored in the corresponding bucket.
+A hashing technique in DBMS is used to map data (such as a key) to a fixed-size value or address, using a hash function. 
+It is primarily used for quick data retrieval, particularly in hash indexes or hash tables. 
+Example: A hash function might map a StudentID of 123 to a bucket index of 3. 
+The student’s record would be stored in the corresponding bucket.
 
 How it works:
-
 A hash function takes the key (e.g., a record’s ID) and calculates a hash value.
 This hash value determines the bucket or slot where the data is stored.
 When searching for a record, the hash function is applied again to the key to find the corresponding bucket.
@@ -612,17 +650,17 @@ When searching for a record, the hash function is applied again to the key to fi
 ================================================================================================
 57. What is the difference between a trigger and a stored procedure?
 Trigger:
-
 A trigger is an automatic action executed by the DBMS when a specific event occurs on a table, such as an INSERT, UPDATE, or DELETE.
 It cannot be invoked manually and is tied to a specific event.
-Stored Procedure:
 
+Stored Procedure:
 A stored procedure is a precompiled set of SQL statements that can be executed explicitly by a user or application.
 It is invoked manually, and it can accept input parameters and return output.
 
 ================================================================================================
 58. Explain the concept of data partitioning in DBMS.
-Data partitioning is the process of dividing large datasets into smaller, more manageable segments (partitions) to improve performance, scalability, and availability. Each partition can be stored and processed separately.
+Data partitioning is the process of dividing large datasets into smaller, more manageable segments (partitions) to improve performance, scalability, and availability. 
+Each partition can be stored and processed separately.
 
 Types of partitioning:
 
@@ -636,7 +674,8 @@ Hash Partitioning: Data is distributed across partitions based on a hash value d
 The DBMS plays a critical role in ensuring:
 Data Integrity: Through constraints like Primary Keys, Foreign Keys, and Check Constraints, the DBMS ensures data consistency and accuracy.
 
-Data Security: DBMS systems provide user authentication, access control, and encryption mechanisms to protect data from unauthorized access and breaches. It also supports role-based access control (RBAC), ensuring that only authorized users can perform certain actions on the data.
+Data Security: DBMS systems provide user authentication, access control, and encryption mechanisms to protect data from unauthorized access and breaches. 
+It also supports role-based access control (RBAC), ensuring that only authorized users can perform certain actions on the data.
 
 ================================================================================================
 60. How is DBMS different from a file-based system?		
