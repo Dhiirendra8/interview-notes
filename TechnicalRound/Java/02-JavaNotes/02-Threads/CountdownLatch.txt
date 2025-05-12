@@ -1,0 +1,82 @@
+In Java, a **`CountDownLatch`** is a synchronization aid provided by the `java.util.concurrent` package. It allows one or more threads to wait until a set of operations being performed by other threads is completed.
+
+---
+
+## 🔧 **Basic Concept**
+
+A `CountDownLatch` is initialized with a **count** (an integer). Threads can:
+
+* **Wait** for the count to reach zero using `await()`
+* **Decrease** the count using `countDown()`
+
+Once the count reaches zero, **all waiting threads are released**.
+
+---
+
+## 🧠 **Analogy**:
+
+Think of it like a starting gate in a race — the runners (threads) wait until all gates (conditions) are open (count reaches zero), then they start running.
+
+---
+
+## ✅ **Use Case Example**
+
+```java
+import java.util.concurrent.CountDownLatch;
+
+public class CountDownLatchExample {
+    public static void main(String[] args) throws InterruptedException {
+        int numTasks = 3;
+        CountDownLatch latch = new CountDownLatch(numTasks);
+
+        // Worker threads
+        for (int i = 1; i <= numTasks; i++) {
+            new Thread(() -> {
+                System.out.println(Thread.currentThread().getName() + " is doing work");
+                try {
+                    Thread.sleep(1000); // simulate work
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                latch.countDown(); // reduce count by 1
+                System.out.println(Thread.currentThread().getName() + " finished work");
+            }, "Worker-" + i).start();
+        }
+
+        // Main thread waits for workers to finish
+        latch.await();
+        System.out.println("All workers are done. Main thread continues.");
+    }
+}
+```
+
+### 📝 Output (approx):
+
+```
+Worker-1 is doing work
+Worker-2 is doing work
+Worker-3 is doing work
+Worker-1 finished work
+Worker-2 finished work
+Worker-3 finished work
+All workers are done. Main thread continues.
+```
+
+---
+
+## 📌 **Key Methods**
+
+| Method        | Description                        |
+| ------------- | ---------------------------------- |
+| `countDown()` | Decreases the count by 1           |
+| `await()`     | Waits until the count reaches zero |
+| `getCount()`  | Returns the current count          |
+
+---
+
+## ⚠️ **Important Notes**
+
+* A `CountDownLatch` **cannot be reset**. Once the count reaches zero, it's dead.
+* If you need a reusable version, consider using **`CyclicBarrier`** or **`Semaphore`**.
+
+Would you like to see a use case in a real-world microservices or multithreaded scenario?
