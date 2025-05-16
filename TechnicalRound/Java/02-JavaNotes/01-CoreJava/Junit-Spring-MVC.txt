@@ -1,0 +1,209 @@
+Sure! Here's a full example of how to write **JUnit test cases with Mockito** for a typical Spring Boot application covering:
+
+* **Controller layer**
+* **Service layer**
+* **Repository layer**
+
+---
+
+## 🧱 **Scenario**: Simple "User Management" system
+
+### 🔧 Entity
+
+```java
+@Entity
+public class User {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+}
+```
+
+---
+
+### 📦 Repository
+
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+```
+
+---
+
+### 🧠 Service
+
+```java
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public User getUser(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+}
+```
+
+---
+
+### 🌐 Controller
+
+```java
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.getUser(id);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        return ResponseEntity.ok(userService.saveUser(user));
+    }
+}
+```
+
+---
+
+## ✅ JUnit & Mockito Test Cases
+
+---
+
+### 🧪 1. **Controller Test**
+
+```java
+@WebMvcTest(UserController.class)
+class UserControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private UserService userService;
+
+    @Test
+    void testGetUser() throws Exception {
+        User mockUser = new User();
+        mockUser.setId(1L);
+        mockUser.setName("Alice");
+
+        Mockito.when(userService.getUser(1L)).thenReturn(mockUser);
+
+        mockMvc.perform(get("/users/1"))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.name").value("Alice"));
+    }
+
+    @Test
+    void testCreateUser() throws Exception {
+        User mockUser = new User();
+        mockUser.setId(1L);
+        mockUser.setName("Bob");
+
+        Mockito.when(userService.saveUser(any(User.class))).thenReturn(mockUser);
+
+        mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Bob\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Bob"));
+    }
+}
+```
+
+---
+
+### 🧪 2. **Service Test**
+
+```java
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+
+    @InjectMocks
+    private UserService userService;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Test
+    void testGetUser() {
+        User user = new User();
+        user.setId(1L);
+        user.setName("Charlie");
+
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+
+        User result = userService.getUser(1L);
+        Assertions.assertEquals("Charlie", result.getName());
+    }
+
+    @Test
+    void testSaveUser() {
+        User user = new User();
+        user.setName("Dana");
+
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+
+        User saved = userService.saveUser(user);
+        Assertions.assertEquals("Dana", saved.getName());
+    }
+}
+```
+
+---
+
+### 🧪 3. **Repository Test (Using Real DB or @DataJpaTest)**
+
+```java
+@DataJpaTest
+class UserRepositoryTest {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test
+    void testSaveAndFindUser() {
+        User user = new User();
+        user.setName("Eve");
+
+        User saved = userRepository.save(user);
+
+        Optional<User> fetched = userRepository.findById(saved.getId());
+
+        Assertions.assertTrue(fetched.isPresent());
+        Assertions.assertEquals("Eve", fetched.get().getName());
+    }
+}
+```
+
+---
+
+## 🔗 Dependencies Required (in `pom.xml`)
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <scope>test</scope>
+</dependency>
+```
+
+---
+

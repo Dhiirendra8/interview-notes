@@ -1,0 +1,98 @@
+In **Spring Framework**, `@Async` is an annotation used to **run a method asynchronously**, meaning it will execute in a **separate thread** and not block the caller.
+
+---
+
+## ✅ **Basic Use of `@Async`**
+
+```java
+@Service
+public class EmailService {
+
+    @Async
+    public void sendEmail(String to) {
+        // long-running task
+        System.out.println("Sending email to " + to + " on thread: " + Thread.currentThread().getName());
+    }
+}
+```
+
+```java
+@Component
+public class NotificationController {
+
+    @Autowired
+    private EmailService emailService;
+
+    public void notifyUser() {
+        emailService.sendEmail("user@example.com");
+        System.out.println("Notification triggered!");
+    }
+}
+```
+
+### 🧾 Output (thread names will differ):
+
+```
+Notification triggered!
+Sending email to user@example.com on thread: task-1
+```
+
+---
+
+## ⚙️ **How it Works**
+
+1. It runs the method in a background thread (from a task executor).
+2. The calling thread does **not wait** for the `@Async` method to finish.
+
+---
+
+## ⚠️ Important Notes
+
+* You **must enable async support** using `@EnableAsync`:
+
+```java
+@Configuration
+@EnableAsync
+public class AppConfig {
+}
+```
+
+* The method must be called from **another Spring-managed bean**. Calling an `@Async` method from within the same class won’t work.
+
+* Return types can be `void`, `Future<T>`, or `CompletableFuture<T>`.
+
+---
+
+## 🔄 **With Return Type**
+
+```java
+@Async
+public CompletableFuture<String> processData() {
+    return CompletableFuture.completedFuture("Done");
+}
+```
+
+---
+
+## 🛠 **Custom Executor Example**
+
+```java
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+    @Bean(name = "taskExecutor")
+    public Executor taskExecutor() {
+        return new ThreadPoolTaskExecutor();
+    }
+}
+```
+
+Then use:
+
+```java
+@Async("taskExecutor")
+public void someAsyncMethod() { ... }
+```
+
+---
+

@@ -1,0 +1,26 @@
+
+===========================================================================================
+🔹 Producer Send Methods:
+
+Fire-and-forget: Fast, but no confirmation.
+Synchronous: Waits for a response—slower but safer.
+Asynchronous: Doesn’t wait, uses callbacks for errors.
+
+===========================================================================================
+🔹 Was it delivered?
+Control with acks:
+
+acks=0: Don’t wait—just send it!
+acks=1: Leader confirms receipt.
+acks=all: All replicas confirm—best reliability.
+
+===========================================================================================
+🔹 Partitioning Strategy:
+No key?
+Kafka v2.3 → Round-Robin
+Kafka v2.4+ → Sticky (smart batching)
+
+Key present?
+Kafka hashes it → Maps message to a specific partition.
+
+===========================================================================================

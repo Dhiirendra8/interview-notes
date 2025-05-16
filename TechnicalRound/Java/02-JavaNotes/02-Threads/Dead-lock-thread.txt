@@ -1,0 +1,119 @@
+**Deadlock** Java me ek aisi situation hoti hai jahan **do ya zyada threads ek dusre ka lock hold karke** kabhi bhi execution complete nahi kar pate — matlab **threads ek dusre ka intezar karte reh jaate hain**, aur system block ho jata hai.
+
+---
+
+## 🔒 Deadlock — Simple Explanation:
+
+Imagine karo:
+
+* **Thread A** ne **Resource 1** ka lock le liya hai, aur wo **Resource 2** ke liye wait kar raha hai.
+* **Thread B** ne **Resource 2** ka lock le liya hai, aur wo **Resource 1** ke liye wait kar raha hai.
+
+Ab:
+
+* Thread A → wait for Resource 2 → held by B
+* Thread B → wait for Resource 1 → held by A
+  ➡️ **Infinite wait** = Deadlock
+
+---
+
+## 🎯 Real-world Example in Java:
+
+```java
+public class DeadlockExample {
+    private static final Object Lock1 = new Object();
+    private static final Object Lock2 = new Object();
+
+    public static void main(String[] args) {
+        Thread t1 = new Thread(() -> {
+            synchronized (Lock1) {
+                System.out.println("Thread 1: Holding Lock1");
+                try { Thread.sleep(100); } catch (Exception e) {}
+
+                synchronized (Lock2) {
+                    System.out.println("Thread 1: Acquired Lock2");
+                }
+            }
+        });
+
+        Thread t2 = new Thread(() -> {
+            synchronized (Lock2) {
+                System.out.println("Thread 2: Holding Lock2");
+                try { Thread.sleep(100); } catch (Exception e) {}
+
+                synchronized (Lock1) {
+                    System.out.println("Thread 2: Acquired Lock1");
+                }
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+```
+
+🛑 **Deadlock ho sakta hai** kyunki t1 pehle `Lock1`, fir `Lock2` chah raha hai, aur t2 pehle `Lock2`, fir `Lock1`.
+
+---
+
+## 🛡️ Deadlock Prevention Strategies
+
+### ✅ 1. **Always Acquire Locks in Same Order**
+
+```java
+synchronized (Lock1) {
+    synchronized (Lock2) {
+        // safe
+    }
+}
+```
+
+* Har thread agar locks ka same order follow kare, to deadlock avoid hota hai.
+
+---
+
+### ✅ 2. **Use Try-Lock with Timeout (ReentrantLock)**
+
+```java
+ReentrantLock lock1 = new ReentrantLock();
+ReentrantLock lock2 = new ReentrantLock();
+
+if (lock1.tryLock(1, TimeUnit.SECONDS)) {
+    if (lock2.tryLock(1, TimeUnit.SECONDS)) {
+        // critical section
+        lock2.unlock();
+    }
+    lock1.unlock();
+}
+```
+
+* Agar lock na mile, to thread wait nahi karta
+* `tryLock` helps to **avoid infinite blocking**
+
+---
+
+### ✅ 3. **Avoid Nested Locks**
+
+Jitna ho sake **do locks ko ek sath acquire karna avoid karo**. Isse complexity kam hoti hai.
+
+---
+
+### ✅ 4. **Detect and Recover (Advanced)**
+
+Large systems me thread dumps analyze karke ya monitoring tools (like VisualVM, jConsole) se deadlocks detect karke recovery karte hain.
+
+---
+
+## 🔁 Summary Table
+
+| Prevention Technique     | Description                          |
+| ------------------------ | ------------------------------------ |
+| Lock ordering            | Sab threads same order me locks lein |
+| `tryLock()` with timeout | Avoid indefinite blocking            |
+| Avoid nested locking     | Design me lock dependencies kam karo |
+| Thread dump analysis     | Deadlock detect karne ke liye        |
+
+---
+
+Agar aap chaho to mai aapko **live code example with solution** bhi de sakta hoon. Batayein?
