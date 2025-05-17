@@ -1,0 +1,98 @@
+Java में **Fork/Join Framework** एक ऐसा mechanism है जो **large tasks को छोटे subtasks में divide** करके **parallel execution** की सुविधा देता है — यानी **multi-core processors** की ताकत का अच्छे से उपयोग करता है।
+
+---
+
+## 🔹 Fork/Join Framework क्या है?
+
+> यह Java 7 में introduce किया गया था (`java.util.concurrent` package में), और ये specially **divide and conquer** algorithm के लिए design किया गया है।
+
+---
+
+## 🔑 Main Concepts
+
+| Term                 | Explanation                                       |
+| -------------------- | ------------------------------------------------- |
+| **Fork**             | Task को छोटे-छोटे subtasks में divide करना        |
+| **Join**             | Subtasks का result मिलाकर final result तैयार करना |
+| **RecursiveTask<T>** | Return value वाले task के लिए                     |
+| **RecursiveAction**  | Return value **नहीं** देने वाले task के लिए       |
+| **ForkJoinPool**     | Task को manage और execute करने वाला pool          |
+
+---
+
+## ✅ Example: Sum of Array Using Fork/Join
+
+```java
+import java.util.concurrent.RecursiveTask;
+import java.util.concurrent.ForkJoinPool;
+
+class SumTask extends RecursiveTask<Long> {
+    private final int[] arr;
+    private final int start, end;
+    private static final int THRESHOLD = 5;
+
+    public SumTask(int[] arr, int start, int end) {
+        this.arr = arr;
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    protected Long compute() {
+        if (end - start <= THRESHOLD) {
+            // Base case: directly compute
+            long sum = 0;
+            for (int i = start; i < end; i++) {
+                sum += arr[i];
+            }
+            return sum;
+        } else {
+            // Fork into two subtasks
+            int mid = (start + end) / 2;
+            SumTask left = new SumTask(arr, start, mid);
+            SumTask right = new SumTask(arr, mid, end);
+
+            left.fork(); // run asynchronously
+            long rightResult = right.compute(); // run synchronously
+            long leftResult = left.join(); // wait for left to finish
+
+            return leftResult + rightResult;
+        }
+    }
+}
+```
+
+---
+
+### 🔽 Driver Code
+
+```java
+public class ForkJoinExample {
+    public static void main(String[] args) {
+        int[] numbers = new int[20];
+        for (int i = 0; i < 20; i++) numbers[i] = i + 1;
+
+        ForkJoinPool pool = new ForkJoinPool();
+        SumTask task = new SumTask(numbers, 0, numbers.length);
+
+        long result = pool.invoke(task);
+        System.out.println("Total sum = " + result); // Output: 210
+    }
+}
+```
+
+---
+
+## 🧠 Summary
+
+| Feature           | Fork/Join Framework                                |
+| ----------------- | -------------------------------------------------- |
+| Introduced In     | Java 7 (`java.util.concurrent`)                    |
+| Best Used For     | Divide and conquer problems                        |
+| Core Classes      | `ForkJoinPool`, `RecursiveTask`, `RecursiveAction` |
+| Efficient Because | Uses **work-stealing algorithm** internally        |
+| Parallelism       | Runs tasks in parallel using multiple threads      |
+
+---
+
+अगर चाहो तो मैं real-world problem जैसे **parallel file processing**, **matrix multiplication**, या **web crawling** के लिए Fork/Join का example भी दे सकता हूँ।

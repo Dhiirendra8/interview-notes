@@ -108,7 +108,11 @@ Exception in thread "main" java.util.ConcurrentModificationException
 
 Fail Safe Iterator
 
-First of all, there is no term as fail-safe given in many places as Java SE specifications does not use this term. I am using this term to demonstrate the difference between Fail Fast and Non-Fail Fast Iterator. These iterators make a copy of the internal collection (object array) and iterates over the copied collection. Any structural modification done to the iterator affects the copied collection, not original collection. So, original collection remains structurally unchanged. 
+First of all, there is no term as fail-safe given in many places as Java SE specifications does not use this term. 
+I am using this term to demonstrate the difference between Fail Fast and Non-Fail Fast Iterator. 
+These iterators make a copy of the internal collection (object array) and iterates over the copied collection. 
+Any structural modification done to the iterator affects the copied collection, not original collection. 
+So, original collection remains structurally unchanged. 
  
 
 Fail-safe iterators allow modifications of a collection while iterating over it.
@@ -116,7 +120,6 @@ These iterators don't throw any Exception if a collection is modified while iter
 They use copy of original collection to traverse over the elements of the collection.
 These iterators require extra memory for cloning of collection. Ex : ConcurrentHashMap, CopyOnWriteArrayList
 Example of Fail Safe Iterator in Java:
- 
 
 
 // Java code to illustrate
@@ -148,7 +151,9 @@ Output:
 3
 5
 8
-Also, those collections which don't use fail-fast concept may not necessarily create clone/snapshot of it in memory to avoid ConcurrentModificationException. For example, in case of ConcurrentHashMap, it does not operate on a separate copy although it is not fail-fast. Instead, it has semantics that is described by the official specification as weakly consistent(memory consistency properties in Java). Below code snippet will demonstrate this:
+Also, those collections which don't use fail-fast concept may not necessarily create clone/snapshot of it in memory to avoid ConcurrentModificationException. 
+For example, in case of ConcurrentHashMap, it does not operate on a separate copy although it is not fail-fast. Instead, it has semantics that is described by the official specification as weakly consistent(memory consistency properties in Java). 
+Below code snippet will demonstrate this:
 Example of Fail-Safe Iterator which does not create separate copy 
  
 

@@ -14,14 +14,14 @@ Thread Pools (Executor Framework)
 	- We can shutdown ExecutorService by using shutdown() method
 		- service.shutdown();
 		
-	- While desining web-servers and appicatin servers , we use Thread Pool concept
+	- While desining web-servers and appication servers , we use Thread Pool concept
 	
 	
 	- Callable and Future : 
 		- In the case of Runnable job , thread wont return anything after completing the job
 		- If a thread is required to return some result after execution then we should go for Callable
 		- Callable interface contains only one method call()
-			public Object call() throws Exception
+			public Object call() throws Exception;
 		- If we submit a callable object to Excecutor then after completing the job thread returns an object of the type Future
 		- That is Future object can be used to retreive the result from Callable job
 			Future f = service.submit(job);

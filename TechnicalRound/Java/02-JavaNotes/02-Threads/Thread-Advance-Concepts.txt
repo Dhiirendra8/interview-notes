@@ -128,5 +128,3 @@ CompletableFuture.supplyAsync(() -> "Data")
 * Avoid deadlocks and race conditions via design
 
 ---
-
-Would you like code samples for any of these (e.g., `Semaphore`, `ForkJoin`, or `CompletableFuture` chaining)?

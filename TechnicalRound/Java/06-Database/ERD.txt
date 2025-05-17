@@ -1,0 +1,112 @@
+Here’s an **ERD (Entity Relationship Diagram)** for a basic microservice architecture involving:
+
+* **Order Service**
+* **Payment Service**
+* **Inventory Service**
+* **Shipping Service**
+
+Each microservice has its own **bounded context** and database schema. Relationships are represented using **foreign keys or external references**, but they are enforced at the application level (not DB-level) due to microservice boundaries.
+
+---
+
+### 📦 Microservices and Entities
+
+---
+
+#### 📘 **Order Service**
+
+* **orders**
+
+  * `order_id` (PK)
+  * `user_id`
+  * `order_date`
+  * `status`
+  * `total_amount`
+
+---
+
+#### 💳 **Payment Service**
+
+* **payments**
+
+  * `payment_id` (PK)
+  * `order_id` (external reference to orders)
+  * `payment_date`
+  * `amount`
+  * `payment_status`
+
+---
+
+#### 📦 **Inventory Service**
+
+* **products**
+
+  * `product_id` (PK)
+  * `product_name`
+  * `quantity`
+  * `price`
+
+* **inventory\_logs**
+
+  * `log_id` (PK)
+  * `product_id` (FK to products)
+  * `change_type` (ADD/REMOVE)
+  * `quantity_changed`
+  * `log_time`
+
+---
+
+#### 🚚 **Shipping Service**
+
+* **shipments**
+
+  * `shipment_id` (PK)
+  * `order_id` (external reference)
+  * `shipping_address`
+  * `status`
+  * `shipped_date`
+
+---
+
+### 🔗 Entity Relationships (via order\_id / product\_id)
+
+* **orders** → referenced by **payments** and **shipments**
+* **products** → referenced by **inventory\_logs**
+* Relationships are soft (through IDs), not enforced via DB-level FKs across services.
+
+---
+
+### 📊 ERD Diagram (Text-based Format)
+
+```plaintext
+┌────────────┐        ┌──────────────┐
+│  orders    │        │  payments    │
+├────────────┤        ├──────────────┤
+│ order_id   │◄───────│ order_id     │
+│ user_id    │        │ payment_id   │
+│ order_date │        │ payment_date │
+│ status     │        │ amount       │
+│ total_amt  │        │ status       │
+└────────────┘        └──────────────┘
+
+┌────────────┐        ┌───────────────┐
+│  products  │        │ inventory_logs│
+├────────────┤        ├───────────────┤
+│ product_id │◄───────│ product_id    │
+│ name       │        │ change_type   │
+│ quantity   │        │ qty_changed   │
+│ price      │        │ log_time      │
+└────────────┘        └───────────────┘
+
+┌────────────┐
+│ shipments  │
+├────────────┤
+│ shipment_id│
+│ order_id   │◄───────── (soft FK)
+│ address    │
+│ status     │
+│ ship_date  │
+└────────────┘
+```
+
+

@@ -25,9 +25,9 @@
 	-> Java custom exceptions are used to customize the exception according to user need.
 	-> class InvalidAgeException extends Exception{  
 		InvalidAgeException(String s){  
-		super(s);  
-		 }  
+			super(s);  
 		}  
+	}  
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------		
 4. Throw vs Throws Keywords
@@ -158,10 +158,6 @@ Deep : with "new" keyword
 -> Immutable objects are objects which once declared elements can't be modified after it.
 -> 
 
-
-
-
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 9. How to create Immutable class in Java?
 -> Immutable class in java means that once an object is created, we cannot change its content. 
@@ -281,13 +277,8 @@ The existing String simply has one more reference. Here comes the point of makin
 If several references point to the same String without even knowing it, it would be bad if one of the references modified that String value. 
 That's why String objects are immutable.
 
-
-
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 11. What happens if someone overrides the functionality of the String class? 
 -> As String class is marked final so that nobody can override the behavior of its methods.
-
-
-
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -64,7 +64,7 @@ list.forEach(System.out::println); // forEach is a default method in Iterable
 ```
 
 ---
-Zaroor! Chaliye **Java 8 ke baad interface** aur **abstract class** ke beech ka **difference** detail me samjhte hain. Pehle basic definition, fir table comparison aur examples ke saath.
+Chaliye **Java 8 ke baad interface** aur **abstract class** ke beech ka **difference** detail me samjhte hain. Pehle basic definition, fir table comparison aur examples ke saath.
 
 ---
 
@@ -166,5 +166,3 @@ interface Flyable {
 * **Java 8+ interfaces**: much more powerful, bridging the gap between class and interface.
 
 ---
-
-Batayein, aapko isme se kis scenario ke liye use karna hai? Mai help kar sakta hoon design decide karne me.

@@ -157,10 +157,4 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 
 ---
 
-Would you like a **Spring Boot Kafka consumer** example with:
 
-* Manual offset commit
-* Retry and DLQ handling
-* Observability metrics?
-
-Or want help designing **exactly-once or at-least-once consumers**?

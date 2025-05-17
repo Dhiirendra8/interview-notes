@@ -38,16 +38,15 @@ each shard (segment) instead of putting a single lock for whole data (Map).
 			switiching is going to be herculean task)
 	
 # What is POJO?
-
-	Answer:
-		POJO stands for "Plain Old Java Object" — it’s a pure data structure that has fields with getters and possibly setters, 
-		and may override some methods from Object (e.g. equals) or some other interface like Serializable, but does not have behavior of its own.
-		POJO is an ordinary Java object, not bound by any special restriction and not requiring any class path.
-		
-		A 'Java Bean' is a specification which requires a Java Class to be serializable, have a no-arg constructor and 
-		a getter and setter for each field
-		Therefore a bean is a POJO but a POJO may not be a bean, except that some tools refer to classes as beans when strictly they are not 
-		(such as in Spring) but this usually for the better since it makes the classes easier to use.
+Answer:
+	POJO stands for "Plain Old Java Object" — it’s a pure data structure that has fields with getters and possibly setters, 
+	and may override some methods from Object (e.g. equals) or some other interface like Serializable, but does not have behavior of its own.
+	POJO is an ordinary Java object, not bound by any special restriction and not requiring any class path.
+	
+	A 'Java Bean' is a specification which requires a Java Class to be serializable, have a no-arg constructor and 
+	a getter and setter for each field
+	Therefore a bean is a POJO but a POJO may not be a bean, except that some tools refer to classes as beans when strictly they are not 
+	(such as in Spring) but this usually for the better since it makes the classes easier to use.
 		
 		
 --------------------------------------------------
@@ -72,8 +71,5 @@ Exception: Can be caught or handled using try-catch blocks to maintain program f
 5. Predictability:
 Error: Often unpredictable and outside the application's control.
 Exception: Can be anticipated and handled through proper coding practices.
-		
-		
-		
 		
 		

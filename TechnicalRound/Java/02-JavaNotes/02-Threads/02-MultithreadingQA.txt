@@ -1,13 +1,7 @@
 1. What does start() function do in multithreading in Java?
 -The purpose of start() is to create a separate call stack for the thread. A separate call stack is created by it, and then run() is called by JVM.
 
-2. Sleep vs wait() method. What will happen if wait() is called from message method [Class A { void message(){ wait();} }]
-
-3. Start the same thread twice ? � java.lang.IllegalThreadStateException
-
-4. What does start() function do in multithreading in Java?
-The purpose of start() is to create a separate call stack for the thread. A separate call stack is created by it, and then run() is called by JVM.
-
+2. Start the same thread twice ? � java.lang.IllegalThreadStateException
 Can we start a thread twice
 No. After starting a thread, it can never be started again. If you does so, an java.lang.IllegalThreadStateException is thrown. In such case, thread will run once but for second time, it will throw exception.
 
@@ -16,12 +10,12 @@ What if we call run() method directly instead start() method?
 does not start a separate call stack 
 
 
-JVM doesn�t wait for daemon thread to finish but it waits for User Thread .
+JVM doesn�t wait for daemon thread to finish but it waits for User Thread .
 For example, one might have noticed this behavior while running Java program in NetBeans that even if the main thread has finished, 
 the top left down button is still red, showing that Java program is still running. This is due to any user thread spawned from the main thread, 
-but with main thread one don�t see that red dot in NetBeans.
+but with main thread one don�t see that red dot in NetBeans.
 
-Thread Priority : The User threads are high priority as compare to daemon thread means they won�t get CPU as easily as a user thread can get.
+Thread Priority : The User threads are high priority as compare to daemon thread means they won�t get CPU as easily as a user thread can get.
 Creation of Thread : User thread is usually created by the application for executing some task concurrently. On the other hand, 
 daemon thread is mostly created by JVM like for some garbage collection job.
 Termination of Thread : JVM will force daemon thread to terminate if all user threads have finished their execution but 
@@ -29,3 +23,151 @@ The user thread is closed by application or by itself. A user thread can keep ru
 a daemon thread cannot keep running by the JVM. This is the most critical difference between user thread and daemon thread.
 Usage : The daemons threads are not used for any critical task. Any important task is done by user thread. 
 A daemon thread is generally used for some background tasks which are not critical task.
+
+==================
+# Sleep vs wait() method. What will happen if wait() is called from message method [Class A { void message(){ wait();} }]
+
+Great question! Let's break this into two parts:
+
+---
+
+## 🔁 **1. Difference Between `sleep()` and `wait()`**
+
+| Feature          | `sleep()` (from `Thread`)                 | `wait()` (from `Object`)                                       |
+| ---------------- | ----------------------------------------- | -------------------------------------------------------------- |
+| Belongs to       | `Thread` class                            | `Object` class                                                 |
+| Purpose          | Pause current thread for a specified time | Causes thread to wait until `notify()`/`notifyAll()` is called |
+| Lock requirement | **Does NOT** release any lock             | **Releases** the monitor lock                                  |
+| Synchronization  | Doesn’t require synchronized block        | **Must be called from a synchronized block/method**            |
+| Throws           | `InterruptedException`                    | `InterruptedException`                                         |
+
+---
+
+## 🔍 **2. What if `wait()` is called from a non-synchronized method?**
+
+Let’s analyze this code:
+
+```java
+class A {
+    void message() {
+        wait(); // <-- Problematic!
+    }
+}
+```
+
+🛑 **This will throw an exception at runtime:**
+
+```
+java.lang.IllegalMonitorStateException
+```
+
+### ❓ Why?
+
+Because `wait()` can **only be called** by a thread that **owns the object's monitor**. In Java, this means the thread must be in a **synchronized block or method** on that object.
+
+### ✅ Correct version:
+
+```java
+class A {
+    synchronized void message() {
+        try {
+            wait(); // Now it's okay
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+Now, since `message()` is `synchronized`, the thread has acquired the lock on the object of class `A`, so `wait()` works properly — it releases the lock and waits to be notified.
+
+---
+
+## 🧠 Summary
+
+* Use `sleep()` when you want to pause the thread for a time without dealing with synchronization.
+* Use `wait()` inside synchronized blocks when you want to **wait for a condition** and coordinate between threads.
+* Calling `wait()` outside of a synchronized context throws `IllegalMonitorStateException`.
+
+=================================================================
+code demo with `wait()` and `notify()`.
+Here’s a simple working **Java example** demonstrating `wait()` and `notify()` — often used for **thread communication** (producer-consumer type pattern):
+
+---
+
+### ✅ Example: `wait()` and `notify()` in Java
+
+```java
+class SharedResource {
+    private boolean dataReady = false;
+
+    public synchronized void produce() {
+        System.out.println("Producing data...");
+        dataReady = true;
+        notify();  // Wake up waiting thread
+        System.out.println("Producer notified consumer.");
+    }
+
+    public synchronized void consume() {
+        while (!dataReady) {
+            try {
+                System.out.println("Waiting for data...");
+                wait();  // Wait until notified
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Consuming the data...");
+        dataReady = false;
+    }
+}
+```
+
+---
+
+### ✅ Test Class
+
+```java
+public class WaitNotifyExample {
+    public static void main(String[] args) {
+        SharedResource resource = new SharedResource();
+
+        Thread consumerThread = new Thread(() -> resource.consume());
+        Thread producerThread = new Thread(() -> {
+            try {
+                Thread.sleep(2000); // Simulate delay in producing
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            resource.produce();
+        });
+
+        consumerThread.start();
+        producerThread.start();
+    }
+}
+```
+
+---
+
+### 🧾 Output
+
+```
+Waiting for data...
+Producing data...
+Producer notified consumer.
+Consuming the data...
+```
+
+---
+
+### 🧠 Key Concepts:
+
+* `wait()` pauses the current thread and **releases the lock**.
+* `notify()` **wakes up** one thread waiting on that object’s monitor.
+* You **must call both inside synchronized context**.
+
+=========================================================================================
+
+
+

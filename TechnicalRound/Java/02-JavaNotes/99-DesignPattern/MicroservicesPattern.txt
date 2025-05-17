@@ -11,8 +11,8 @@
         So, there is no a single conductor but each service is responsible for doing its part of the job.
     - 
 
-3. Aggragator (समूहक)
-    - We can define an Aggragator as a simple web module will act as a load balancer, 
+3. Aggregator (समूहक)
+    - We can define an Aggregator as a simple web module will act as a load balancer, 
         which means it will call different services as per requirements
     - An aggregator can be again exposed as another service to the outer world, 
         which can be consumed by others whenever required

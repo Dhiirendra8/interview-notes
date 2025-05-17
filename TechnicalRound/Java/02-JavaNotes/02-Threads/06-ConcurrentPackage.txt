@@ -8,8 +8,8 @@ java.util.concurrent package - Java 1.5
 	4. Thre is no APi to list out to all waiting threads for a lock
 	5. The synchronized keyword we compulsory have to use either at method lvl or withing a method and it is not possible to use accross multiple methods
 	
-	To overcome above problems Sun people introduced java.util.concurrent.locks package in 1.5 version
-	- It also provides several enhacements to the programmer to provide more control on concurrency
+To overcome above problems Sun people introduced java.util.concurrent.locks package in 1.5 version
+- It also provides several enhacements to the programmer to provide more control on concurrency
 	
 	Interface - Lock
 		- Lock object is simmilar to implecit lock aquired by a thread to excute synchronized method or synchronized block 

@@ -1,141 +1,141 @@
 ExecutorService
 
-	- ExecutorService is a framework provided by the JDK which simplifies the execution of tasks in asynchronous mode. 
-	- Generally speaking, ExecutorService automatically provides a pool of threads and API for assigning tasks to it.
-	
-	- Instantiating ExecutorService
-		1. Factory Methods of the Executors Class
-				- The easiest way to create ExecutorService is to use one of the factory methods of the Executors class.
+- ExecutorService is a framework provided by the JDK which simplifies the execution of tasks in asynchronous mode. 
+- ExecutorService automatically provides a pool of threads and API for assigning tasks to it.
 
-				- For example, the following line of code will create a thread-pool with 10 threads:
-					ExecutorService executor = Executors.newFixedThreadPool(10);
+- Instantiating ExecutorService
+1. Factory Methods of the Executors Class
+- The easiest way to create ExecutorService is to use one of the factory methods of the Executors class.
 
-				- There are several other factory methods to create predefined ExecutorService that meet specific use cases.
-				
-				
-				
-		2. Directly Create an ExecutorService
-			- Because ExecutorService is an interface, an instance of any its implementations can be used. 
-			- There are several implementations to choose from in the java.util.concurrent package or you can create your own.
+- For example, the following line of code will create a thread-pool with 10 threads:
+	ExecutorService executor = Executors.newFixedThreadPool(10);
 
-			- For example, the ThreadPoolExecutor class has a few constructors which can be used to configure an executor service and its internal pool.
-
-					ExecutorService executorService = 
-					  new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,   
-					  new LinkedBlockingQueue<Runnable>());
-
-			- You may notice that the code above is very similar to the source code of the factory method newSingleThreadExecutor(). 
-				For most cases, a detailed manual configuration isn’t necessary.
+- There are several other factory methods to create predefined ExecutorService that meet specific use cases.
+						
 			
-			
-		3. Assigning Tasks to the ExecutorService
-			ExecutorService can execute Runnable and Callable tasks. To keep things simple in this article, two primitive tasks will be used. 
-			Notice that lambda expressions are used here instead of anonymous inner classes:	
+2. Directly Create an ExecutorService
+- Because ExecutorService is an interface, an instance of any its implementations can be used. 
+- There are several implementations to choose from in the java.util.concurrent package or you can create your own.
 
-					Runnable runnableTask = () -> {
-						try {
-							TimeUnit.MILLISECONDS.sleep(300);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-					};
-					 
-					Callable<String> callableTask = () -> {
+- For example, the ThreadPoolExecutor class has a few constructors which can be used to configure an executor service and its internal pool.
+
+		ExecutorService executorService = 
+			new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,   
+			new LinkedBlockingQueue<Runnable>());
+
+- You may notice that the code above is very similar to the source code of the factory method newSingleThreadExecutor(). 
+	For most cases, a detailed manual configuration isn’t necessary.
+		
+		
+3. Assigning Tasks to the ExecutorService
+- ExecutorService can execute Runnable and Callable tasks. To keep things simple in this article, two primitive tasks will be used. 
+- Notice that lambda expressions are used here instead of anonymous inner classes:	
+
+				Runnable runnableTask = () -> {
+					try {
 						TimeUnit.MILLISECONDS.sleep(300);
-						return "Task's execution";
-					};
-					 
-					List<Callable<String>> callableTasks = new ArrayList<>();
-					callableTasks.add(callableTask);
-					callableTasks.add(callableTask);
-					callableTasks.add(callableTask);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				};
+					
+				Callable<String> callableTask = () -> {
+					TimeUnit.MILLISECONDS.sleep(300);
+					return "Task's execution";
+				};
+					
+				List<Callable<String>> callableTasks = new ArrayList<>();
+				callableTasks.add(callableTask);
+				callableTasks.add(callableTask);
+				callableTasks.add(callableTask);
 
-					Tasks can be assigned to the ExecutorService using several methods, including execute(), 
-					which is inherited from the Executor interface, and also submit(), invokeAny(), invokeAll().
+Tasks can be assigned to the ExecutorService using several methods, including execute(), 
+which is inherited from the Executor interface, and also submit(), invokeAny(), invokeAll().
 
-						- The execute() method is void, and it doesn’t give any possibility to get the result of task’s execution 
-							or to check the task’s status (is it running or executed).
-						executorService.execute(runnableTask);
+	- The execute() method is void, and it doesn’t give any possibility to get the result of task’s execution 
+		or to check the task’s status (is it running or executed).
+	executorService.execute(runnableTask);
 
-						- submit() submits a Callable or a Runnable task to an ExecutorService and returns a result of type Future.	
-							Future<String> future = 
-							  executorService.submit(callableTask);
+	- submit() submits a Callable or a Runnable task to an ExecutorService and returns a result of type Future.	
+		Future<String> future = 
+			executorService.submit(callableTask);
 
-						- invokeAny() assigns a collection of tasks to an ExecutorService, causing each to be executed, 
-							and returns the result of a successful execution of one task (if there was a successful execution).	
-							String result = executorService.invokeAny(callableTasks);
+	- invokeAny() assigns a collection of tasks to an ExecutorService, causing each to be executed, 
+		and returns the result of a successful execution of one task (if there was a successful execution).	
+		String result = executorService.invokeAny(callableTasks);
 
-						- invokeAll() assigns a collection of tasks to an ExecutorService, causing each to be executed, 
-							and returns the result of all task executions in the form of a list of objects of type Future.	
-							List<Future<String>> futures = executorService.invokeAll(callableTasks);
+	- invokeAll() assigns a collection of tasks to an ExecutorService, causing each to be executed, 
+		and returns the result of all task executions in the form of a list of objects of type Future.	
+		List<Future<String>> futures = executorService.invokeAll(callableTasks);
 
 # Now, before going any further, two more things must be discussed: shutting down an ExecutorService and dealing with Future return types.
 
-		4. Shutting Down an ExecutorService
-			- In general, the ExecutorService will not be automatically destroyed when there is no task to process. 
-				It will stay alive and wait for new work to do.
-			- In some cases this is very helpful; for example, if an app needs to process tasks which appear on an irregular basis 
-				or the quantity of these tasks is not known at compile time.
-			- On the other hand, an app could reach its end, but it will not be stopped because a waiting ExecutorService will cause the JVM 
-				to keep running.
-			- To properly shut down an ExecutorService, we have the shutdown() and shutdownNow() APIs.
-			- The shutdown() method doesn’t cause an immediate destruction of the ExecutorService. 
-				It will make the ExecutorService stop accepting new tasks and shut down after all running threads finish their current work.
-					executorService.shutdown();
+4. Shutting Down an ExecutorService
+- In general, the ExecutorService will not be automatically destroyed when there is no task to process. 
+	It will stay alive and wait for new work to do.
+- In some cases this is very helpful; for example, if an app needs to process tasks which appear on an irregular basis 
+	or the quantity of these tasks is not known at compile time.
+- On the other hand, an app could reach its end, but it will not be stopped because a waiting ExecutorService will cause the JVM 
+	to keep running.
+- To properly shut down an ExecutorService, we have the shutdown() and shutdownNow() APIs.
+=> The shutdown() method doesn’t cause an immediate destruction of the ExecutorService. 
+	It will make the ExecutorService stop accepting new tasks and shut down after all running threads finish their current work.
+		executorService.shutdown();
 
-			- The shutdownNow() method tries to destroy the ExecutorService immediately, 
-				but it doesn’t guarantee that all the running threads will be stopped at the same time. 
-				This method returns a list of tasks which are waiting to be processed. 
-				It is up to the developer to decide what to do with these tasks.
-					List<Runnable> notExecutedTasks = executorService.shutDownNow();
+=> The shutdownNow() method tries to destroy the ExecutorService immediately, 
+	but it doesn’t guarantee that all the running threads will be stopped at the same time. 
+	This method returns a list of tasks which are waiting to be processed. 
+	It is up to the developer to decide what to do with these tasks.
+		List<Runnable> notExecutedTasks = executorService.shutDownNow();
 
-			- One good way to shut down the ExecutorService (which is also recommended by Oracle) is to use both of these methods 
-				combined with the awaitTermination() method. 
-				With this approach, the ExecutorService will first stop taking new tasks, 
-				the wait up to a specified period of time for all tasks to be completed. 
-				If that time expires, the execution is stopped immediately:
+	- One good way to shut down the ExecutorService (which is also recommended by Oracle) is to use both of these methods 
+		combined with the awaitTermination() method. 
+		With this approach, the ExecutorService will first stop taking new tasks, 
+		the wait up to a specified period of time for all tasks to be completed. 
+		If that time expires, the execution is stopped immediately:
+
+		executorService.shutdown();
+		try {
+			if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+				executorService.shutdownNow();
+			} 
+		} catch (InterruptedException e) {
+			executorService.shutdownNow();
+		}
+		
+		
+5. The Future Interface
+
+- The submit() and invokeAll() methods return an object or a collection of objects of type Future, 
+	which allows us to get the result of a task’s execution or to check the task’s status (is it running or executed).
+
+- The Future interface provides a special blocking method get() which returns an actual result of the Callable task’s execution 
+	or null in the case of Runnable task. 
+	Calling the get() method while the task is still running will cause execution to block until the task is properly executed 
+	and the result is available.
 	
-				executorService.shutdown();
-				try {
-					if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
-						executorService.shutdownNow();
-					} 
-				} catch (InterruptedException e) {
-					executorService.shutdownNow();
-				}
-				
-				
-		5. The Future Interface
+	Future<String> future = executorService.submit(callableTask);
+	String result = null;
+	try {
+		result = future.get();
+	} catch (InterruptedException | ExecutionException e) {
+		e.printStackTrace();
+	}
 
-			- The submit() and invokeAll() methods return an object or a collection of objects of type Future, 
-				which allows us to get the result of a task’s execution or to check the task’s status (is it running or executed).
+	With very long blocking caused by the get() method, an application’s performance can degrade. If the resulting data is not crucial, it is possible to avoid such a problem by using timeouts:
+		String result = future.get(200, TimeUnit.MILLISECONDS);
+	If the execution period is longer than specified (in this case 200 milliseconds), a TimeoutException will be thrown.
+	
+	-The isDone() method can be used to check if the assigned task is already processed or not.
 
-			- The Future interface provides a special blocking method get() which returns an actual result of the Callable task’s execution 
-				or null in the case of Runnable task. 
-				Calling the get() method while the task is still running will cause execution to block until the task is properly executed 
-				and the result is available.
-				
-				Future<String> future = executorService.submit(callableTask);
-				String result = null;
-				try {
-					result = future.get();
-				} catch (InterruptedException | ExecutionException e) {
-					e.printStackTrace();
-				}
+	The Future interface also provides for the cancellation of task execution with the cancel() method, and to check the cancellation with isCancelled() method:	
+		boolean canceled = future.cancel(true);
+		boolean isCancelled = future.isCancelled();
+		
+6. The ScheduledExecutorService Interface
 
-			With very long blocking caused by the get() method, an application’s performance can degrade. If the resulting data is not crucial, it is possible to avoid such a problem by using timeouts:
-				String result = future.get(200, TimeUnit.MILLISECONDS);
-			If the execution period is longer than specified (in this case 200 milliseconds), a TimeoutException will be thrown.
-			
-			-The isDone() method can be used to check if the assigned task is already processed or not.
-
-			The Future interface also provides for the cancellation of task execution with the cancel() method, and to check the cancellation with isCancelled() method:	
-				boolean canceled = future.cancel(true);
-				boolean isCancelled = future.isCancelled();
-				
-		6. The ScheduledExecutorService Interface
-
-The ScheduledExecutorService runs tasks after some predefined delay and/or periodically. Once again, the best way to instantiate a ScheduledExecutorService is to use the factory methods of the Executors class.
+The ScheduledExecutorService runs tasks after some predefined delay and/or periodically. 
+Once again, the best way to instantiate a ScheduledExecutorService is to use the factory methods of the Executors class.
 
 For this section, a ScheduledExecutorService with one thread will be used:
 1
@@ -151,7 +151,8 @@ To schedule a single task’s execution after a fixed delay, us the scheduled() 
 Future<String> resultFuture = 
   executorService.schedule(callableTask, 1, TimeUnit.SECONDS);
 
-The scheduleAtFixedRate() method lets execute a task periodically after a fixed delay. The code above delays for one second before executing callableTask.
+The scheduleAtFixedRate() method lets execute a task periodically after a fixed delay. 
+The code above delays for one second before executing callableTask.
 
 The following block of code will execute a task after an initial delay of 100 milliseconds, and after that, it will execute the same task every 450 milliseconds. If the processor needs more time to execute an assigned task than the period parameter of the scheduleAtFixedRate() method, the ScheduledExecutorService will wait until the current task is completed before starting the next:
 1
@@ -160,15 +161,19 @@ The following block of code will execute a task after an initial delay of 100 mi
 Future<String> resultFuture = service
   .scheduleAtFixedRate(runnableTask, 100, 450, TimeUnit.MILLISECONDS);
 
-If it is necessary to have a fixed length delay between iterations of the task, scheduleWithFixedDelay() should be used. For example, the following code will guarantee a 150-millisecond pause between the end of the current execution and the start of another one.
+If it is necessary to have a fixed length delay between iterations of the task, scheduleWithFixedDelay() should be used. 
+For example, the following code will guarantee a 150-millisecond pause between the end of the current execution and the start of another one.
 1
 	
 service.scheduleWithFixedDelay(task, 100, 150, TimeUnit.MILLISECONDS);
 
 According to the scheduleAtFixedRate() and scheduleWithFixedDelay() method contracts, period execution of the task will end at the termination of the ExecutorService or if an exception is thrown during task execution.
+
+=========================================================================================
 7. ExecutorService vs. Fork/Join
 
-After the release of Java 7, many developers decided that the ExecutorService framework should be replaced by the fork/join framework. This is not always the right decision, however. Despite the simplicity of usage and the frequent performance gains associated with fork/join, there is also a reduction in the amount of developer control over concurrent execution.
+After the release of Java 7, many developers decided that the ExecutorService framework should be replaced by the fork/join framework. 
+	This is not always the right decision, however. Despite the simplicity of usage and the frequent performance gains associated with fork/join, there is also a reduction in the amount of developer control over concurrent execution.
 
 ExecutorService gives the developer the ability to control the number of generated threads and the granularity of tasks which should be executed by separate threads. The best use case for ExecutorService is the processing of independent tasks, such as transactions or requests according to the scheme “one thread for one task.”
 

@@ -391,11 +391,14 @@ package : java.util.Stream
 
 -------------------------------------------------------------------------------------------------------
 #Java Stream Specializations
-	From what we discussed so far, Stream is a stream of object references. However, there are also the IntStream, LongStream, and DoubleStream - which are primitive specializations for int, long and double respectively. These are quite convenient when dealing with a lot of numerical primitives.
+	From what we discussed so far, Stream is a stream of object references. 
+	However, there are also the IntStream, LongStream, and DoubleStream - which are primitive specializations for int, long and double respectively. 
+	These are quite convenient when dealing with a lot of numerical primitives.
 
 	These specialized streams do not extend Stream but extend BaseStream on top of which Stream is also built.
 
-	As a consequence, not all operations supported by Stream are present in these stream implementations. For example, the standard min() and max() take a comparator, whereas the specialized streams do not.
+	As a consequence, not all operations supported by Stream are present in these stream implementations. 
+	For example, the standard min() and max() take a comparator, whereas the specialized streams do not.
 
 *Creation
 	The most common way of creating an IntStream is to call mapToInt() on an existing stream:
@@ -443,7 +446,8 @@ package : java.util.Stream
 	}
 -------------------------------------------------------------------------------------------------------
 #Reduction Operations
-	A reduction operation (also called as fold) takes a sequence of input elements and combines them into a single summary result by repeated application of a combining operation. We already saw few reduction operations like findFirst(), min() and max().
+	A reduction operation (also called as fold) takes a sequence of input elements and combines them into a single summary result by repeated application of a combining operation. 
+	We already saw few reduction operations like findFirst(), min() and max().
 
 	Let's see the general-purpose reduce() operation in action.
 

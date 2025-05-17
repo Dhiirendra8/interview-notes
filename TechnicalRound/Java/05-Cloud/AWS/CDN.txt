@@ -1,0 +1,67 @@
+CDN (Content Delivery Network) एक ऐसी **distributed network of servers** होती है जो इंटरनेट पर content को **fast, reliable और secure तरीके से** users तक पहुँचाने के लिए design की गई होती है।
+
+---
+
+## 🔍 CDN Service Kya Karti Hai?
+
+जब आप कोई वेबसाइट खोलते हो — जैसे Amazon, Flipkart या YouTube — तो उस वेबसाइट के images, videos, CSS, JS files वगैरह अक्सर किसी **CDN server** से load होते हैं।
+
+CDN का काम होता है content को geographically distributed servers में रखना, ताकि वह content user के **नजदीकी server** से load हो और fast दिखे।
+
+---
+
+## 🧱 Components of a CDN:
+
+| Component                    | Description                                                                     |
+| ---------------------------- | ------------------------------------------------------------------------------- |
+| **Edge Servers**             | इंटरनेट users के करीब होते हैं और cached content serve करते हैं                 |
+| **Origin Server**            | Main server जहाँ actual data रहता है                                            |
+| **Caching**                  | Static content को temporary memory में रखना ताकि बार-बार origin से ना लाना पड़े |
+| **PoPs (Point of Presence)** | दुनिया के अलग-अलग शहरों में deployed servers                                    |
+
+---
+
+## ✅ CDN Kyon Use Karte Hain?
+
+| Benefit                              | Explanation                                                            |
+| ------------------------------------ | ---------------------------------------------------------------------- |
+| 🌐 **Faster Loading**                | Content user के नजदीकी server से आता है, इसलिए latency कम होती है      |
+| ⚙️ **Reduced Load on Origin Server** | CDN static content serve करता है, जिससे main server पर load कम होता है |
+| 🛡️ **DDoS Protection**              | Malicious traffic को CDN absorb कर लेता है                             |
+| 🔁 **Caching & Versioning**          | Static assets like images, CSS, JS files efficiently cache होते हैं    |
+| 🌍 **Global Reach**                  | किसी भी जगह से content जल्दी accessible होता है                        |
+
+---
+
+## 🎯 Real-World CDN Providers
+
+* **Cloudflare**
+* **Akamai**
+* **Amazon CloudFront (AWS)**
+* **Google Cloud CDN**
+* **Azure CDN**
+* **Fastly**
+
+---
+
+## 📦 Use Case Example
+
+मान लो आपकी website India में host है लेकिन कोई user USA से access कर रहा है, तो:
+
+* Without CDN: Request India तक जाएगा → response आएगा (slow).
+* With CDN: USA के करीब PoP से file serve होगी → बहुत तेज response.
+
+---
+
+## 🔧 In Tech Terms:
+
+CDN mainly serves:
+
+* Static content: Images, videos, fonts, CSS, JS
+* Dynamic content optimization (some modern CDNs)
+* SSL termination
+* Load balancing (to some extent)
+
+---
+
+अगर चाहो तो मैं बता सकता हूँ कैसे **Cloudflare CDN** को Spring Boot app के साथ integrate किया जाता है।

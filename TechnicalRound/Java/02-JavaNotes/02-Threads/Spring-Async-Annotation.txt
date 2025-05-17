@@ -1,4 +1,5 @@
-In **Spring Framework**, `@Async` is an annotation used to **run a method asynchronously**, meaning it will execute in a **separate thread** and not block the caller.
+In **Spring Framework**, `@Async` is an annotation used to **run a method asynchronously**, 
+meaning it will execute in a **separate thread** and not block the caller.
 
 ---
 
