@@ -56,22 +56,6 @@ ngModelChange & Change Event
 Adding Child Component in Angular
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -----------------------------------------------------------------------------------------------------------------------------------------------
 package.json - libraries, modules 
 typing.json - 

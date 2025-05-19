@@ -2,9 +2,6 @@
 
 
 
-
-
-
 1. \
    ### What is Angular Framework?
 
