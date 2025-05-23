@@ -1,0 +1,39 @@
+Great question — **concurrency** and **multithreading** are related but distinct concepts in Java and computer science. Here's a clear breakdown:
+
+---
+
+### ✅ **Concurrency**
+
+* **Definition**: The ability of a program to **handle multiple tasks at once**, potentially making progress on more than one task **without necessarily running them simultaneously**.
+* **Goal**: Manage multiple tasks efficiently by interleaving execution (e.g., through task scheduling).
+* **Example**: A single-core CPU switching between tasks (Task A → Task B → Task A).
+
+#### 🔸 Think of it as:
+
+> Managing multiple tasks over time, giving the illusion of parallelism.
+
+---
+
+### ✅ **Multithreading**
+
+* **Definition**: A specific way to achieve concurrency by using **multiple threads** within the same process.
+* **Goal**: Divide work across threads to achieve concurrent (and sometimes parallel) execution.
+* **Example**: A Java program creating multiple threads to perform logging, data processing, and UI rendering at once.
+
+#### 🔸 Think of it as:
+
+> A technique (among others) to implement concurrency using threads.
+
+---
+
+### ✅ Key Differences:
+
+| Aspect           | Concurrency                            | Multithreading                          |
+| ---------------- | -------------------------------------- | --------------------------------------- |
+| Concept          | Design principle                       | Execution model                         |
+| Implementation   | Can use threads, processes, coroutines | Specifically uses multiple threads      |
+| Goal             | Manage multiple tasks efficiently      | Execute multiple threads simultaneously |
+| CPU Cores Needed | Can run on a single core               | Can benefit from multiple cores         |
+| Java Example     | ExecutorService, CompletableFuture     | `Thread`, `Runnable`, `synchronized`    |
+
+

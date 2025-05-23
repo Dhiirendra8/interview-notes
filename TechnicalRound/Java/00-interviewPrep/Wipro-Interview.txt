@@ -1,0 +1,342 @@
+Here’s a comprehensive set of answers and code examples for your Java and Spring Boot interview preparation. I’ll address each question clearly and concisely.
+
+---
+
+### ✅ **1. Java 8: Square and Print in Order**
+
+**Input:** \[1,4,5,6,3,8] → **Output:** \[1, 9, 16, 25, 36, 64]
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class SquareAndSort {
+    public static void main(String[] args) {
+        List<Integer> input = Arrays.asList(1, 4, 5, 6, 3, 8);
+        List<Integer> result = input.stream()
+                .map(i -> i * i)
+                .sorted()
+                .collect(Collectors.toList());
+
+        System.out.println(result);
+    }
+}
+```
+
+---
+
+### ✅ **Find First Non-Repeated Character from Array of Strings**
+
+```java
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class FirstUniqueChar {
+    public static void main(String[] args) {
+        String[] words = {"apple", "banana", "grape"};
+        Optional<Character> result = Stream.of(words)
+                .flatMap(str -> str.chars().mapToObj(c -> (char) c))
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .filter(e -> e.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .findFirst();
+
+        result.ifPresent(System.out::println);
+    }
+}
+```
+
+---
+
+### ✅ **Java 8 Features**
+
+* Lambda expressions
+* Functional interfaces
+* Stream API
+* Default and static methods in interfaces
+* java.time API
+* Optional class
+* CompletableFuture
+* Method references
+* Collectors and grouping
+
+---
+
+### ✅ **Why Default Methods in Interfaces**
+
+* To add new methods to interfaces without breaking existing implementation.
+* Enable backward compatibility in interfaces (especially important for APIs like `java.util`).
+
+---
+
+### ✅ **Functional Interface**
+
+* An interface with exactly **one abstract method**.
+* Marked with `@FunctionalInterface` (optional but recommended).
+* Example: `Runnable`, `Callable`, `Comparator`.
+
+**Why:** Enables use of lambda expressions and method references.
+
+---
+
+### ✅ **Can a Functional Interface Extend Another?**
+
+* **Yes**, as long as the derived interface also has **only one abstract method** (additional default/static methods allowed).
+
+---
+
+### ✅ **ClassNotFoundException vs NoClassDefFoundError**
+
+* **ClassNotFoundException**: Thrown when trying to load a class dynamically (e.g., `Class.forName`) that isn't in classpath.
+* **NoClassDefFoundError**: Class was present during compile-time, but missing during runtime.
+
+---
+
+### ✅ **What is ClassLoader**
+
+* A part of JVM responsible for **loading classes into memory**.
+* Converts `.class` bytecode into Class objects.
+
+---
+
+### ✅ **Types of ClassLoaders**
+
+1. **Bootstrap ClassLoader** (JVM level, loads core Java classes)
+2. **Extension ClassLoader** (loads classes from `ext` directory)
+3. **System/Application ClassLoader** (loads app classes from classpath)
+4. **Custom ClassLoaders** (user-defined)
+
+---
+
+### ✅ **What is Heap Dump**
+
+* A snapshot of JVM's memory at a given time.
+* Used to analyze memory leaks and object retention.
+* Tools: `jmap`, Eclipse MAT, VisualVM
+
+---
+
+### ✅ **Java 8 Memory Model Changes**
+
+* **PermGen removed** and replaced by **Metaspace**.
+* Metaspace grows automatically based on system memory.
+
+---
+
+### ✅ **PermGen vs Metaspace**
+
+| PermGen (Java 7)        | Metaspace (Java 8) |
+| ----------------------- | ------------------ |
+| Fixed-size JVM memory   | Grows dynamically  |
+| OutOfMemoryError common | Less prone to OOM  |
+| Limited tuning options  | Tunable via flags  |
+
+---
+
+### ✅ **How HashMap Works**
+
+* Hashes key → index → bucket (array + linked list/tree).
+* Collision handled via chaining or tree.
+* Resizing occurs when load factor > threshold (default 0.75).
+
+---
+
+### ✅ **Fail-fast vs Fail-safe**
+
+* **Fail-fast**: Throws `ConcurrentModificationException` during iteration (`ArrayList`, `HashMap`).
+* **Fail-safe**: Safe to iterate even during modification (`CopyOnWriteArrayList`, `ConcurrentHashMap`).
+
+---
+
+### ✅ **Singleton Class in Java**
+
+```java
+public class Singleton {
+    private static final Singleton INSTANCE = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return INSTANCE;
+    }
+}
+```
+
+---
+
+### ✅ **How to Break Singleton & How to Prevent**
+
+**Ways to break:**
+
+* Reflection
+* Serialization
+* Cloning
+
+**Best Approach: Use Enum**
+
+```java
+public enum SingletonEnum {
+    INSTANCE;
+}
+```
+
+---
+
+### ✅ **Enum Class and Constructor**
+
+Yes, enums can have constructors (implicitly private). \[Already explained above.]
+
+---
+
+### ✅ **Spring vs Spring Boot**
+
+| Spring (Framework) | Spring Boot                   |
+| ------------------ | ----------------------------- |
+| Manual config      | Auto-configured               |
+| XML/Java config    | Convention over configuration |
+| Slower setup       | Faster bootstrapping          |
+| No embedded server | Embedded Tomcat, Jetty        |
+
+---
+
+### ✅ **Spring Actuator**
+
+* Provides endpoints for monitoring & managing Spring Boot apps.
+* Endpoints like `/actuator/health`, `/actuator/metrics`
+
+---
+
+### ✅ **Check Metrics**
+
+* Use Spring Boot Actuator + Prometheus + Grafana.
+* Access via `/actuator/metrics`.
+
+---
+
+### ✅ **Spring Boot DevTools**
+
+* Live reload during development.
+* Automatic restarts.
+* Improves developer productivity.
+
+---
+
+### ✅ **API Gateway (e.g., Spring Cloud Gateway)**
+
+* Entry point for microservices.
+* Handles routing, security, rate-limiting, logging.
+* Performs load balancing and filters.
+
+---
+
+### ✅ **Circuit Breaker (e.g., Resilience4j, Hystrix)**
+
+* Prevents cascading failures.
+* Monitors failures and "opens" the circuit temporarily.
+* Automatically retries or falls back.
+
+---
+
+### ✅ **How Microservices Communicate**
+
+* **Synchronous**: REST, gRPC
+* **Asynchronous**: Kafka, RabbitMQ
+
+---
+
+### ✅ **Check Performance & Resource Usage**
+
+* Tools: Prometheus + Grafana, `top`, `jconsole`, `jvisualvm`, `htop`, Spring Actuator
+
+---
+
+### ✅ **What if 500 Requests Hit Your App?**
+
+* If app is stateless + scalable, load balancer will distribute.
+* Else: thread exhaustion, OOM, 5xx errors.
+* Use: **Connection pool**, **Rate limiting**, **Load balancing**, **Horizontal scaling**
+
+---
+
+### ✅ **Improve SPA Performance**
+
+* Lazy loading modules
+* Tree shaking (removing unused code)
+* CDN caching, gzip compression
+* Code splitting
+* Optimize bundle size
+
+---
+
+### ✅ **Parent ↔ Child Component Communication**
+
+* **Parent to Child**: Input binding (`@Input`)
+* **Child to Parent**: EventEmitter (`@Output`)
+* Use Services for shared state
+
+---
+
+### ✅ **What is a Pipe (Angular)**
+
+* Transforms data in templates (e.g., `{{ date | date:'short' }}`)
+
+---
+
+### ✅ **Data Fetching (Backend to UI)**
+
+* Angular/React fetch via `HttpClient`/`fetch`
+* Use REST/gRPC APIs
+* Async calls with RxJS observables or Promises
+
+---
+
+### ✅ **What is RxJS**
+
+* Reactive programming library for composing async and event-based programs using **Observables**.
+* Common in Angular for API calls, form control, etc.
+
+---
+
+### ✅ **ExecutorService**
+
+* Java concurrency utility to manage a pool of threads.
+* Used to submit and execute tasks asynchronously.
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(5);
+executor.submit(() -> System.out.println("Task running"));
+```
+
+---
+
+### ✅ **What is Immutability in Java**
+
+* Object whose state cannot be changed once created.
+
+---
+
+### ✅ **How to Create Immutable Class**
+
+1. Make class `final`
+2. Private final fields
+3. No setters
+4. All fields initialized in constructor
+5. Return deep copies for mutable fields
+
+---
+
+### ✅ **Check Memory Leak**
+
+* Use tools like:
+
+  * Eclipse MAT
+  * VisualVM
+  * `jmap` + `jhat`
+  * Heap dump analysis
+
+---

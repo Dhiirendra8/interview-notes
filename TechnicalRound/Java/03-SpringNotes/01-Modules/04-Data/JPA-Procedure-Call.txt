@@ -1,0 +1,88 @@
+In **Spring Boot JPA**, you can call a **stored procedure** using either:
+
+1. **`@Procedure` annotation**
+2. **EntityManager (native query)**
+
+---
+
+## ✅ 1. Using `@Procedure` with Spring Data JPA Repository
+
+### 🧠 Example: Stored Procedure in DB
+
+```sql
+CREATE PROCEDURE get_total_orders_by_customer(IN customer_id INT, OUT total INT)
+BEGIN
+    SELECT COUNT(*) INTO total FROM orders WHERE customer_id = customer_id;
+END;
+```
+
+### ✅ JPA Repository Method
+
+```java
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    @Procedure(name = "get_total_orders_by_customer")
+    int getTotalOrdersByCustomer(@Param("customer_id") Integer customerId);
+}
+```
+
+Or if it's defined on the Entity:
+
+### ✅ On Entity Class
+
+```java
+@Entity
+@NamedStoredProcedureQuery(
+    name = "Order.get_total_orders_by_customer",
+    procedureName = "get_total_orders_by_customer",
+    parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "customer_id", type = Integer.class),
+        @StoredProcedureParameter(mode = ParameterMode.OUT, name = "total", type = Integer.class)
+    }
+)
+public class Order {
+    @Id
+    private Long id;
+    // other fields
+}
+```
+
+Then call it:
+
+```java
+@Autowired
+OrderRepository orderRepository;
+
+int total = orderRepository.getTotalOrdersByCustomer(101);
+```
+
+---
+
+## ✅ 2. Using `EntityManager` (Flexible for IN/OUT Params)
+
+```java
+@Autowired
+private EntityManager entityManager;
+
+public int callProcedure(Integer customerId) {
+    StoredProcedureQuery query = entityManager
+        .createStoredProcedureQuery("get_total_orders_by_customer")
+        .registerStoredProcedureParameter("customer_id", Integer.class, ParameterMode.IN)
+        .registerStoredProcedureParameter("total", Integer.class, ParameterMode.OUT)
+        .setParameter("customer_id", customerId);
+
+    query.execute();
+    return (int) query.getOutputParameterValue("total");
+}
+```
+
+---
+
+## ✅ Notes:
+
+* Make sure your DB supports stored procedures (e.g., MySQL, Oracle, PostgreSQL).
+* Procedure name must match exactly.
+* `@NamedStoredProcedureQuery` is defined on the entity class.
+* `@Procedure` is simpler but works best with simple procedures.
+
+---

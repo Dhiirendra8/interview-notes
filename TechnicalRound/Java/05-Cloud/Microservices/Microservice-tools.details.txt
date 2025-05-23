@@ -1,0 +1,11 @@
+*** Issue: Memory Leak / OutOfMemoryError ***
+    #APM tools:
+        Dynatrace
+    #GC tuning, 
+    #code profiling 
+
+
+**Database down** OR **Connection limit exceeded**
+    # Connection Pooling
+
+VisualVM and GC log analyzers

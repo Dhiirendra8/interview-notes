@@ -1,0 +1,116 @@
+In Java, **`Lock`** is part of the `java.util.concurrent.locks` package and provides **more flexible and powerful thread synchronization mechanisms** than `synchronized` blocks.
+
+---
+
+## ✅ What is a Lock in Java?
+
+A **`Lock`** is an interface that gives you explicit control over locking and unlocking code blocks. Unlike `synchronized`, you can:
+
+* Try to acquire a lock without blocking
+* Interrupt while waiting
+* Use timeout for lock acquisition
+* Use different lock implementations (fair vs non-fair)
+
+---
+
+## ✅ Common Implementations of Lock:
+
+| Lock Type                   | Description                                                                       | Use Case                                              |
+| --------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **ReentrantLock**           | Most commonly used. Allows a thread to re-acquire the same lock it holds.         | Replace `synchronized` with timeout/tryLock support   |
+| **ReentrantReadWriteLock**  | Allows multiple threads to read but only one to write. Improves read performance. | Caching, in-memory data structures with many readers  |
+| **StampedLock (Java 8)**    | Advanced lock with support for optimistic reads. Faster but more complex.         | High-performance read-heavy systems                   |
+| **LockSupport (low-level)** | Utility for building locks and blocking threads manually                          | Used internally in frameworks, custom thread handling |
+
+---
+
+## ✅ Example: ReentrantLock
+
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class LockExample {
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public void performTask() {
+        lock.lock();  // acquire the lock
+        try {
+            System.out.println("Thread-safe execution");
+        } finally {
+            lock.unlock();  // always release in finally
+        }
+    }
+}
+```
+
+---
+
+## ✅ Example: Try Lock with Timeout
+
+```java
+if (lock.tryLock(2, TimeUnit.SECONDS)) {
+    try {
+        // critical section
+    } finally {
+        lock.unlock();
+    }
+} else {
+    // handle timeout case
+}
+```
+
+---
+
+## ✅ Example: ReadWriteLock
+
+```java
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+public class SharedData {
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    private int data = 0;
+
+    public void read() {
+        lock.readLock().lock();
+        try {
+            System.out.println("Reading: " + data);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    public void write(int value) {
+        lock.writeLock().lock();
+        try {
+            this.data = value;
+            System.out.println("Written: " + value);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+}
+```
+
+---
+
+## 🧠 Use Cases of `Lock`:
+
+* Fine-grained control over locking logic (timeouts, tryLock, etc.)
+* High-performance concurrent systems
+* Avoiding deadlocks by ordering or conditionally acquiring locks
+* Reader-heavy scenarios with `ReadWriteLock`
+* Optimistic locking with `StampedLock`
+
+---
+
+### 🔄 `Lock` vs `synchronized`
+
+| Feature               | `synchronized` | `Lock`                      |
+| --------------------- | -------------- | --------------------------- |
+| Reentrant             | ✅ Yes          | ✅ Yes                       |
+| Interruptible         | ❌ No           | ✅ Yes                       |
+| Timeout support       | ❌ No           | ✅ Yes (`tryLock`)           |
+| Fairness              | ❌ No           | ✅ Optional                  |
+| Read/Write separation | ❌ No           | ✅ Yes (via `ReadWriteLock`) |
+
+---

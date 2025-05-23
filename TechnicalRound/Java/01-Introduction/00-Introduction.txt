@@ -5,6 +5,16 @@ I have been working as a java developer in past 7 yrs
 
 I'm well verse in core java spring and spring boot,hibernate, oracle
 
+====================================
+Sapient
+I lead the design, development, and optimization of complex backend systems using Java and related technologies. I play a key role in architecture decisions, mentoring junior developers, and driving best practices in coding, testing, and deployment.
+
+Accenture
+I play a key role in architecture decisions, mentoring junior developers, and driving best practices in coding, testing, and deployment.
+
+IBM
+I assist in designing, developing, testing, and maintaining software applications under the guidance of senior team members
+
 
 --------------------------------------------------------------------------
 # Projects and role in it

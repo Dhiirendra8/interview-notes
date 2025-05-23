@@ -1,0 +1,106 @@
+### ✅ What is a **PriorityQueue** in Java?
+
+A **`PriorityQueue`** is a special type of **queue** in Java where **elements are ordered based on their priority**. Unlike a normal queue (FIFO), a `PriorityQueue` always removes the **highest (or lowest) priority element first**, not necessarily the one that was added first.
+
+---
+
+### 🔍 Key Characteristics:
+
+| Feature         | Description                                                       |
+| --------------- | ----------------------------------------------------------------- |
+| Ordering        | By **natural ordering** (Comparable) or a **custom Comparator**   |
+| Duplicates      | Allowed                                                           |
+| Null elements   | Not allowed                                                       |
+| Backed by       | **Heap data structure** (min-heap by default)                     |
+| Thread safety   | **Not** thread-safe (use `PriorityBlockingQueue` for concurrency) |
+| Time complexity | O(log n) for `add()` and `poll()`                                 |
+
+---
+
+### 🧠 Default Behavior:
+
+By default, Java’s `PriorityQueue` is a **min-heap**, so the **smallest** element has the highest priority.
+
+---
+
+### ✅ Example: Min-Heap (Default)
+
+```java
+import java.util.PriorityQueue;
+
+public class MinHeapExample {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(5);
+        pq.add(1);
+        pq.add(3);
+
+        while (!pq.isEmpty()) {
+            System.out.println(pq.poll()); // 1, 3, 5
+        }
+    }
+}
+```
+
+---
+
+### ✅ Example: Max-Heap (Using Comparator)
+
+```java
+import java.util.PriorityQueue;
+import java.util.Collections;
+
+public class MaxHeapExample {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        pq.add(5);
+        pq.add(1);
+        pq.add(3);
+
+        while (!pq.isEmpty()) {
+            System.out.println(pq.poll()); // 5, 3, 1
+        }
+    }
+}
+```
+
+---
+
+### ✅ Example: With Custom Objects
+
+```java
+import java.util.*;
+
+class Task {
+    String name;
+    int priority;
+
+    Task(String name, int priority) {
+        this.name = name;
+        this.priority = priority;
+    }
+}
+
+public class TaskQueue {
+    public static void main(String[] args) {
+        PriorityQueue<Task> queue = new PriorityQueue<>(Comparator.comparingInt(t -> t.priority));
+
+        queue.add(new Task("Fix bugs", 2));
+        queue.add(new Task("Write tests", 3));
+        queue.add(new Task("Deploy", 1));
+
+        while (!queue.isEmpty()) {
+            System.out.println(queue.poll().name); // Deploy, Fix bugs, Write tests
+        }
+    }
+}
+```
+
+---
+
+### ✅ When to Use `PriorityQueue`:
+
+* Task scheduling based on priority
+* Implementing algorithms like Dijkstra's, A\*, Huffman coding
+* Handling real-time jobs or requests with different urgency levels
+

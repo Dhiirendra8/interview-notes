@@ -1,0 +1,96 @@
+### ✅ What is a **Semaphore** in Java?
+
+A **Semaphore** is a **concurrency control construct** that restricts the number of threads that can access a **shared resource** at the same time. It's not a traditional `Lock`, but it **belongs to the `java.util.concurrent` package** and is useful for limiting concurrent access.
+
+Think of it like a gatekeeper that only lets **N number of threads** pass at once.
+
+---
+
+### 🔹 Java Class:
+
+```java
+java.util.concurrent.Semaphore
+```
+
+---
+
+### ✅ Real-World Analogy:
+
+Imagine you have **3 parking spots**. A semaphore with 3 permits allows only 3 cars (threads) to park at once. If a 4th arrives, it waits until one spot is freed.
+
+---
+
+### ✅ Key Concepts:
+
+| Term             | Meaning                                                      |
+| ---------------- | ------------------------------------------------------------ |
+| **Permit**       | A token representing permission to proceed                   |
+| **acquire()**    | Block the thread until a permit is available                 |
+| **release()**    | Frees up a permit, allowing other waiting threads to proceed |
+| **tryAcquire()** | Tries to get a permit without blocking                       |
+
+---
+
+### ✅ Example: Semaphore with 2 Permits
+
+```java
+import java.util.concurrent.Semaphore;
+
+public class SemaphoreExample {
+    static Semaphore semaphore = new Semaphore(2); // allow 2 threads at a time
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            final int threadId = i;
+            new Thread(() -> {
+                try {
+                    System.out.println("Thread " + threadId + " is trying to acquire...");
+                    semaphore.acquire();
+                    System.out.println("Thread " + threadId + " acquired permit!");
+                    Thread.sleep(2000); // simulate work
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    semaphore.release();
+                    System.out.println("Thread " + threadId + " released permit.");
+                }
+            }).start();
+        }
+    }
+}
+```
+
+---
+
+### 🧠 Output (Simplified):
+
+```
+Thread 1 acquired permit!
+Thread 2 acquired permit!
+Thread 3 is waiting...
+Thread 1 released permit.
+Thread 3 acquired permit!
+...
+```
+
+---
+
+### ✅ Use Cases:
+
+* **Connection pools** (limit DB connections)
+* **Thread pool management**
+* **Access control** for a set number of resources
+* **Rate limiting** (API calls)
+
+---
+
+### ⚠️ Semaphore vs Lock:
+
+| Feature      | Semaphore               | Lock (e.g. ReentrantLock) |
+| ------------ | ----------------------- | ------------------------- |
+| Limit Access | Yes (multiple permits)  | No (one thread at a time) |
+| Fairness     | Optional                | Optional                  |
+| Blocking     | acquire() blocks        | lock() blocks             |
+| Use Case     | Resource access control | Mutual exclusion          |
+
+---
