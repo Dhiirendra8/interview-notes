@@ -1,0 +1,83 @@
+In Java, **Garbage Collection (GC)** is the process of automatically identifying and deleting objects that are no longer in use, to free up memory.
+
+Java provides **multiple types of garbage collectors**, each with different performance characteristics, suited to different types of applications (e.g., low-latency systems, batch processing, etc.).
+
+---
+
+### 🔄 Types of Garbage Collectors in Java
+
+#### 1. **Serial Garbage Collector**
+
+* **Use Case:** Single-threaded environments or small applications (e.g., desktops, embedded).
+* **Algorithm:** Stop-the-world using a **single thread** for both minor and major collections.
+* **Flag:** `-XX:+UseSerialGC`
+
+---
+
+#### 2. **Parallel Garbage Collector (Throughput Collector)**
+
+* **Use Case:** Applications where **throughput** is more important than low latency.
+* **Algorithm:** Uses **multiple threads** for GC work, including compaction.
+* **Also called:** Throughput Collector.
+* **Flag:** `-XX:+UseParallelGC`
+
+---
+
+#### 3. **CMS (Concurrent Mark Sweep) Garbage Collector** 🚫 (Deprecated in Java 9, removed in Java 14)
+
+* **Use Case:** Applications requiring **low pause times**.
+* **Algorithm:** Performs most of the GC concurrently with the application threads.
+* **Issue:** Memory fragmentation.
+* **Flag:** `-XX:+UseConcMarkSweepGC`
+
+---
+
+#### 4. **G1 (Garbage First) Garbage Collector**
+
+* **Use Case:** Balanced applications needing **low pause times** and **good throughput**.
+* **Algorithm:** Divides the heap into regions and collects garbage in selected regions.
+* **Feature:** Predictable pauses, compacts the heap.
+* **Default** in Java 9–14.
+* **Flag:** `-XX:+UseG1GC`
+
+---
+
+#### 5. **ZGC (Z Garbage Collector)**
+
+* **Use Case:** Applications requiring **very low pause times** (less than 10ms), even with large heaps (up to terabytes).
+* **Algorithm:** Mostly concurrent; pause times are independent of heap size.
+* **Flag:** `-XX:+UseZGC`
+* **Introduced in:** Java 11 (stable in Java 15)
+
+---
+
+#### 6. **Shenandoah GC**
+
+* **Use Case:** Low pause time requirements with **less overhead** than ZGC.
+* **Algorithm:** Concurrent compaction, pause times are also independent of heap size.
+* **Flag:** `-XX:+UseShenandoahGC`
+* **Developed by:** Red Hat
+* **Introduced in:** Java 12 (stable in later versions)
+
+---
+
+### 📊 Summary Table
+
+| GC Type          | Multi-threaded | Pause Time | Heap Size Support | Use Case                |
+| ---------------- | -------------- | ---------- | ----------------- | ----------------------- |
+| Serial           | ❌              | High       | Small             | Simple apps             |
+| Parallel         | ✅              | Medium     | Medium–Large      | High throughput         |
+| CMS (Deprecated) | ✅              | Low        | Medium            | Low pause needs         |
+| G1               | ✅              | Low–Medium | Medium–Large      | General purpose         |
+| ZGC              | ✅              | Very Low   | Huge (TBs)        | Low-latency, large heap |
+| Shenandoah       | ✅              | Very Low   | Medium–Large      | Responsive applications |
+
+---
+
+### ✅ Choosing the Right Collector
+
+* **Simple app / small memory**: Serial GC
+* **High throughput batch jobs**: Parallel GC
+* **Responsive services (web apps, APIs)**: G1, Shenandoah, or ZGC
+* **Large heap & ultra-low latency**: ZGC or Shenandoah
+

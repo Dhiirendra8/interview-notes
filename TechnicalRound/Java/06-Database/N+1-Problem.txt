@@ -1,0 +1,93 @@
+Avoiding **N+1 queries** in Spring **Data JPA** is essential for improving performance when fetching entities and their relationships. Here's a full breakdown of the problem and how to fix it.
+
+---
+
+### ❓ What is the N+1 Query Problem?
+
+When you fetch a list of entities and then lazily fetch a related entity **one at a time**, it results in:
+
+* 1 query to load the list (e.g., `SELECT * FROM orders`)
+* N queries to load each related entity (e.g., N `SELECT * FROM users WHERE id = ?`)
+
+This leads to **N+1 total queries**, which slows down your app.
+
+---
+
+### ✅ How to Avoid N+1 in Data JPA
+
+#### 1. **Use `@EntityGraph` (Recommended for Read-Only Use Cases)**
+
+This tells JPA to **eagerly fetch** associations in a single query.
+
+```java
+@EntityGraph(attributePaths = {"user"})
+List<Order> findAll();  // Fetches Order and associated User in one query
+```
+
+#### Example:
+
+```java
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    @EntityGraph(attributePaths = {"user"})
+    List<Order> findAllWithUser();
+}
+```
+
+---
+
+#### 2. **Use JPQL with `JOIN FETCH`**
+
+```java
+@Query("SELECT o FROM Order o JOIN FETCH o.user")
+List<Order> findAllOrdersWithUser();
+```
+
+* This forces JPA to join the `User` table and retrieve all data in one SQL query.
+
+---
+
+#### 3. **Use `@BatchSize` (for Lazy Fetching, reduces N queries)**
+
+This reduces the number of queries (e.g., instead of 100 queries, it fetches in batches of 10).
+
+```java
+@OneToMany(mappedBy = "user")
+@BatchSize(size = 10)
+private List<Order> orders;
+```
+
+✅ Works with Hibernate's **lazy loading**, useful if you can’t use `JOIN FETCH`.
+
+---
+
+#### 4. **Avoid Lazy Collections in Tight Loops**
+
+```java
+for (Order order : orderRepository.findAll()) {
+    System.out.println(order.getUser().getName()); // Triggers extra query per order!
+}
+```
+
+✅ Use `JOIN FETCH` or `@EntityGraph` to solve this.
+
+---
+
+### 🚫 Anti-pattern: Using `@ManyToOne(fetch = FetchType.EAGER)`
+
+* Eager fetch on `@ManyToOne` by default can lead to unnecessary joins and reduce flexibility.
+* Prefer lazy loading + controlled fetching using `JOIN FETCH` or `@EntityGraph`.
+
+---
+
+### 🧠 Summary
+
+| Method         | Use Case                        | Pros                  |
+| -------------- | ------------------------------- | --------------------- |
+| `@EntityGraph` | Simple eager fetch for read use | Clean and declarative |
+| `JOIN FETCH`   | Full control in JPQL            | Optimized query       |
+| `@BatchSize`   | Improve lazy-loading efficiency | Reduces total queries |
+
+---
+
+Would you like to see a real example with two entities like `User` and `Order` to demonstrate this?

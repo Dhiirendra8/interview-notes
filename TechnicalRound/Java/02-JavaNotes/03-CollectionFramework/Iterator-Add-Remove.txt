@@ -1,0 +1,66 @@
+In Java, when using an **iterator** to traverse a collection (like a `List` or `Set`), you can **safely remove elements** using the iterator’s `remove()` method. However, **you cannot add elements directly using an iterator**—you must use a `ListIterator` if you want to add elements during iteration.
+
+### 1. **Removing Elements Using `Iterator`**
+
+Here’s how to safely remove elements while iterating:
+
+```java
+import java.util.*;
+
+public class IteratorRemoveExample {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>(Arrays.asList("Alice", "Bob", "Charlie", "Bob"));
+        Iterator<String> iterator = names.iterator();
+
+        while (iterator.hasNext()) {
+            String name = iterator.next();
+            if (name.equals("Bob")) {
+                iterator.remove(); // Safe way to remove during iteration
+            }
+        }
+
+        System.out.println(names); // Output: [Alice, Charlie]
+    }
+}
+```
+
+**Important:** Don't use `list.remove()` inside the loop as it causes a `ConcurrentModificationException`.
+
+---
+
+### 2. **Adding Elements Using `ListIterator`**
+
+If you need to add elements during iteration, use `ListIterator`, which allows both adding and removing:
+
+```java
+import java.util.*;
+
+public class ListIteratorAddExample {
+    public static void main(String[] args) {
+        List<String> names = new ArrayList<>(Arrays.asList("Alice", "Charlie"));
+        ListIterator<String> iterator = names.listIterator();
+
+        while (iterator.hasNext()) {
+            String name = iterator.next();
+            if (name.equals("Alice")) {
+                iterator.add("Bob"); // Add after "Alice"
+            }
+        }
+
+        System.out.println(names); // Output: [Alice, Bob, Charlie]
+    }
+}
+```
+
+---
+
+### Summary
+
+| Operation         | `Iterator` | `ListIterator` |
+| ----------------- | ---------- | -------------- |
+| `next()`          | ✅          | ✅              |
+| `remove()`        | ✅          | ✅              |
+| `add()`           | ❌          | ✅              |
+| `set()` (replace) | ❌          | ✅              |
+
+Use `Iterator` for simple removal. Use `ListIterator` if you need more control, like adding or replacing elements during iteration.

@@ -1,13 +1,13 @@
-1. Can you share an example of how you improved the performance (latency or throughput) of a Java application? What was the measurable impact of your optimizations, and what specific tools or techniques did you leverage to achieve those results?
-I worked on a Java-based order processing microservice that was experiencing high latency and struggling with throughput during peak business hours. The P95 response time for order creation was exceeding 2 seconds, and we were seeing an increase in timeout errors, impacting our ability to scale.
+1. Can you share an example of how you improved the performance (latency or throughput) of a Java application? What was the measurable impact of your optimizations, 
+and what specific tools or techniques did you leverage to achieve those results?
+I worked on a Java-based order processing microservice that was experiencing high latency and struggling with throughput during peak business hours. 
+The P95 response time for order creation was exceeding 2 seconds, and we were seeing an increase in timeout errors, impacting our ability to scale.
 
 Task: My task was to identify the bottlenecks and implement optimizations to reduce latency to under 500ms for P95 and increase the sustainable throughput by at least 50%.
 
-Action:
 
-Diagnosis:
-
-I started by using our APM tool, Dynatrace, to get an overview of transaction traces. This highlighted that a significant portion of the time was spent in database interactions and internal business logic computations.
+I started by using our APM(Application Performance Monitoring/Management) tool, Dynatrace, to get an overview of transaction traces. 
+This highlighted that a significant portion of the time was spent in database interactions and internal business logic computations.
 Next, I used VisualVM (and occasionally JProfiler on a staging environment) to profile the application under simulated load. CPU profiling pointed towards excessive object creation in a specific module responsible for validating order items and calculating discounts. Memory profiling showed frequent minor garbage collection cycles.
 Detailed logging with timing for specific code sections also helped pinpoint slow database queries.
 Optimization Techniques Leveraged:
@@ -25,13 +25,16 @@ This iterative process of profiling, implementing changes, and re-testing was ke
 
 =========================================================================================================
 2. What’s your strategy for identifying and fixing memory leaks in Java? Could you outline the tools and techniques you employ for root cause analysis?
-My strategy for identifying memory leaks in Java starts with monitoring heap usage using tools like JVisualVM or an APM. If I notice abnormal memory growth or frequent GC, I capture heap dumps and analyze them with Eclipse MAT to find objects with large retained sizes and trace their references.
+My strategy for identifying memory leaks in Java starts with monitoring heap usage using tools like JVisualVM or an APM. 
+If I notice abnormal memory growth or frequent GC, I capture heap dumps and analyze them with Eclipse MAT to find objects with large retained sizes and trace their references.
 
-I look for common causes like static references, unclosed resources, or growing collections. Once I identify the root cause in the code, I fix it — such as clearing collections or properly closing resources — and then verify the solution by monitoring memory usage again.
+I look for common causes like static references, unclosed resources, or growing collections. 
+Once I identify the root cause in the code, I fix it — such as clearing collections or properly closing resources — and then verify the solution by monitoring memory usage again.
 
 =========================================================================================================
 3. How have you implemented custom thread management in Java? Why not use standard executors?
-I have implemented custom thread management in Java in scenarios where the standard ExecutorService or thread pools did not meet specific application requirements. For example, in a real-time data processing system, we needed to prioritize certain high-importance tasks over others, enforce strict limits on the task queue size, and apply custom logic when the queue was full—such as logging, alerting, or dropping low-priority tasks.
+I have implemented custom thread management in Java in scenarios where the standard ExecutorService or thread pools did not meet specific application requirements. 
+For example, in a real-time data processing system, we needed to prioritize certain high-importance tasks over others, enforce strict limits on the task queue size, and apply custom logic when the queue was full—such as logging, alerting, or dropping low-priority tasks.
 
 To achieve this, I designed a custom thread pool by extending ThreadPoolExecutor and overriding its methods. This allowed me to:
 

@@ -1,4 +1,5 @@
-In Java, **`Lock`** is part of the `java.util.concurrent.locks` package and provides **more flexible and powerful thread synchronization mechanisms** than `synchronized` blocks.
+In Java, **`Lock`** is part of the `java.util.concurrent.locks` package and provides 
+**more flexible and powerful thread synchronization mechanisms** than `synchronized` blocks.
 
 ---
 

@@ -456,12 +456,11 @@ DEFAULT: Assigns a default value to a column if no value is provided during inse
 ================================================================================================
 42. Explain the difference between a primary key and a unique key.
 Primary Key:
-
 Uniquely identifies each record in a table.
 Cannot contain NULL values.
 A table can have only one primary key.
-Unique Key:
 
+Unique Key:
 Ensures that all values in a column (or a set of columns) are unique across all rows.
 Can contain NULL values (unlike a primary key).
 A table can have multiple unique keys.
@@ -518,11 +517,10 @@ SELECT Product, SUM(Quantity) FROM Sales GROUP BY Product;
 ================================================================================================
 48. What are the differences between an ER diagram and a relational schema?
 Entity-Relationship Diagram (ERD):
-
 A conceptual blueprint that models entities, relationships, and attributes of the database. It visually represents the structure of the database.
 Used in the database design phase to understand how data entities relate to each other.
-Relational Schema:
 
+Relational Schema:
 A logical schema that defines the structure of a relational database, including tables, columns, relationships, and constraints.
 Represents how data is physically organized in tables with constraints such as primary keys, foreign keys, and data types.
 

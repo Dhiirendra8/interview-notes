@@ -22,7 +22,7 @@ How to create Thread Group :
 	- Constructors : 
 		1. ThreadGroup g = new ThreadGroup(String groupName);
 			e.g ThreadGroup g1 = new ThreadGroup("First Group")
-			- It creates a new group thrad with the specified group name
+			- It creates a new group thread with the specified group name
 			- This group will be child group of that group in which this line is executed
 			- So the parent of this new group is the thread group of curretly excuting thread
 		

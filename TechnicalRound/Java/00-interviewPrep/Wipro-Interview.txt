@@ -1,4 +1,3 @@
-Here’s a comprehensive set of answers and code examples for your Java and Spring Boot interview preparation. I’ll address each question clearly and concisely.
 
 ---
 
@@ -189,7 +188,72 @@ public enum SingletonEnum {
 
 ### ✅ **Enum Class and Constructor**
 
-Yes, enums can have constructors (implicitly private). \[Already explained above.]
+Yes, enums can have constructors (implicitly private). 
+Yes, **enums in Java can have constructors**, but there are some important rules and behaviors to understand.
+
+### ✅ Key Points:
+
+1. **Enum constructors are used to assign values to enum constants.**
+2. **Enum constructors must be `private` or package-private** (Java will not allow `public` or `protected` constructors).
+3. You **cannot explicitly call an enum constructor**—Java calls it automatically when the enum constants are created.
+
+---
+
+### 🔧 Example: Enum with Constructor
+
+```java
+public enum Day {
+    MONDAY("Start of work week"),
+    FRIDAY("End of work week"),
+    SUNDAY("Weekend");
+
+    private final String description;
+
+    // Constructor
+    Day(String description) {
+        this.description = description;
+    }
+
+    // Getter method
+    public String getDescription() {
+        return description;
+    }
+}
+```
+
+### 💡 Usage:
+
+```java
+public class EnumTest {
+    public static void main(String[] args) {
+        for (Day day : Day.values()) {
+            System.out.println(day + ": " + day.getDescription());
+        }
+    }
+}
+```
+
+### 🖨 Output:
+
+```
+MONDAY: Start of work week
+FRIDAY: End of work week
+SUNDAY: Weekend
+```
+
+---
+
+### 🚫 Common Mistakes:
+
+* Trying to call `new Day(...)` – **Not allowed**.
+* Using `public` for the enum constructor – **Compilation error**.
+
+### ✅ Summary:
+
+* Yes, **enums can have constructors** in Java.
+* They are useful for assigning values or behavior to enum constants.
+* You can't create new enum instances manually—Java handles it behind the scenes.
+
 
 ---
 

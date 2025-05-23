@@ -27,10 +27,6 @@ A daemon thread is generally used for some background tasks which are not critic
 ==================
 # Sleep vs wait() method. What will happen if wait() is called from message method [Class A { void message(){ wait();} }]
 
-Great question! Let's break this into two parts:
-
----
-
 ## 🔁 **1. Difference Between `sleep()` and `wait()`**
 
 | Feature          | `sleep()` (from `Thread`)                 | `wait()` (from `Object`)                                       |
@@ -63,7 +59,8 @@ java.lang.IllegalMonitorStateException
 
 ### ❓ Why?
 
-Because `wait()` can **only be called** by a thread that **owns the object's monitor**. In Java, this means the thread must be in a **synchronized block or method** on that object.
+Because `wait()` can **only be called** by a thread that **owns the object's monitor**. 
+In Java, this means the thread must be in a **synchronized block or method** on that object.
 
 ### ✅ Correct version:
 

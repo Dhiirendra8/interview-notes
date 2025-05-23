@@ -1,0 +1,75 @@
+When you **serialize** an object in Java, you convert it into a byte stream that can be saved to disk or transmitted over a network. If the **class definition changes** after serialization (and before deserialization), it can cause issues when trying to **deserialize** that object.
+
+---
+
+### 🔄 What Happens if the Class Changes?
+
+It **depends on how the class has changed** and whether the **`serialVersionUID`** is compatible.
+
+---
+
+### 📌 Common Scenarios:
+
+#### ✅ 1. **Compatible Change (Minor)**
+
+Example: Adding a new field or method.
+
+* If a class adds a new field, the deserialized object just sets that field to its **default value** (e.g., `null`, `0`, or `false`).
+* Deserialization will **succeed**, but new fields won’t be initialized with serialized data.
+
+#### ❌ 2. **Incompatible Change (Major)**
+
+Examples:
+
+* Removing a field
+* Changing field types
+* Renaming the class or changing its package
+* Changing class hierarchy (e.g., class to interface)
+
+These changes will typically result in an exception during deserialization:
+
+```java
+java.io.InvalidClassException: YourClassName; local class incompatible: 
+stream classdesc serialVersionUID = 123456789L, local class serialVersionUID = 987654321L
+```
+
+---
+
+### 💡 Role of `serialVersionUID`
+
+`serialVersionUID` is a unique identifier used during serialization and deserialization to verify that the sender and receiver of a serialized object are compatible.
+
+#### Example:
+
+```java
+public class Person implements Serializable {
+    private static final long serialVersionUID = 1L;
+    String name;
+}
+```
+
+If you **don’t specify it**, Java automatically generates one based on class details. This makes your class **brittle** to changes because even a minor change can generate a different `serialVersionUID`.
+
+**Best practice:** Always declare `serialVersionUID` explicitly to control compatibility.
+
+---
+
+### 🧪 What You Can Do
+
+| Strategy                       | Description                                                             |
+| ------------------------------ | ----------------------------------------------------------------------- |
+| **Specify `serialVersionUID`** | Prevent incompatibility on minor changes.                               |
+| **Custom serialization**       | Use `writeObject` / `readObject` to control how objects are serialized. |
+| **Version migration logic**    | Convert old data format to new during deserialization.                  |
+| **Use external formats**       | Consider formats like JSON or XML for flexibility.                      |
+
+---
+
+### ✅ Summary
+
+* **Minor changes** (like adding fields): usually safe.
+* **Major changes** (like changing types or removing fields): likely to break deserialization.
+* Use `serialVersionUID` to manage compatibility intentionally.
+* Without care, class changes can lead to **`InvalidClassException`**.
+
+Let me know if you want a demo of safe and unsafe serialization scenarios.
