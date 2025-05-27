@@ -1,0 +1,96 @@
+### ✅ What is a `BlockingQueue` in Java?
+
+A **`BlockingQueue`** is a thread-safe queue that supports **blocking operations** for inserting and retrieving elements. It belongs to `java.util.concurrent` and is primarily used in **producer-consumer scenarios**.
+
+---
+
+### 🔹 Package:
+
+```java
+java.util.concurrent.BlockingQueue
+```
+
+---
+
+### ✅ Key Features:
+
+| Feature                       | Description                                       |
+| ----------------------------- | ------------------------------------------------- |
+| **Thread-safe**               | Safe for multiple producers/consumers             |
+| **Blocking behavior**         | `put()` waits if full, `take()` waits if empty    |
+| **Bounded/Unbounded**         | Supports fixed capacity or unlimited              |
+| **Efficient for concurrency** | Ideal for task queues, message passing, pipelines |
+
+---
+
+### ✅ Common Implementations:
+
+| Class                   | Description                                              |
+| ----------------------- | -------------------------------------------------------- |
+| `ArrayBlockingQueue`    | Bounded queue backed by array                            |
+| `LinkedBlockingQueue`   | Optional bounded (default = Integer.MAX\_VALUE)          |
+| `PriorityBlockingQueue` | Orders elements by priority                              |
+| `DelayQueue`            | Retrieves elements after delay has expired               |
+| `SynchronousQueue`      | No internal capacity — handoff from producer to consumer |
+
+---
+
+### ✅ Example: Producer-Consumer using `BlockingQueue`
+
+```java
+import java.util.concurrent.*;
+
+public class BlockingQueueExample {
+    public static void main(String[] args) {
+        BlockingQueue<String> queue = new ArrayBlockingQueue<>(3);
+
+        // Producer
+        new Thread(() -> {
+            try {
+                queue.put("Apple");
+                queue.put("Banana");
+                queue.put("Mango");
+                System.out.println("All items produced");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+
+        // Consumer
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                System.out.println("Consumed: " + queue.take());
+                System.out.println("Consumed: " + queue.take());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }).start();
+    }
+}
+```
+
+---
+
+### 🔍 Methods Overview:
+
+| Method                | Behavior                                  |
+| --------------------- | ----------------------------------------- |
+| `put(E e)`            | Blocks if queue is full                   |
+| `take()`              | Blocks if queue is empty                  |
+| `offer(E e)`          | Inserts if possible, else returns false   |
+| `poll()`              | Retrieves if available, else returns null |
+| `remainingCapacity()` | Returns how much more it can accept       |
+
+---
+
+### ✅ Use Cases:
+
+* **Producer-Consumer patterns**
+* **Thread pool task queues** (`ExecutorService`)
+* **Real-time event streaming**
+* **Rate-limiting**
+
+---
+
+Let me know if you want an example using `PriorityBlockingQueue` or integrating `BlockingQueue` with a real-world microservice task dispatcher!
