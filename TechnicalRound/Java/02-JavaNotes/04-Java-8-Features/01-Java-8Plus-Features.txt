@@ -17,7 +17,8 @@ Java 9 introduced a number of new features and enhancements. Here's a list of th
 
 ### 4. **Private Methods in Interfaces**
 
-* **Private Methods in Interfaces**: Java 9 allows private methods in interfaces, which was not possible in earlier versions. This allows you to write helper methods in interfaces without exposing them to implementing classes.
+* **Private Methods in Interfaces**: Java 9 allows private methods in interfaces, which was not possible in earlier versions. 
+This allows you to write helper methods in interfaces without exposing them to implementing classes.
 
 ### 5. **Stream API Enhancements**
 

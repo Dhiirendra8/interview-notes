@@ -43,7 +43,8 @@ The journey of a message in Kafka from producer to consumer involves several ste
    - Kafka provides strong ordering guarantees within a partition, ensuring that messages are delivered to consumers in the order 
    they were produced.
 
-Overall, Kafka provides a robust and scalable messaging platform for building real-time data pipelines and stream processing applications. The journey of a message from producer to consumer involves partitioning, replication, and delivery mechanisms designed to ensure fault tolerance, durability, and high throughput.
+Overall, Kafka provides a robust and scalable messaging platform for building real-time data pipelines and stream processing applications. 
+The journey of a message from producer to consumer involves partitioning, replication, and delivery mechanisms designed to ensure fault tolerance, durability, and high throughput.
 
 #kafka replciation
 Kafka replication is the process of replicating data across multiple brokers in an Apache Kafka cluster. 
@@ -66,15 +67,24 @@ By storing intermediate state data locally, Kafka Streams applications can effic
 
 Key features of local state stores in Kafka Streams include:
 
-1. **Efficient State Management**: Local state stores are optimized for efficient storage and retrieval of intermediate state data. They are typically implemented as in-memory data structures (e.g., hash tables or rocksdb) for fast read and write operations.
+1. **Efficient State Management**: 
+   Local state stores are optimized for efficient storage and retrieval of intermediate state data. 
+   They are typically implemented as in-memory data structures (e.g., hash tables or rocksdb) for fast read and write operations.
 
-2. **Fault Tolerance**: Local state stores are designed to be fault-tolerant and resilient to failures. They leverage Kafka's built-in fault tolerance mechanisms such as data replication and state restoration to ensure that state data is durable and consistent, even in the event of application failures or restarts.
+2. **Fault Tolerance**: 
+   Local state stores are designed to be fault-tolerant and resilient to failures. 
+   They leverage Kafka's built-in fault tolerance mechanisms such as data replication and state restoration to ensure that state data is durable and consistent, even in the event of application failures or restarts.
 
-3. **Scalability**: Kafka Streams applications can be horizontally scaled by running multiple instances of the application across multiple machines or containers. Each application instance maintains its own local state store, allowing for parallel processing of data streams and improved scalability.
+3. **Scalability**: 
+   Kafka Streams applications can be horizontally scaled by running multiple instances of the application across multiple machines or containers. 
+   Each application instance maintains its own local state store, allowing for parallel processing of data streams and improved scalability.
 
-4. **Queryable State**: Kafka Streams provides a queryable state feature that allows applications to query the local state store for specific key-value pairs. This enables interactive queries and real-time access to the application's state data, making it easier to build interactive applications and microservices on top of Kafka Streams.
+4. **Queryable State**: 
+   Kafka Streams provides a queryable state feature that allows applications to query the local state store for specific key-value pairs. 
+   This enables interactive queries and real-time access to the application's state data, making it easier to build interactive applications and microservices on top of Kafka Streams.
 
-Overall, local state stores are a fundamental component of Kafka Streams applications, enabling stateful stream processing and real-time analytics over data streams within the Kafka ecosystem. They provide efficient, fault-tolerant, and scalable storage for intermediate state data, empowering developers to build complex stream processing pipelines with ease.
+Overall, local state stores are a fundamental component of Kafka Streams applications, enabling stateful stream processing and real-time analytics over data streams within the Kafka ecosystem. 
+They provide efficient, fault-tolerant, and scalable storage for intermediate state data, empowering developers to build complex stream processing pipelines with ease.
 
 
 #kafka global state store

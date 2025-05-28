@@ -11,9 +11,6 @@ Apache Kafka has resolved the lethargic trouble of data communication between a 
 A publish-subscribe messaging system allows a sender to send/write the message and a receiver to read that message. 
 In Apache Kafka, a sender is known as a producer who publishes messages, and a receiver is known as a consumer who consumes that message by subscribing it.
 
-
-
-
 1. What is Apache Kafka, and what are its key components?
 - Apache Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, and 
     real-time data processing. 
@@ -85,21 +82,28 @@ Interceptoprs -
 ProducerInterceptor - props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, CustomProducerInterceptor.class.getName());
 public interface ProducerInterceptor<K, V> extends Closeable {
     void configure(Map<String, ?> configs);
+    
     ProducerRecord<K, V> onSend(ProducerRecord<K, V> record);
 	//This method is called before the producer sends a message to Kafka.
+    
     void onAcknowledgement(RecordMetadata metadata, Exception exception);
 	//This method is called after the producer receives acknowledgement (success or failure) from Kafka for a sent message.
+    
     void close();
 }
 
 ConsumerInterceptor - props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, CustomConsumerInterceptor.class.getName());
 public interface ConsumerInterceptor<K, V> extends Closeable {
+    
     void configure(Map<String, ?> configs);
 	// Perform initialization logic if needed
+    
     ConsumerRecords<K, V> onConsume(ConsumerRecords<K, V> records);
 	// This method is called before the consumer reads messages from Kafka and processes them.
+    
     void onCommit(Map<TopicPartition, OffsetAndMetadata> offsets);
 	//This method is called after the consumer commits offsets to Kafka.
+    
     void close();
 	// Perform cleanup logic if needed
 }
