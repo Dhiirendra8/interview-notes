@@ -79,3 +79,85 @@ All workers are done. Main thread continues.
 
 * A `CountDownLatch` **cannot be reset**. Once the count reaches zero, it's dead.
 * If you need a reusable version, consider using **`CyclicBarrier`** or **`Semaphore`**.
+
+
+==============================
+### ✅ `CountDownLatch` vs `CyclicBarrier` in Java
+
+Both `CountDownLatch` and `CyclicBarrier` are synchronization aids in `java.util.concurrent`, but they serve **different purposes** and are used in **different scenarios**.
+
+---
+
+### 🔍 Key Differences:
+
+| Feature            | `CountDownLatch`                   | `CyclicBarrier`                                    |
+| ------------------ | ---------------------------------- | -------------------------------------------------- |
+| **Purpose**        | One-time event trigger             | Wait until a fixed number of threads reach barrier |
+| **Resettable**     | ❌ No                               | ✅ Yes (can be reused/cycled)                       |
+| **Thread waiting** | One or more threads wait for latch | Multiple threads wait for each other               |
+| **Use case**       | Wait until N tasks complete        | Start N threads together at a common point         |
+| **Implemented as** | Counter that counts down to zero   | Barrier that blocks until all parties arrive       |
+| **Common method**  | `countDown()`, `await()`           | `await()`                                          |
+| **Reusability**    | One-time use                       | Can be reused multiple times                       |
+| **Barrier Action** | ❌ Not supported                    | ✅ Optional action to run once all arrive           |
+
+---
+
+### ✅ Example Use Cases:
+
+#### 🔹 `CountDownLatch`:
+
+> **Main thread waits for workers to finish** (e.g., test harness, startup sequence)
+
+```java
+CountDownLatch latch = new CountDownLatch(3);
+
+for (int i = 0; i < 3; i++) {
+    new Thread(() -> {
+        // Do some work
+        latch.countDown(); // Decrease count
+    }).start();
+}
+
+latch.await(); // Main thread waits
+System.out.println("All tasks completed.");
+```
+
+---
+
+#### 🔹 `CyclicBarrier`:
+
+> **All threads wait for each other before proceeding** (e.g., multiplayer game, simulation step)
+
+```java
+CyclicBarrier barrier = new CyclicBarrier(3, () -> {
+    System.out.println("All threads reached barrier. Proceeding...");
+});
+
+for (int i = 0; i < 3; i++) {
+    new Thread(() -> {
+        try {
+            System.out.println(Thread.currentThread().getName() + " is waiting");
+            barrier.await(); // Wait at barrier
+            System.out.println(Thread.currentThread().getName() + " continues");
+        } catch (Exception e) { e.printStackTrace(); }
+    }).start();
+}
+```
+
+---
+
+### 🧠 Summary:
+
+| Want to...                                          | Use                                   |
+| --------------------------------------------------- | ------------------------------------- |
+| Wait for multiple tasks to finish before continuing | `CountDownLatch`                      |
+| Let threads wait for each other at a common point   | `CyclicBarrier`                       |
+| Use same barrier multiple times                     | `CyclicBarrier`                       |
+| Trigger an action once when all threads arrive      | `CyclicBarrier` (with barrier action) |
+| Perform a one-time wait                             | `CountDownLatch`                      |
+
+---
+
+Let me know if you want to see both used together in a real scenario like batch processing or a multistage computation!
+

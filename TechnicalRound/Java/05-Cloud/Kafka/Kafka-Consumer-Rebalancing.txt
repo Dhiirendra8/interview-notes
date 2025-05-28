@@ -1,26 +1,25 @@
 Kafka Rebalancing
 
-**Rebalancing** in Apache Kafka is the process of **redistributing partition assignments among consumer group members** when the group changes.
+**Rebalancing** in Apache Kafka is the process of 
+    **redistributing partition assignments among consumer group members** when the group changes.
 
 ---
 
 ## 🔄 What Triggers Rebalancing?
 
 A **consumer group** rebalances when:
-
-1. A **new consumer joins** the group.
-2. An **existing consumer leaves** or crashes.
-3. **Topic partitions** change (e.g., a new partition is added).
-4. Kafka **coordinator detects a heartbeat timeout**.
+    1. A **new consumer joins** the group.
+    2. An **existing consumer leaves** or crashes.
+    3. **Topic partitions** change (e.g., a new partition is added).
+    4. Kafka **coordinator detects a heartbeat timeout**.
 
 ---
 
 ## 🔁 What Happens During Rebalancing?
-
-1. Kafka **revokes partition assignments** from all consumers.
-2. The **group coordinator** recalculates new assignments.
-3. Partitions are **redistributed among available consumers**.
-4. Consumers are notified of their **new assignments** and begin consuming.
+    1. Kafka **revokes partition assignments** from all consumers.
+    2. The **group coordinator** recalculates new assignments.
+    3. Partitions are **redistributed among available consumers**.
+    4. Consumers are notified of their **new assignments** and begin consuming.
 
 > ⚠️ During rebalancing, **no messages are consumed**—this causes a **pause** in processing.
 

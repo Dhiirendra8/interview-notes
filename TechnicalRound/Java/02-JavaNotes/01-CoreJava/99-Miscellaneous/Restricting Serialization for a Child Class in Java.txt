@@ -1,0 +1,79 @@
+### ✅ Restricting Serialization for a Child Class in Java
+
+In Java, if a **parent class is serializable**, but you **want to prevent the child class from being serialized**, you can't use a keyword like `nonserializable`. But you **can enforce this restriction** in a few practical ways.
+
+---
+
+### 🔹 Scenario:
+
+Parent class implements `Serializable`, but child class should **not** be serialized.
+
+---
+
+## ✅ Option 1: Throw `NotSerializableException` in Child Class
+
+You can **override `writeObject()`** and **throw an exception** to explicitly prevent serialization of the child class.
+
+### Example:
+
+```java
+import java.io.*;
+
+class Parent implements Serializable {
+    int id = 100;
+}
+
+class Child extends Parent {
+    String name = "Restricted";
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        throw new NotSerializableException("Child class is not serializable");
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException {
+        throw new NotSerializableException("Child class is not deserializable");
+    }
+}
+```
+
+### Output:
+
+When you try to serialize `Child`, it will fail with:
+
+```
+java.io.NotSerializableException: Child class is not serializable
+```
+
+---
+
+## ✅ Option 2: Mark Child as `transient` When Nested
+
+If `Child` is a field in another class and you don’t want it serialized:
+
+```java
+transient Child child;
+```
+
+But this applies only when `Child` is a field — not a standalone object.
+
+---
+
+## ✅ Option 3: Avoid Implementing `Serializable` in Child
+
+If your `Child` class **doesn’t need serialization**, simply don’t implement `Serializable`. However:
+
+* If the **parent is serializable**, the child **still gets serialized** unless you block it with option 1.
+
+---
+
+## 🧠 Summary:
+
+| Strategy                       | When to Use                             |
+| ------------------------------ | --------------------------------------- |
+| Override `writeObject()`       | Prevent serialization explicitly        |
+| Use `transient` fields         | Avoid serialization of certain fields   |
+| Don’t implement `Serializable` | Child shouldn't be serialized by design |
+
+---
+
+Let me know if your use case is for file serialization, network communication, or specific frameworks like Kafka or Jackson — I can tailor the solution!

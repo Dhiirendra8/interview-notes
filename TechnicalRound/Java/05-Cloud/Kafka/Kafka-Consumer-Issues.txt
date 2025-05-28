@@ -15,7 +15,6 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 ---
 
 ## 🚫 1. **Consumer Lag**
-
 * **What**: The consumer is not keeping up with the rate at which messages are produced.
 * **Symptoms**: Messages pile up in partitions, increasing delay.
 * **Causes**:
@@ -26,6 +25,16 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
   * Scale consumers horizontally
   * Batch processing
   * Tune `max.poll.records`, `fetch.min.bytes`
+
+---
+## 📉 9. **Backpressure and Resource Starvation**
+* **What**: The consumer slows down due to downstream systems (DBs, APIs)
+* **Symptoms**: Lag grows, CPU/memory usage spikes
+* **Fixes**:
+
+  * Buffer/process messages asynchronously
+  * Apply backpressure-aware logic (e.g. pause/resume)
+  * Optimize external resource usage
 
 ---
 
@@ -46,13 +55,11 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 ---
 
 ## 🧼 3. **Duplicate Processing**
-
 * **What**: The same message is processed more than once.
 * **Causes**:
   * Auto-commit is enabled and offset is committed before processing completes
   * Consumer crashes after commit but before persisting result
 * **Fixes**:
-
   * Disable auto-commit: `enable.auto.commit=false`
   * Use **manual, post-processing commits**
   * Use **idempotent writes** or **deduplication logic**
@@ -60,14 +67,12 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 ---
 
 ## 🕰️ 4. **Message Loss**
-
 * **What**: Messages are skipped or disappear from consumer’s perspective.
 * **Causes**:
   * Auto-commit with `at-most-once` semantics
   * Consumer crashes before processing but after commit
   * Retention period exceeded before consuming
 * **Fixes**:
-
   * Use `at-least-once` or `exactly-once` semantics
   * Commit only after successful processing
   * Monitor lag and retention settings
@@ -75,7 +80,6 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 ---
 
 ## 🧵 5. **Thread Safety Issues**
-
 * **What**: Concurrency bugs or data corruption
 * **Causes**:
   * Sharing a single `KafkaConsumer` instance across multiple threads
@@ -86,15 +90,12 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 ---
 
 ## ⚠️ 6. **Offset Commit Failures**
-
 * **What**: Offsets aren’t committed, causing message reprocessing on restart.
 * **Causes**:
-
   * Network issues
   * Kafka broker unavailability
   * Committing after session timeout
 * **Fixes**:
-
   * Use `try/catch` around commits
   * Add retry logic or dead-letter handling
 
@@ -105,11 +106,10 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 * **What**: Kafka kills the consumer if it doesn’t poll fast enough
 * **Error**: `org.apache.kafka.clients.consumer.ConsumerTimeoutException`
 * **Causes**:
-
   * Long processing times
   * Blocking code before `poll()`
-* **Fixes**:
 
+* **Fixes**:
   * Increase `max.poll.interval.ms`
   * Use worker threads to separate processing from polling
 
@@ -119,29 +119,18 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 
 * **What**: Kafka can't convert the byte data into usable Java objects
 * **Causes**:
-
   * Schema mismatch
   * Corrupted data
   * Wrong deserializer class
+  
 * **Fixes**:
-
   * Validate serializer/deserializer config
   * Use try-catch blocks for error handling
   * Set a custom `ErrorHandlingDeserializer`
 
 ---
 
-## 📉 9. **Backpressure and Resource Starvation**
 
-* **What**: The consumer slows down due to downstream systems (DBs, APIs)
-* **Symptoms**: Lag grows, CPU/memory usage spikes
-* **Fixes**:
-
-  * Buffer/process messages asynchronously
-  * Apply backpressure-aware logic (e.g. pause/resume)
-  * Optimize external resource usage
-
----
 
 ## 🕵️ 10. **Lack of Observability**
 

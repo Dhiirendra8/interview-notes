@@ -4,7 +4,8 @@ This pattern is used to manage and maintain data consistency across multiple mic
 Each transaction is executed by a single service, and the state changes are broadcasted to other services involved in the Saga. 
 It helps to maintain data consistency by providing an alternative approach to the traditional ACID transactions model that may not be feasible in a distributed environment.
 -> It is responsible for managing the overall transaction and coordinating the compensating actions required in case of any failures. 
-It is useful when dealing with complex business processes that involve multiple services, such as order processing, shipping, and billing. In such cases, it is often necessary to coordinate the execution of multiple transactions to maintain data consistency across the services involved.
+It is useful when dealing with complex business processes that involve multiple services, such as order processing, shipping, and billing. 
+In such cases, it is often necessary to coordinate the execution of multiple transactions to maintain data consistency across the services involved.
 
 #Features of SAGA Pattern
 1. Coordinated transactions: 
