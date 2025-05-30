@@ -1,0 +1,65 @@
+postgres
+
+cd C:\Softwares\postgres\postgresql-16.2-1-windows-x64-binaries\pgsql\bin
+initdb -D c:\Users\Arthur\pgdata -U postgres -W -E UTF8 -A scram-sha-256
+initdb -D C:\Users\dhisingh4\pgdata -U postgres -W -E UTF8 -A scram-sha-256
+
+start db
+pg_ctl -D ^"C^:^\Users^\dhisingh4^\pgdata^" -l logfile start
+
+stop db
+pg_ctl -D ^"C^:^\Users^\dhisingh4^\pgdata^" stop
+
+
+
+
+===========================================
+CREATE OR REPLACE FUNCTION fn_audit_trigger()
+RETURNS TRIGGER
+LANGUAGE PLPGSQL
+AS
+$$
+	DECLARE
+		old_row json = null;
+		new_row json = null;
+		
+	BEGIN
+		IF TG_OP IN ('DELETE', 'UPDATE') THEN
+			old_row = row_to_json(OLD);
+		END IF;
+		
+		IF TG_OP IN ('INSERT', 'UPDATE') THEN
+			new_row = row_to_json(NEW);
+		END IF;
+		
+		INSERT INTO audit_log
+		(
+			username,
+			add_time,
+			table_name,
+			operation,
+			row_before,
+			row_after
+		)
+		VALUES
+		(
+			SESSION_USER,
+			CURRENT_TIMESTAMP AT TIME ZONE 'UTC',
+			TG_TABLE_SCHEMA || '.' || TG_TABLE_NAME,
+			TG_OP,
+			old_row,
+			new_row
+		);
+	
+		RETURN NEW;
+	END;
+$$
+
+
+CREATE TRIGGER tg_audit_log
+AFTER INSERT OR DELETE OR UPDATE
+ON audit
+FOR EACH ROW
+EXECUTE PROCEDURE fn_audit_trigger();
+==============================================
+

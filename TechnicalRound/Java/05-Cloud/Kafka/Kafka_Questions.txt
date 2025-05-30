@@ -1,4 +1,4 @@
-# Give me questions at Kafka senior developer at Bloom's revised taxonomy level 4
+#Give me questions at Kafka senior developer at Bloom's revised taxonomy level 4
 ### **Bloom’s Revised Taxonomy Level 4: Analyzing**  
 At **Level 4 (Analyzing)**, questions should focus on breaking down Kafka concepts, identifying patterns, troubleshooting issues, and optimizing performance in Kafka-based systems.  
 
