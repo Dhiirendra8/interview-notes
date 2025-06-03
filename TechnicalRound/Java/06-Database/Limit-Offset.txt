@@ -1,0 +1,103 @@
+- to control the number of records returned by query
+- especially useful for pagination, performance tuning, and large datasets.
+
+## 🔹 `LIMIT` in SQL
+
+**Limits the number of rows returned** from a result set.
+
+### ✅ Syntax:
+
+```sql
+SELECT * FROM table_name
+LIMIT n;
+```
+
+**Example:**
+
+```sql
+SELECT * FROM employees
+LIMIT 5;
+```
+
+→ Returns only the **first 5 rows**.
+
+---
+
+## 🔹 `OFFSET` in SQL
+
+**Skips a number of rows** before starting to return results.
+
+### ✅ Syntax:
+
+```sql
+SELECT * FROM table_name
+LIMIT n OFFSET m;
+```
+
+**Example:**
+
+```sql
+SELECT * FROM employees
+LIMIT 5 OFFSET 10;
+```
+
+→ Skips the **first 10 rows**, then returns the **next 5 rows** (i.e., rows 11–15).
+
+---
+
+## 🔁 Pagination Example
+
+```sql
+-- Page 2, 10 rows per page
+SELECT * FROM products
+LIMIT 10 OFFSET 10;
+```
+
+| Page | LIMIT | OFFSET |
+| ---- | ----- | ------ |
+| 1    | 10    | 0      |
+| 2    | 10    | 10     |
+| 3    | 10    | 20     |
+| ...  | ...   | ...    |
+
+---
+
+## 🔸 MySQL / PostgreSQL / SQLite
+
+All support:
+
+```sql
+LIMIT <count> OFFSET <start>
+```
+
+Or even shorthand in MySQL:
+
+```sql
+LIMIT <offset>, <count>  -- MySQL-specific
+```
+
+---
+
+## 🔸 SQL Server Equivalent
+
+In SQL Server (2012+), use `OFFSET` with `FETCH`:
+
+```sql
+SELECT * FROM employees
+ORDER BY employee_id
+OFFSET 10 ROWS FETCH NEXT 5 ROWS ONLY;
+```
+
+---
+
+## 🧠 Summary
+
+| Clause   | Purpose                      |
+| -------- | ---------------------------- |
+| `LIMIT`  | Max number of rows to return |
+| `OFFSET` | Number of rows to skip       |
+
+---
+
+Let me know if you'd like a full pagination query example with sorting and filtering!
+

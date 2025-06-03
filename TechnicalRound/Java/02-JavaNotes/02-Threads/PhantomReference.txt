@@ -1,0 +1,137 @@
+In modern Java (7+), resource management and post-GC cleanup are handled by safer and more predictable constructs than `finalize()`. Here's an overview of the **three recommended mechanisms**:
+
+---
+
+## ✅ 1. `try-with-resources` (since Java 7)
+
+### 🔹 What is it?
+
+A language feature that **automatically closes resources** (like files, sockets, DB connections) at the end of a `try` block.
+
+### 🔹 Requirements
+
+The resource must implement the `AutoCloseable` interface.
+
+### 🧪 Example:
+
+```java
+try (BufferedReader reader = new BufferedReader(new FileReader("data.txt"))) {
+    System.out.println(reader.readLine());
+} catch (IOException e) {
+    e.printStackTrace();
+}
+// reader is automatically closed
+```
+
+### ✅ Benefits:
+
+* No need to explicitly close resources in `finally`
+* Safe, simple, and deterministic
+
+---
+
+## ✅ 2. `Cleaner` (since Java 9)
+
+### 🔹 What is it?
+
+A lightweight, modern alternative to `finalize()` for cleaning up **non-memory resources** when an object becomes unreachable.
+
+### 🔹 How it works:
+
+* You register a **cleanup action** with a `Cleaner`
+* When the object becomes unreachable, the action runs **asynchronously**
+
+### 🧪 Example:
+
+```java
+import java.lang.ref.Cleaner;
+
+public class MyResource {
+    private static final Cleaner cleaner = Cleaner.create();
+
+    static class State implements Runnable {
+        @Override
+        public void run() {
+            System.out.println("Cleanup logic here (e.g., close native resource)");
+        }
+    }
+
+    private final Cleaner.Cleanable cleanable;
+
+    public MyResource() {
+        cleanable = cleaner.register(this, new State());
+    }
+}
+```
+
+* When `MyResource` becomes unreachable, `State.run()` is automatically called.
+
+### ✅ Benefits:
+
+* No finalizer resurrection issues
+* Cleanup is asynchronous and non-blocking
+* Safer and more performant than `finalize()`
+
+---
+
+## ✅ 3. `PhantomReference` (since Java 1.2, used in GC monitoring)
+
+### 🔹 What is it?
+
+A reference that **doesn't prevent its referent from being collected** and is **not accessible** (i.e., `get()` always returns `null`).
+
+Used for:
+
+* Post-GC cleanup (lower-level than `Cleaner`)
+* Implementing your own cleanup logic
+* Managing native memory
+
+### 🧪 Example:
+
+```java
+import java.lang.ref.*;
+
+public class PhantomDemo {
+    public static void main(String[] args) {
+        ReferenceQueue<Object> queue = new ReferenceQueue<>();
+        Object obj = new Object();
+
+        PhantomReference<Object> ref = new PhantomReference<>(obj, queue);
+
+        obj = null;
+        System.gc();
+
+        // Later...
+        if (queue.poll() != null) {
+            System.out.println("Object is collected, cleanup can start");
+        }
+    }
+}
+```
+
+### ✅ Benefits:
+
+* Ideal for **tracking** object GC
+* Used internally in frameworks like Netty for **native resource cleanup**
+
+---
+
+## 🔁 Comparison
+
+| Feature              | Purpose                    | When It Runs                    | Use Case                          |
+| -------------------- | -------------------------- | ------------------------------- | --------------------------------- |
+| `try-with-resources` | Auto-close resource        | Deterministically, end of `try` | Files, sockets, DB connections    |
+| `Cleaner`            | Async resource cleanup     | After GC                        | Native resource cleanup (Java 9+) |
+| `PhantomReference`   | Low-level post-GC tracking | After GC                        | Custom memory/resource tracking   |
+| `finalize()`         | Deprecated cleanup method  | Unpredictable, after GC         | Legacy (avoid)                    |
+
+---
+
+## 🧠 Summary
+
+* Use `try-with-resources` for anything implementing `AutoCloseable` (safe and preferred).
+* Use `Cleaner` for cleanup of non-memory resources after GC (Java 9+).
+* Use `PhantomReference` only if you need **fine-grained control** over GC behavior.
+* **Avoid `finalize()`** — it's deprecated and unreliable.
+
+---
