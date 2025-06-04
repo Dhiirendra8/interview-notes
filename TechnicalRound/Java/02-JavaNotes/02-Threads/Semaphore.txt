@@ -1,6 +1,7 @@
 ### ✅ What is a **Semaphore** in Java?
 
-A **Semaphore** is a **concurrency control construct** that restricts the number of threads that can access a **shared resource** at the same time. It's not a traditional `Lock`, but it **belongs to the `java.util.concurrent` package** and is useful for limiting concurrent access.
+A **Semaphore** is a **concurrency control construct** that restricts the number of threads that can access a **shared resource** at the same time. 
+It's not a traditional `Lock`, but it **belongs to the `java.util.concurrent` package** and is useful for limiting concurrent access.
 
 Think of it like a gatekeeper that only lets **N number of threads** pass at once.
 
