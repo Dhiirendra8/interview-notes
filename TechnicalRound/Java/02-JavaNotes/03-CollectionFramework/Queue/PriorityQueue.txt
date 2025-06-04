@@ -1,6 +1,7 @@
 ### ✅ What is a **PriorityQueue** in Java?
 
-A **`PriorityQueue`** is a special type of **queue** in Java where **elements are ordered based on their priority**. Unlike a normal queue (FIFO), a `PriorityQueue` always removes the **highest (or lowest) priority element first**, not necessarily the one that was added first.
+A **`PriorityQueue`** is a special type of **queue** in Java where **elements are ordered based on their priority**. 
+Unlike a normal queue (FIFO), a `PriorityQueue` always removes the **highest (or lowest) priority element first**, not necessarily the one that was added first.
 
 ---
 

@@ -61,7 +61,8 @@ The SOLID principle was introduced by Robert C. Martin, also known as Uncle Bob 
 5. Dependency Inversion Principle: 
 -> Before we discuss this topic keep in mind that Dependency Inversion and Dependency Injection both are different concepts. 
 -> Now two key points are here to keep in mind about this principle
-    A. High-level modules/classes should not depend on low-level modules/classes. Both should depend upon abstractions.
+    A. High-level modules/classes should not depend on low-level modules/classes. 
+        Both should depend upon abstractions.
     B. Abstractions should not depend upon details. Details should depend upon abstractions.
 
 -> The above lines simply state that if a high module or class will be dependent more on low-level modules or class then 

@@ -1,0 +1,51 @@
+**Data sharding** ek technique hai jisme **large datasets** ko chhote-chhote **independent parts (shards)** mein divide kiya jata hai, taaki performance aur scalability improve ho.
+
+---
+
+### 🔹 Simple Definition in Hindi:
+
+**Data sharding ka matlab hai data ko tukdo (shards) mein baantna**, taaki har shard alag server ya database instance par store ho sake.
+
+---
+
+### 🔹 Example:
+
+Maan lijiye aapke paas ek user database hai jisme **1 crore users** hain. Aap unhe 4 shards mein baant dete ho:
+
+* **Shard 1** – Users with ID 1 to 25 lakh
+* **Shard 2** – Users with ID 25 lakh to 50 lakh
+* **Shard 3** – Users with ID 50 lakh to 75 lakh
+* **Shard 4** – Users with ID 75 lakh to 1 crore
+
+Isse har shard par load kam ho jaata hai, aur performance improve hoti hai.
+
+---
+
+### 🔹 Sharding ke Fayde:
+
+| Benefit          | Description                                                 |
+| ---------------- | ----------------------------------------------------------- |
+| **Scalability**  | Aap horizontal scale kar sakte ho (naye servers add karke). |
+| **Performance**  | Kam data hone ki wajah se faster read/write operations.     |
+| **Availability** | Agar ek shard down ho jaye, toh baki system chal sakta hai. |
+| **Maintenance**  | Shard-wise backup ya migration possible hai.                |
+
+---
+
+### 🔹 Sharding ke Prakar:
+
+1. **Horizontal sharding** – Rows ke basis par data baanta jaata hai (sabse common).
+2. **Vertical sharding** – Columns ke basis par (jaise user info ek shard mein, orders doosre mein).
+3. **Functional sharding** – Business functionality ke basis par data split hota hai (jaise user service, order service alag-alag databases).
+
+---
+
+### 🔹 Challenges of Sharding:
+
+* **Query complexity** – Data alag shards mein hone se complex queries tough ho jaati hain.
+* **Joins** – Cross-shard joins mushkil hote hain.
+* **Re-sharding** – Data redistribute karna mushkil ho sakta hai jab load badhta hai.
+
+---
+
+Agar aap chahte ho toh main ek Spring Boot + PostgreSQL sharding example ya architecture bhi samjha sakta hoon.
