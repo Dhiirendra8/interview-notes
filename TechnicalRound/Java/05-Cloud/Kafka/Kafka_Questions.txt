@@ -1,0 +1,205 @@
+#Give me questions at Kafka senior developer at Bloom's revised taxonomy level 4
+### **Bloom’s Revised Taxonomy Level 4: Analyzing**  
+At **Level 4 (Analyzing)**, questions should focus on breaking down Kafka concepts, identifying patterns, troubleshooting issues, and optimizing performance in Kafka-based systems.  
+
+Below are **senior-level Apache Kafka questions** that test a candidate’s ability to analyze, diagnose, and optimize Kafka-based architectures.
+
+---
+
+### **1. Kafka Architecture & Message Flow Analysis**  
+- Describe the **end-to-end flow** of a Kafka message from producer to consumer.  
+  - What are the key components involved?  
+  - How does Kafka ensure message durability and fault tolerance?  
+  - What happens if a broker in a Kafka cluster crashes? How does leader election work?
+
+---
+
+### **2. Partitioning Strategy Analysis**  
+- Given the following Kafka producer configuration:  
+  ```java
+  Properties props = new Properties();
+  props.put("bootstrap.servers", "broker1:9092,broker2:9092");
+  props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+  props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+  props.put("acks", "all");
+  ```
+  - How does Kafka determine which partition a message will go to?  
+  - What happens if a key is **null**?  
+  - How would you analyze and choose between **custom partitioning** and Kafka’s default partitioning strategy?
+
+---
+
+### **3. Consumer Group & Offset Management Analysis**  
+- Consider a scenario where a Kafka consumer is **experiencing message duplication**.  
+  - What are the possible causes?  
+  - How would you diagnose whether the issue is caused by **offset management**, **producer retries**, or **consumer rebalancing**?  
+  - How does **auto.offset.reset** affect message consumption?
+
+---
+
+### **4. High Throughput vs. Low Latency Trade-off Analysis**  
+- You have a Kafka producer that must handle **100,000 events per second** with low latency.  
+  - How would you optimize the producer configuration for high throughput?  
+  - What trade-offs would you make between **batch size**, **linger.ms**, and **compression.type**?  
+  - How does **acks=all** impact performance compared to **acks=1**?
+
+---
+
+### **5. Troubleshooting Lag in Kafka Consumers**  
+- Your team reports that Kafka consumers are experiencing **high lag**.  
+  - How would you analyze and debug the issue?  
+  - What Kafka metrics would you check to diagnose the root cause?  
+  - How do **rebalance frequency**, **consumer thread count**, and **partition count** impact consumer lag?
+
+---
+
+### **6. Kafka Streams & State Store Analysis**  
+- Suppose you are processing a **continuous stream of sensor data** using Kafka Streams.  
+  ```java
+  KStream<String, Double> sensorData = builder.stream("sensor-topic");
+  sensorData.groupByKey()
+            .windowedBy(TimeWindows.of(Duration.ofMinutes(5)))
+            .reduce(Double::sum);
+  ```
+  - What challenges might arise if there is **late-arriving data**?  
+  - How would you modify this pipeline to ensure **correct aggregation**?  
+  - How does Kafka Streams handle **stateful processing**, and what are the implications for fault tolerance?
+
+---
+
+### **7. Replication Factor & Data Loss Analysis**  
+- A Kafka topic has `replication.factor = 2` and a broker crashes.  
+  - What happens to **uncommitted messages** in the leader partition?  
+  - How does Kafka determine the new leader?  
+  - How would increasing the **replication factor** affect performance and reliability?
+
+---
+
+### **8. Kafka Security Analysis**  
+- A financial application must **secure Kafka messages** to prevent unauthorized access.  
+  - What security mechanisms does Kafka offer for **authentication, authorization, and encryption**?  
+  - How would you configure **SASL, ACLs, and TLS** in a production Kafka cluster?  
+  - What security risks remain even after enabling SSL encryption?
+
+---
+
+### **9. Kafka Connect & Data Pipeline Analysis**  
+- You are using Kafka Connect to stream data from **MySQL to Kafka**.  
+  - What factors should you analyze when choosing between **JDBC Source Connector** and **Debezium CDC Connector**?  
+  - What problems might arise due to **schema evolution**, and how can you handle them?  
+  - How does Kafka ensure **exactly-once delivery** in connectors?
+
+---
+
+### **10. Analyzing Kafka in Multi-Data Center Deployments**  
+- Your company wants to replicate Kafka topics across **two geographically distributed data centers**.  
+  - What challenges arise in **cross-cluster replication**?  
+  - How would you analyze the trade-offs between **MirrorMaker 2** and **Confluent Replicator**?  
+  - What factors affect **latency, consistency, and failover** in multi-cluster Kafka setups?
+
+---
+
+### **Summary**  
+These **Kafka Level 4 (Analyzing) questions** assess a senior developer’s ability to:  
+✔️ Troubleshoot Kafka issues and diagnose bottlenecks  
+✔️ Compare different Kafka configurations and partitioning strategies  
+✔️ Analyze trade-offs in performance, security, and fault tolerance  
+✔️ Evaluate complex Kafka workflows (Streams, Connect, Multi-DC setups)  
+
+Would you like me to focus on **real-world problem scenarios** or specific areas like **Kafka Streams, performance tuning, or security**? 🚀
+
+
+===========================================================================================
+#Give me questions at Kafka senior developer at Bloom's revised taxonomy level 5
+### **Bloom’s Revised Taxonomy Level 5: Evaluating**  
+At **Level 5 (Evaluating)**, questions focus on **justifying decisions, comparing solutions, and assessing trade-offs** in a **Kafka-based architecture**. These questions challenge a **Senior Kafka Developer** to evaluate different approaches, weigh pros and cons, and justify their choices based on performance, reliability, and scalability.
+
+---
+
+### **1. Kafka Architecture & Design Decision Evaluation**  
+- Your company is designing a **high-throughput Kafka-based event-driven system**.  
+  - Would you recommend **Kafka as a message queue (competing consumers)** or **Kafka as an event log (event sourcing)**? Why?  
+  - How would you justify choosing **Kafka** over **RabbitMQ or Pulsar** for this use case?  
+  - What are the trade-offs between using **topic compaction** and **time-based retention**?
+
+---
+
+### **2. Producer Acknowledgment & Data Reliability Analysis**  
+- A critical financial application requires **exactly-once message delivery** with high availability.  
+  - How would you evaluate the trade-offs between `acks=1` vs. `acks=all`?  
+  - Would you recommend **idempotent producers** or **transactional producers**? Why?  
+  - What factors determine whether enabling `enable.idempotence=true` is beneficial?
+
+---
+
+### **3. Evaluating Partitioning Strategies**  
+- You are designing a **Kafka topic with 50 partitions** for a high-load application.  
+  - How would you evaluate whether the **partition count is optimal**?  
+  - What are the implications of **over-partitioning vs. under-partitioning**?  
+  - When would you recommend **custom partitioners** over Kafka’s default hashing partitioner?
+
+---
+
+### **4. Consumer Group Strategy Evaluation**  
+- Your application processes events **from multiple Kafka topics in parallel**.  
+  - Would you recommend using **one consumer group per topic** or **a single consumer group for multiple topics**? Why?  
+  - How does increasing the **number of consumer instances** affect **rebalance frequency and lag**?  
+  - Would you suggest enabling **sticky partition assignment**? Why or why not?
+
+---
+
+### **5. Performance Tuning & Throughput Optimization**  
+- You are handling **10 million messages per second** in a Kafka producer.  
+  - How would you justify tuning `batch.size`, `linger.ms`, and `compression.type`?  
+  - Would you recommend using **Snappy, Gzip, or LZ4** for compression? Why?  
+  - How does increasing `replication.factor` affect **throughput and durability**?
+
+---
+
+### **6. Fault Tolerance & Disaster Recovery Evaluation**  
+- A business-critical Kafka system must be **highly available across data centers**.  
+  - Would you recommend **active-active replication** or **active-passive replication**?  
+  - How would you compare **MirrorMaker 2** vs. **Confluent Replicator** for disaster recovery?  
+  - What trade-offs exist between **low-latency replication** and **strict consistency**?
+
+---
+
+### **7. Kafka Streams vs. Flink for Real-time Processing**  
+- Your team is evaluating **Kafka Streams vs. Apache Flink** for a **real-time analytics** application.  
+  - How would you compare their performance and state management capabilities?  
+  - Would you recommend Kafka Streams **for complex event processing**? Why or why not?  
+  - What are the advantages of **windowed joins** in Kafka Streams compared to Flink?
+
+---
+
+### **8. Security & Compliance Evaluation**  
+- A healthcare system requires **Kafka message encryption and access control** to meet **HIPAA compliance**.  
+  - Would you recommend **SSL/TLS at the broker level** or **application-level encryption**? Why?  
+  - How would you evaluate the effectiveness of **SASL vs. Kerberos authentication**?  
+  - What risks remain after enabling **role-based access control (RBAC) with Kafka ACLs**?
+
+---
+
+### **9. Schema Evolution & Compatibility Evaluation**  
+- Your team is managing **Kafka topics with evolving Avro schemas**.  
+  - Would you recommend using **backward-compatible** or **forward-compatible** schemas? Why?  
+  - How would you compare **Avro, Protobuf, and JSON Schema** for schema evolution?  
+  - What trade-offs exist between **schema validation at producer level vs. consumer level**?
+
+---
+
+### **10. Evaluating Kafka in a Cloud-Native Environment**  
+- Your company is moving a **Kafka cluster to Kubernetes (EKS/GKE/AKS)**.  
+  - How would you compare **self-managed Kafka on Kubernetes** vs. **managed Kafka services (Confluent Cloud, AWS MSK, Azure Event Hubs)?**  
+  - What are the trade-offs between using **Kafka with Local Persistent Volumes vs. Cloud Storage (S3, GCS, Azure Blob)?**  
+  - Would you recommend enabling **Kafka Tiered Storage**? Why or why not?
+
+---
+
+### **Summary**  
+These **Level 5 (Evaluating) questions** challenge a **Kafka Senior Developer** to:  
+✔ **Compare different architectures, frameworks, and configurations**  
+✔ **Justify trade-offs in performance, security, and reliability**  
+✔ **Evaluate best practices in real-world Kafka deployments**  
+
+Would you like a deep dive into **real-world problem scenarios** or focus on **specific Kafka components (Streams, Connect, security, multi-cluster setups)?** 🚀

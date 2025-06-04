@@ -1,0 +1,147 @@
+#Working of a Garbage Collector:
+
+-> JVM triggers this process and as per the JVM garbage collection process is done or else withheld. 
+-> It reduces the burden of programmer by automatically performing the allocation or deallocation of memory.
+-> Garbage collection process causes the rest of the processes or threads to be paused and thus is costly in nature. 
+-> This problem is unacceptable for the client but can be eliminated by applying several garbage collector based algorithms. 
+-> This process of applying algorithm is often termed as Garbage Collector tuning and is important for improving the performance of a program.
+-> Another solution is the generational garbage collectors that adds an age field to the objects that are assigned a memory. 
+-> As more and more objects are created, the list of garbage grows thereby increasing the garbage collection time. 
+-> On the basis of how many clock cycles the objects have survived, objects are grouped and are allocated an ‘age’ accordingly. 
+-> This way the garbage collection work gets distributed.
+-> In the current scenario, all garbage collectors are generational, and hence, optimal.
+
+
+
+-----------------------------------
+Differnt Garbage collector algorithms supported by JVM
+1. Serial GC
+2. Parallel GC (Throughput GC)
+3. CMS (Concurrent Mark-Sweep) GC
+4. G1(Garbage First) GC - Default
+5. Z GC (ZGC)
+6. Epsilon GC (No-Op GC)
+
+==================================================================
+Sure! Here's an overview of **how Garbage Collection (GC) works in modern Java** and the key factors and components involved.
+
+---
+
+## 🚀 How Garbage Collection Works in Modern Java
+
+Java's Garbage Collector automatically manages memory by **reclaiming unused objects** so developers don't have to free memory manually.
+
+Modern JVMs (like HotSpot) use **generational GC algorithms** with multiple heaps and sophisticated strategies to optimize throughput and latency.
+
+---
+
+## 🧩 Key Concepts & Components
+
+### 1. **Heap Memory Structure**
+
+Heap is divided into **generations**:
+
+| Generation                   | Purpose                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| **Young Generation**         | Newly created objects; collected frequently (minor GC)                    |
+| **Old (Tenured) Generation** | Objects that survived multiple minor GCs; collected less often (major GC) |
+| **Metaspace**                | Stores class metadata (replaced PermGen since Java 8)                     |
+
+Young Gen further split into:
+
+* **Eden Space**: Where new objects are allocated
+* **Survivor Spaces (S0 and S1)**: Hold objects surviving one or more minor GCs
+
+---
+
+### 2. **Garbage Collection Phases**
+
+* **Minor GC**: Cleans Young Generation (Eden + one Survivor space). Fast and frequent.
+* **Major GC / Full GC**: Cleans Old Generation and sometimes entire heap. Slower and less frequent.
+* **Concurrent Phases**: Some GCs do work concurrently with app threads to reduce pauses.
+
+---
+
+### 3. **Types of Collectors in Modern JVM**
+
+* **Serial GC**: Simple single-threaded, for small apps.
+* **Parallel GC** (Throughput Collector): Multi-threaded minor and major GC; optimized for throughput.
+* **G1 GC (Garbage First)**: Divides heap into regions; does incremental and concurrent collection, balancing pause time and throughput.
+* **ZGC** (Z Garbage Collector): Low latency, concurrent, scalable.
+* **Shenandoah**: Similar to ZGC, low-pause collector.
+
+---
+
+### 4. **How GC Identifies Garbage**
+
+* JVM roots include references from stack, static fields, JNI handles.
+* GC traces reachable objects starting from roots.
+* Objects not reachable are eligible for GC.
+
+---
+
+### 5. **Finalization & Reference Types**
+
+* Objects can implement `finalize()` (deprecated now) for cleanup before collection.
+* Java supports different reference types affecting GC behavior:
+
+  * **Strong Reference**: Default; prevents GC.
+  * **Soft Reference**: GC collects if memory low.
+  * **Weak Reference**: Collected more aggressively.
+  * **Phantom Reference**: Used to schedule post-GC cleanup.
+
+---
+
+### 6. **Key Factors Affecting GC**
+
+* **Heap size and generation sizes**
+* **Allocation rate of objects**
+* **Survivor space sizing and promotion thresholds**
+* **GC algorithm choice**
+* **Application pause time vs throughput requirements**
+* **Object lifespan patterns**
+
+---
+
+### 7. **Common JVM GC Flags**
+
+Examples for tuning JVM GC:
+
+```bash
+-XX:+UseG1GC               # Use G1 garbage collector
+-XX:MaxGCPauseMillis=200   # Target max GC pause time (ms)
+-XX:InitiatingHeapOccupancyPercent=45  # When to start concurrent GC in G1
+-XX:+PrintGCDetails        # Print GC logs for analysis
+-XX:+UseConcMarkSweepGC    # Use CMS collector (older)
+-XX:+UseZGC                # Use Z Garbage Collector (Java 11+)
+```
+
+---
+
+## Summary Table
+
+| Aspect                | Explanation                           |
+| --------------------- | ------------------------------------- |
+| **Heap**              | Memory area split into Young & Old    |
+| **Minor GC**          | Cleans young gen, frequent & fast     |
+| **Major/Full GC**     | Cleans old gen, slower                |
+| **GC Roots**          | Entry points to find live objects     |
+| **Collectors**        | Serial, Parallel, G1, ZGC, Shenandoah |
+| **Reference Types**   | Strong, Soft, Weak, Phantom           |
+| **Tuning Parameters** | Heap size, pause goals, thresholds    |
+
+---
+
+If you want, I can also explain any specific collector in detail or how to analyze GC logs!
+
+
+
+
+
+
+
+
+
+
+
+

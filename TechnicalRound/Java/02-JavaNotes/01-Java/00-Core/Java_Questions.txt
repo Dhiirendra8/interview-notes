@@ -1,0 +1,167 @@
+# Give me questions at java senior developer at Bloom's revised taxonomy level 4
+Bloom's Revised Taxonomy Level 4 corresponds to **"Analyzing,"** where the focus is on breaking information into parts, identifying patterns, and examining how different aspects relate to each other. For a **Senior Java Developer** role, this means evaluating complex code structures, troubleshooting issues, and optimizing performance.
+
+Here are some **Level 4 (Analyzing) questions** for a **Senior Java Developer**:
+
+### **1. Code Analysis & Debugging**  
+- Given the following Java code snippet, identify potential issues and suggest improvements:  
+  ```java
+  public class Singleton {
+      private static Singleton instance;
+
+      private Singleton() {}
+
+      public static Singleton getInstance() {
+          if (instance == null) {
+              instance = new Singleton();
+          }
+          return instance;
+      }
+  }
+  ```
+  - What potential problems can arise in a multi-threaded environment?  
+  - How would you modify this to be thread-safe while maintaining performance?
+
+### **2. Design Pattern Evaluation**  
+- Compare and contrast **Strategy Pattern** and **State Pattern** in Java.  
+  - How do they differ in terms of use case and implementation?  
+  - Can you provide a real-world example where both patterns could be applicable and analyze which one would be more effective?
+
+### **3. Performance Optimization & Profiling**  
+- Suppose you have a high-traffic Java web application experiencing slow response times.  
+  - What profiling tools would you use to analyze performance bottlenecks?  
+  - How would you differentiate between CPU-bound and I/O-bound performance issues?  
+  - What steps would you take to optimize database queries in a Java-based application using Hibernate?
+
+### **4. Concurrency & Multi-threading Analysis**  
+- Consider a Java application that processes financial transactions concurrently.  
+  - How would you ensure thread safety when multiple threads modify a shared collection?  
+  - Compare `ReentrantLock` and `synchronized`. In what situations would you choose one over the other?  
+  - What are the trade-offs between using **CompletableFuture** vs. **ExecutorService** for handling asynchronous tasks?
+
+### **5. Microservices & System Architecture Analysis**  
+- Your company is migrating from a monolithic Java application to a microservices-based architecture.  
+  - How would you analyze the dependencies between components to determine the best approach for splitting the monolith?  
+  - What strategies would you use to maintain **data consistency** across microservices without introducing tight coupling?  
+  - How would you compare REST and gRPC for inter-service communication in terms of performance and maintainability?
+
+### **6. Security Vulnerabilities & Code Analysis**  
+- Analyze the following Java code and identify security vulnerabilities:  
+  ```java
+  String query = "SELECT * FROM users WHERE username = '" + userInput + "'";
+  Statement stmt = connection.createStatement();
+  ResultSet rs = stmt.executeQuery(query);
+  ```
+  - What security risk does this pose?  
+  - How would you refactor this to prevent SQL injection while maintaining performance?
+
+### **7. Memory Management & Garbage Collection Analysis**  
+- You are experiencing **OutOfMemoryError** in a Java application.  
+  - How would you analyze the heap dump to find the root cause?  
+  - What are the differences between G1GC and CMS garbage collectors?  
+  - How would you tune the JVM for better memory performance in a high-load production environment?
+
+### **8. Spring Framework Deep Analysis**  
+- A Spring Boot application is experiencing slow startup times.  
+  - How would you analyze the root cause?  
+  - What optimizations can be made to reduce startup time in a microservices environment?  
+  - How does **Spring AOP** differ from using traditional method interception via Java proxies?
+
+---
+
+Bloom’s Revised Taxonomy Level 5 corresponds to **"Evaluating,"** which focuses on making judgments, critiquing ideas, justifying choices, and assessing different solutions based on criteria. For a **Senior Java Developer**, this means evaluating different architectural decisions, comparing frameworks, and making trade-offs in software design.
+
+======================================================================================================================
+# Give me questions at java senior developer at Bloom's revised taxonomy level 5
+Give me questions at Kafka senior developer at Bloom's revised taxonomy level 4
+
+### **Level 5 (Evaluating) Questions for a Senior Java Developer**  
+
+#### **1. Architectural Trade-offs & Design Decisions**  
+- You need to design a **highly scalable** and **fault-tolerant** Java-based microservices system.  
+  - Would you choose **event-driven architecture** or **synchronous REST-based communication**? Why?  
+  - What factors would you consider when deciding between a **monolithic** vs. **microservices** architecture for a new project?  
+  - How would you justify the decision to use **Kafka vs. RabbitMQ** for event-driven messaging?
+
+#### **2. Framework & Library Comparisons**  
+- Compare and evaluate **Spring Boot** vs. **Quarkus** for a cloud-native microservices application.  
+  - Which one would you choose for a low-latency application, and why?  
+  - What are the trade-offs in startup time, memory usage, and developer experience?  
+  - In what scenario would you **not** use Spring Boot?
+
+#### **3. Concurrency & Performance Evaluation**  
+- Given a Java application that handles **real-time stock trading** data, evaluate different concurrency mechanisms:  
+  - Would you choose **Java's synchronized blocks**, **ReentrantLocks**, or **Atomic variables**? Why?  
+  - How would you decide between **parallel streams** and **CompletableFuture** for handling large datasets asynchronously?  
+  - Evaluate **virtual threads (Project Loom)** vs. **traditional thread pools** for high-concurrency applications.
+
+#### **4. JVM & Garbage Collection Tuning**  
+- A Java application experiences unpredictable GC pauses, causing performance degradation.  
+  - How would you **evaluate** different GC algorithms (G1GC, ZGC, Shenandoah) for resolving the issue?  
+  - What **metrics** would you analyze to determine the best GC strategy for a high-throughput application?  
+  - Would you recommend **manual memory management techniques (like object pooling)**, or would tuning JVM parameters be sufficient?
+
+#### **5. Security & Code Review Analysis**  
+- Your team is reviewing a security audit report on your Java application.  
+  - How would you evaluate the **risk severity** of issues like **XXE (XML External Entity attacks)** and **insecure deserialization**?  
+  - When would you **recommend** using **Spring Security** vs. **custom security implementations**?  
+  - Analyze the following authentication mechanism and justify whether it is secure:  
+    ```java
+    String hash = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+    ```
+    - What are the **security flaws** in this approach, and what alternative would you suggest?
+
+#### **6. Database & ORM Strategy Evaluation**  
+- Your application has **millions of concurrent users**, and you're deciding between **JPA (Hibernate)** and **native SQL** for database interactions.  
+  - How would you evaluate the trade-offs in **performance, maintainability, and scalability**?  
+  - Would you recommend **optimistic** or **pessimistic locking** for handling concurrent writes in a banking system? Why?  
+  - How would you justify the decision to **use or avoid caching (e.g., Redis, Ehcache)** in an application with high transactional consistency requirements?
+
+#### **7. Testing Strategies Evaluation**  
+- Your team is debating between **unit testing** vs. **integration testing** coverage for a Java application.  
+  - How would you evaluate when to prioritize **mocking vs. real dependencies** in test cases?  
+  - Would you recommend **TDD (Test-Driven Development)** in a fast-moving startup environment? Why or why not?  
+  - How would you justify choosing **JUnit 5** over other testing frameworks like **TestNG**?
+
+#### **8. API Design & Maintainability Evaluation**  
+- You are designing a **public REST API** that will be used by external clients.  
+  - Would you recommend **HATEOAS**, or is a simpler RESTful approach sufficient?  
+  - How would you evaluate when to use **GraphQL vs. REST** for API design?  
+  - Given the following API response, would you consider it a good design? Why or why not?  
+    ```json
+    {
+      "data": {
+        "user": {
+          "id": 123,
+          "name": "John Doe",
+          "orders": [
+            {"orderId": 456, "status": "Shipped"},
+            {"orderId": 789, "status": "Pending"}
+          ]
+        }
+      }
+    }
+    ```
+    - What **modifications** would you suggest to improve its maintainability and efficiency?
+
+#### **9. Cloud-Native Application Strategy**  
+- Your company is migrating a **legacy Java application** to the cloud.  
+  - Would you recommend **containerization (Docker, Kubernetes)** or **serverless (AWS Lambda, Google Cloud Functions)**?  
+  - What are the **trade-offs** between **horizontal scaling** (adding more instances) vs. **vertical scaling** (adding more CPU/RAM)?  
+  - How would you evaluate the use of **Reactive Programming (Project Reactor, RxJava)** in a cloud-native microservices environment?
+
+#### **10. DevOps & CI/CD Strategy Analysis**  
+- Your team is implementing a CI/CD pipeline for a large-scale Java project.  
+  - Would you recommend **GitHub Actions, Jenkins, or GitLab CI/CD**? Justify your choice based on scalability and maintainability.  
+  - How would you evaluate whether to use **blue-green deployments** or **canary releases** for zero-downtime deployments?  
+  - What factors would you consider when deciding whether to use **Docker images** vs. **native JAR deployments**?
+
+---
+
+### **Summary**  
+These Level 5 **Evaluating** questions challenge a **Senior Java Developer** to:
+✔️ Make trade-offs between different technologies  
+✔️ Critically analyze performance, security, and maintainability  
+✔️ Justify architectural and design decisions with logical reasoning  
+
+Would you like me to focus on a **specific domain** like cloud computing, fintech, or high-performance systems? 🚀

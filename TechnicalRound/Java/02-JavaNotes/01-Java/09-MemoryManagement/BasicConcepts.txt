@@ -2,7 +2,7 @@
 
 #Java Memory Structure
 1. Heap Area
-2. Method Area
+2. Method Area/ Metaspace
 3. JVM Stacks
 4. Native Method Stack
 5. PC Register
@@ -75,16 +75,128 @@
     
     It's important to note that the memory structure described above is a simplified representation and can vary across different Java implementations and versions.
     
-# Working of a Garbage Collector
-    -> JVM triggers this process and as per the JVM garbage collection process is done or else withheld. 
-    -> It reduces the burden of programmer by automatically performing the allocation or deallocation of memory.
-    -> Garbage collection process causes the rest of the processes or threads to be paused and thus is costly in nature. 
-    -> This problem is unacceptable for the client but can be eliminated by applying several garbage collector based algorithms. 
-    -> This process of applying algorithm is often termed as Garbage Collector tuning and is important for improving the performance of a program.
-    -> Another solution is the generational garbage collectors that adds an age field to the objects that are assigned a memory. 
-    -> As more and more objects are created, the list of garbage grows thereby increasing the garbage collection time. 
-    -> On the basis of how many clock cycles the objects have survived, objects are grouped and are allocated an ‘age’ accordingly. 
-    -> This way the garbage collection work gets distributed.
-    -> In the current scenario, all garbage collectors are generational, and hence, optimal.
+=====================================
+Great question! Let’s dive into **memory management architecture in modern Java (JVM)**—how it’s designed to efficiently manage memory during program execution.
+
+---
+
+## Memory Management Architecture in Modern Java
+
+At a high level, Java memory management is handled by the JVM, which divides memory into several key areas, each with a specific role.
+
+---
+
+### 1. **JVM Memory Areas**
+
+The JVM specification divides memory into **runtime data areas**, mainly:
+
+| Memory Area                       | Purpose                                                               |
+| --------------------------------- | --------------------------------------------------------------------- |
+| **Heap**                          | Runtime storage for all objects and arrays (garbage collected)        |
+| **Method Area**                   | Stores class metadata, static variables, constants                    |
+| **Java Stack**                    | Stores frames for method invocations (local variables, operand stack) |
+| **Program Counter (PC) Register** | Holds address of the currently executing JVM instruction              |
+| **Native Method Stack**           | For native (non-Java) method calls (depends on JVM implementation)    |
+
+---
+
+### 2. **Heap Memory**
+
+* **All Java objects are allocated on the heap**.
+* The heap is the only area subject to **Garbage Collection**.
+* Heap is divided into **generations** to optimize GC:
+
+  * **Young Generation**: For newly created objects (divided into Eden and Survivor spaces)
+  * **Old Generation (Tenured)**: For long-lived objects
+  * **Metaspace** (replaced PermGen since Java 8): Holds class metadata and loaded classes
+
+---
+
+### 3. **Stack Memory**
+
+* Each thread gets its own **Java Stack**.
+* Each method call creates a **stack frame** containing:
+
+  * Local variables
+  * Operand stack (for computations)
+  * Frame data for method return
+* Stack is short-lived and used for method execution.
+* Stack memory is **not garbage collected**; it’s managed via push/pop operations.
+
+---
+
+### 4. **Method Area / Metaspace**
+
+* Stores class-level information (bytecode, constants, static variables).
+* Prior to Java 8, this was called **PermGen** and had fixed size.
+* Since Java 8, replaced by **Metaspace**, which is native memory (outside heap) and dynamically sized.
+* Helps avoid `OutOfMemoryError` in class loading.
+
+---
+
+### 5. **PC Register**
+
+* Each thread has its own **Program Counter (PC)** register.
+* It keeps track of the JVM instruction currently being executed.
+* Essential for thread execution management.
+
+---
+
+### 6. **Native Method Stack**
+
+* Used when Java calls native (C/C++) code via JNI.
+* Memory for native method calls.
+
+---
+
+## Memory Flow Summary
+
+| Step                      | Explanation                                                      |
+| ------------------------- | ---------------------------------------------------------------- |
+| Object creation           | Objects allocated in Eden space (Young Gen)                      |
+| Minor GC                  | Collects garbage in Young Gen; survivors moved to Survivor space |
+| Promotion                 | Objects surviving several GC cycles promoted to Old Gen          |
+| Major/Full GC             | Cleans Old Gen; more expensive process                           |
+| Class metadata management | Stored in Metaspace (native memory)                              |
+| Stack frames              | Created and destroyed per method call                            |
+
+---
+
+## Diagram (Conceptual)
+
+```
++------------------------------------------+
+|                JVM Memory                |
+|------------------------------------------|
+|               Heap (GC managed)          |
+|  +-------------+   +------------------+ |
+|  | Young Gen   |-->| Old Gen          | |
+|  | Eden + S0,S1|   | Tenured Objects  | |
+|  +-------------+   +------------------+ |
+|                                          |
+|  Metaspace (Class metadata & constants)  |
+|                                          |
++------------------------------------------+
+|             Java Stack (per thread)      |
++------------------------------------------+
+|        PC Register (per thread)          |
++------------------------------------------+
+|       Native Method Stack (per thread)   |
++------------------------------------------+
+```
+
+---
+
+## Key Points
+
+* **Heap**: Managed by GC; divided into generations for efficiency.
+* **Stack**: Fast, per-thread, stores method state, not GC’d.
+* **Metaspace**: Dynamically sized, stores class metadata outside heap.
+* JVM manages memory allocation/deallocation, freeing you from manual memory handling.
+
+---
+
+If you want, I can explain any part in more detail or how this relates to JVM performance tuning!
+
     
 

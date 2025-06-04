@@ -1,0 +1,103 @@
+Rate limiting algorithms are used to **control the number of requests or operations** a client can perform over a period of time. These are essential in systems like APIs, login endpoints, and messaging queues to prevent abuse or overload.
+
+---
+
+## 🚦 Common Rate Limiting Algorithms
+
+### 1. **Fixed Window Counter**
+
+* 🧠 Concept: Count requests per fixed time window (e.g., per minute).
+* 🕑 Example: Allow 100 requests per minute.
+* ✅ Simple and fast.
+* ❌ Bursty traffic at window boundaries.
+
+**Data structure**: Map of time window → request count
+
+```text
+[12:00 - 12:01] -> allow 100 requests
+[12:01 - 12:02] -> new window starts
+```
+
+---
+
+### 2. **Sliding Window Log**
+
+* 🧠 Concept: Log each request's timestamp, then remove entries older than the time window.
+* ✅ Accurate.
+* ❌ High memory usage at scale.
+
+**Data structure**: Queue or list of timestamps per client
+
+```text
+Request timestamps: [12:00:01, 12:00:12, ..., 12:00:59]
+Only allow if less than N timestamps in last 60 seconds
+```
+
+---
+
+### 3. **Sliding Window Counter (Approximate)**
+
+* 🧠 Concept: Split time window into smaller sub-windows (e.g., 6 x 10s buckets).
+* ✅ Less memory than full log, smoother than fixed window.
+* ❌ Slight inaccuracy.
+
+**Data structure**: Map of bucket → request count
+Sum counts from active sub-windows.
+
+---
+
+### 4. **Token Bucket**
+
+* 🧠 Concept: Bucket holds tokens; each request consumes a token.
+* Tokens are added at a fixed rate.
+* ✅ Allows bursts up to bucket size, enforces average rate.
+* ❌ Needs careful tuning of refill rate and bucket size.
+
+**Analogy**: Tokens = permissions
+
+```text
+- Bucket size = 100
+- Refill rate = 10 tokens/sec
+- If empty → requests are rejected or delayed
+```
+
+---
+
+### 5. **Leaky Bucket**
+
+* 🧠 Concept: Queue incoming requests; process at a fixed rate.
+* ✅ Smooth and consistent output rate.
+* ❌ Delays burst requests instead of rejecting them.
+
+**Analogy**: Water in bucket leaks at a constant rate
+If too much water (requests) arrive too fast, they overflow.
+
+---
+
+## 📊 Comparison
+
+| Algorithm              | Burst Handling | Accuracy | Memory Use | Complexity |
+| ---------------------- | -------------- | -------- | ---------- | ---------- |
+| Fixed Window Counter   | ❌ Poor         | ✅ Good   | ✅ Low      | ✅ Simple   |
+| Sliding Window Log     | ✅ Good         | ✅ Best   | ❌ High     | ❌ Higher   |
+| Sliding Window Counter | ✅ Medium       | ✅ Good   | ✅ Medium   | ✅ Medium   |
+| Token Bucket           | ✅ Great        | ✅ Good   | ✅ Low      | ✅ Medium   |
+| Leaky Bucket           | ✅ Queues only  | ✅ Good   | ✅ Medium   | ✅ Medium   |
+
+---
+
+## 🛠️ Real-World Usage
+
+* **API Gateways** (e.g., AWS API Gateway, NGINX)
+* **Login throttling**
+* **Message brokers** (e.g., Kafka consumers)
+* **Distributed systems** with tools like:
+
+  * Redis (for counters/tokens)
+  * Bucket4j (Java library)
+  * Guava `RateLimiter` (Token Bucket)
+  * Spring Cloud Gateway rate limit filters
+
+---
+
+Would you like a code example of one of these in Java or Spring Boot?

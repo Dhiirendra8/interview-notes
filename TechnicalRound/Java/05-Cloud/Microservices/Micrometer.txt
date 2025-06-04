@@ -1,4 +1,5 @@
-**Micrometer** is a **metrics and observability facade** for Java applications. Think of it as **SLF4J but for metrics**.
+**Micrometer** is a **metrics and observability facade** for Java applications. 
+Think of it as **SLF4J but for metrics**.
 
 ### 🔧 In simple terms:
 

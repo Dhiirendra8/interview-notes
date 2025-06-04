@@ -1,5 +1,5 @@
-Java me **Functional Programming (FP)** ko introduce karne ke peeche kuch important wajahain hain. 
-Java 8 ke saath FP features aaye, jaise **lambda expressions, streams, functional interfaces**, taaki Java ko modern programming needs ke saath compatible banaya ja sake.
+Java 8 ke saath FP features aaye, jaise **lambda expressions, streams, functional interfaces**, 
+taaki Java ko modern programming needs ke saath compatible banaya ja sake.
 
 ---
 
