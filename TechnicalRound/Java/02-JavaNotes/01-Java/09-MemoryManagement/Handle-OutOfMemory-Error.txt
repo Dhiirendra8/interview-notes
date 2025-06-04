@@ -1,6 +1,7 @@
-Handling an `OutOfMemoryError` (OOME) at runtime in Java is **tricky** and generally signals that your application is **exceeding its memory limits** — which is often a **critical condition**, not a recoverable one.
+Handling an `OutOfMemoryError` (OOME) at runtime in Java is **tricky** and 
+generally signals that your application is **exceeding its memory limits** — 
+which is often a **critical condition**, not a recoverable one.
 
-That said, you can take **preventive, diagnostic, and fallback actions** to minimize its impact.
 
 ---
 
@@ -50,6 +51,10 @@ Use tools:
 ```bash
 -Xms512m -Xmx2048m -XX:+UseG1GC
 ```
+This means:
+    -> Start JVM with 512 MB heap
+    -> Allow it to grow up to 2 GC
+    -> Use G1GC for efficient and low-pause garbage collection
 
 Tune these settings based on profiling:
 

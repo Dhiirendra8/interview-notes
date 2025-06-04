@@ -1,0 +1,78 @@
+### ✅ What is a **Pure Function** in Java?
+
+A **pure function** is a function that follows two strict rules:
+
+---
+
+### 🧠 **Definition of a Pure Function**
+
+A function is *pure* if:
+
+1. **Its output depends only on its input parameters**
+   (no access to or use of global variables, system time, user input, etc.)
+
+2. **It causes no side effects**
+   (doesn’t modify any external state like class fields, files, databases, etc.)
+
+---
+
+### 📌 Example of a Pure Function in Java
+
+```java
+public class MathUtils {
+    public static int add(int a, int b) {
+        return a + b;
+    }
+}
+```
+
+* ✅ Same input → same output
+* ✅ No state modification
+* ✅ No I/O
+* ✅ **Pure function**
+
+---
+
+### ❌ Example of an **Impure** Function
+
+```java
+public class Counter {
+    private static int count = 0;
+
+    public static int increment(int value) {
+        count += value;
+        return count;
+    }
+}
+```
+
+* ❌ Uses external state (`count`)
+* ❌ Modifies external state (side effect)
+* ❌ Not pure
+
+---
+
+### ✅ Benefits of Pure Functions
+
+* **Thread-safe**
+* **Easy to test**
+* **Deterministic behavior**
+* Good for **functional programming**, parallelism, and caching
+
+---
+
+### 🤝 Related Concepts in Java
+
+* Java 8 introduced `Function<T, R>` in `java.util.function`, encouraging **pure-style programming**.
+* Pure functions are common in **Streams**, `map`, `filter`, etc.
+
+```java
+List<Integer> numbers = List.of(1, 2, 3, 4);
+List<Integer> squares = numbers.stream()
+    .map(n -> n * n) // pure function
+    .collect(Collectors.toList());
+```
+
+---
+
+Would you like examples of how to enforce purity in functional interfaces or lambda expressions?

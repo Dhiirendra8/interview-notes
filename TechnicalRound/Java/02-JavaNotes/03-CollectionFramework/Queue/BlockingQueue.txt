@@ -1,6 +1,7 @@
 ### ✅ What is a `BlockingQueue` in Java?
 
-A **`BlockingQueue`** is a thread-safe queue that supports **blocking operations** for inserting and retrieving elements. It belongs to `java.util.concurrent` and is primarily used in **producer-consumer scenarios**.
+A **`BlockingQueue`** is a thread-safe queue that supports **blocking operations** for inserting and retrieving elements. 
+It belongs to `java.util.concurrent` and is primarily used in **producer-consumer scenarios**.
 
 ---
 
@@ -92,5 +93,3 @@ public class BlockingQueueExample {
 * **Rate-limiting**
 
 ---
-
-Let me know if you want an example using `PriorityBlockingQueue` or integrating `BlockingQueue` with a real-world microservice task dispatcher!

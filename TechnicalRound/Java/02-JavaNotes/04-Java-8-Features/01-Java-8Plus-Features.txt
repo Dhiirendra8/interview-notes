@@ -1,3 +1,15 @@
+Interview me btane k liye
+1. Private Methods in Interfaces (Java 9)
+2. Collection Factory Methods - List.of, Set.of, Map.of (Java 9)
+3. Pattern Matching For Switch Statements (Java 12, improved in java 17)
+4. Sealed Classes & Interfaces
+5. Records - Compact syntax for immutable data classes
+6. Text Blocks - """ abc """
+
+
+
+
+================================================================================
 Java 9 introduced a number of new features and enhancements. Here's a list of the most important features in Java 9:
 
 ### 1. **Modules (Project Jigsaw)**

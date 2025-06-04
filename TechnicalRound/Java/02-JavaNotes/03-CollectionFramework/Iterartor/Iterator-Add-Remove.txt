@@ -1,4 +1,6 @@
-In Java, when using an **iterator** to traverse a collection (like a `List` or `Set`), you can **safely remove elements** using the iterator’s `remove()` method. However, **you cannot add elements directly using an iterator**—you must use a `ListIterator` if you want to add elements during iteration.
+In Java, when using an **iterator** to traverse a collection (like a `List` or `Set`), 
+you can **safely remove elements** using the iterator’s `remove()` method. 
+However, **you cannot add elements directly using an iterator**—you must use a `ListIterator` if you want to add elements during iteration.
 
 ### 1. **Removing Elements Using `Iterator`**
 

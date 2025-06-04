@@ -558,7 +558,8 @@ DBMS Advanced Interview Questions focus on in-depth knowledge and problem-solvin
 51. What are the various types of normalization techniques? Explain with examples.
 Normalization is the process of organizing data in a database to eliminate redundancy and improve data integrity. The primary goal is to minimize the chances of anomalies when performing operations like insertions, deletions, and updates. There are several levels or normal forms in normalization:
 
-1. First Normal Form (1NF): Ensures that the data in the table is atomic, meaning each column contains indivisible values (no multi-valued attributes).
+1. First Normal Form (1NF): 
+Ensures that the data in the table is atomic, meaning each column contains indivisible values (no multi-valued attributes).
 
 Example:
 Student (ID, Name, Subjects)
