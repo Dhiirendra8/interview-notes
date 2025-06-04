@@ -38,9 +38,7 @@ Overall, OAuth 2.0 simplifies the process of granting and managing access to res
     promoting interoperability and facilitating integration between applications.
 
 =================================================
-Bilkul! Chaliye **OAuth 2.0** ko simple aur aasan shabdon mein samajhte hain:
 
----
 
 ## 🛡️ OAuth 2.0 Kya Hai?
 

@@ -7,3 +7,321 @@ To use these tools, we apply a couple of annotations that allow us to treat exce
 1. @ResponseStatus
 2. @ExceptionHandler
 3. @ControllerAdvice
+
+
+=======================================
+Centralized exception handling in Spring Boot is typically done using the `@ControllerAdvice` annotation along with `@ExceptionHandler` methods. This allows you to define a global error handling mechanism that applies across all your controllers.
+
+Here’s a simple and complete example of centralized exception handling in a Spring Boot application:
+
+---
+
+### ✅ 1. Custom Exception
+
+```java
+package com.example.demo.exception;
+
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+```
+
+---
+
+### ✅ 2. Global Exception Handler
+
+```java
+package com.example.demo.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.NOT_FOUND.value());
+        body.put("error", "Resource Not Found");
+        body.put("message", ex.getMessage());
+        body.put("path", request.getDescription(false));
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        body.put("error", "Internal Server Error");
+        body.put("message", ex.getMessage());
+        body.put("path", request.getDescription(false));
+
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+
+---
+
+### ✅ 3. Sample Controller
+
+```java
+package com.example.demo.controller;
+
+import com.example.demo.exception.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class SampleController {
+
+    @GetMapping("/resource/{id}")
+    public String getResource(@PathVariable int id) {
+        if (id != 1) {
+            throw new ResourceNotFoundException("Resource with ID " + id + " not found");
+        }
+        return "Resource found";
+    }
+}
+```
+
+---
+
+### ✅ Output Example (404)
+
+**Request:** `GET /api/resource/5`
+
+**Response:**
+
+```json
+{
+  "timestamp": "2025-05-28T10:00:00",
+  "status": 404,
+  "error": "Resource Not Found",
+  "message": "Resource with ID 5 not found",
+  "path": "uri=/api/resource/5"
+}
+```
+
+==============================================
+
+Great! Let’s extend the centralized exception handling to include:
+
+1. **Validation error handling** (`@Valid`, `@RequestBody`)
+2. **Custom error response structure**
+3. **Logging** using **SLF4J**
+
+---
+
+### ✅ 1. Custom Error Response Class
+
+```java
+package com.example.demo.exception;
+
+import java.time.LocalDateTime;
+
+public class ErrorResponse {
+    private LocalDateTime timestamp;
+    private int status;
+    private String error;
+    private String message;
+    private String path;
+
+    public ErrorResponse(LocalDateTime timestamp, int status, String error, String message, String path) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
+    }
+
+    // Getters and setters omitted for brevity
+}
+```
+
+---
+
+### ✅ 2. Global Exception Handler (with Validation + Logging)
+
+```java
+package com.example.demo.exception;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
+        logger.warn("Resource not found: {}", ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex, WebRequest request) {
+        logger.warn("Validation failed: {}", ex.getMessage());
+        Map<String, Object> body = new HashMap<>();
+        Map<String, String> errors = new HashMap<>();
+
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.put(error.getField(), error.getDefaultMessage());
+        }
+
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", HttpStatus.BAD_REQUEST.value());
+        body.put("error", "Validation Failed");
+        body.put("message", errors);
+        body.put("path", request.getDescription(false));
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, WebRequest request) {
+        logger.error("Internal server error: {}", ex.getMessage(), ex);
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal Server Error",
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+
+---
+
+### ✅ 3. Sample DTO with Validation
+
+```java
+package com.example.demo.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public class UserRequest {
+    @NotBlank(message = "Username is required")
+    private String username;
+
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    private String password;
+
+    // Getters and setters
+}
+```
+
+---
+
+### ✅ 4. Updated Controller
+
+```java
+package com.example.demo.controller;
+
+import com.example.demo.dto.UserRequest;
+import com.example.demo.exception.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api")
+public class SampleController {
+
+    @GetMapping("/resource/{id}")
+    public String getResource(@PathVariable int id) {
+        if (id != 1) {
+            throw new ResourceNotFoundException("Resource with ID " + id + " not found");
+        }
+        return "Resource found";
+    }
+
+    @PostMapping("/users")
+    public String createUser(@Valid @RequestBody UserRequest userRequest) {
+        return "User created: " + userRequest.getUsername();
+    }
+}
+```
+
+---
+
+### ✅ 5. Logging Setup (`application.properties`)
+
+```properties
+# Logging
+logging.level.org.springframework.web=INFO
+logging.level.com.example.demo=DEBUG
+```
+
+---
+
+### 🧪 Sample Validation Error Response
+
+**POST** `/api/users`
+**Body:**
+
+```json
+{
+  "username": "",
+  "password": "123"
+}
+```
+
+**Response:**
+
+```json
+{
+  "timestamp": "2025-05-28T12:34:56",
+  "status": 400,
+  "error": "Validation Failed",
+  "message": {
+    "username": "Username is required",
+    "password": "Password must be at least 6 characters"
+  },
+  "path": "uri=/api/users"
+}
+```
+
+---
+
+Let me know if you want to add:
+
+* Localization (i18n) for error messages
+* Error codes for APIs (like `E001`, `E002`)
+* Integration with tools like Swagger for better API documentation
+

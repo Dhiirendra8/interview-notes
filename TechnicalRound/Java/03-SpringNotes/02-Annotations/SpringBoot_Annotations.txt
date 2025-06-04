@@ -7,11 +7,7 @@ org.springframework.boot.autoconfigure.condition
 2. @EnableAutoConfiguration : 
 		- It means that Spring Boot looks for auto-configuration beans on its classpath and automatically applies them.
 		
-		
-		
-		
-		
-		
+
 ---------------------------------------
 4. Auto-Configuration Conditions
 	Usually, when we write our custom auto-configurations, we want Spring to use them conditionally. 
