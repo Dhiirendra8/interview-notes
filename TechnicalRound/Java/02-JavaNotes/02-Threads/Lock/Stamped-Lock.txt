@@ -1,4 +1,5 @@
-`StampedLock` is a **concurrency utility** in Java (`java.util.concurrent.locks`) introduced in **Java 8**, designed for advanced locking with **better performance in read-heavy systems** compared to traditional locks like `ReentrantReadWriteLock`.
+`StampedLock` is a **concurrency utility** in Java (`java.util.concurrent.locks`) introduced in **Java 8**, c
+designed for advanced locking with **better performance in read-heavy systems** compared to traditional locks like `ReentrantReadWriteLock`.
 
 ---
 
