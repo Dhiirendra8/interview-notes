@@ -21,4 +21,131 @@ Terminologies :
 	
 4. Pointcut :
 	- It is an expression of AOP that matches Join-Point
+
+===============================================================
+### 🔍 AOP (Aspect-Oriented Programming) – पूरा विवरण हिंदी में
+
+---
+
+### ✅ **AOP क्या है?**
+
+**AOP (Aspect-Oriented Programming)** एक प्रोग्रामिंग पैरेडाइम है जिसका उपयोग ऐसे code को separate (अलग) करने के लिए किया जाता है जो बार-बार दोहराया जाता है, जैसे:
+
+* Logging
+* Security check
+* Transaction management
+* Exception handling
+
+इन्हें हम **cross-cutting concerns** कहते हैं — यानी ऐसे काम जो पूरे application में कई जगहों पर लागू होते हैं।
+
+---
+
+### 🔧 AOP का मकसद:
+
+> "Business logic और cross-cutting concerns को अलग करना ताकि कोड modular और maintainable रहे।"
+
+---
+
+## 🏗️ AOP के Core Concepts:
+
+| Component      | विवरण                                                            |
+| -------------- | ---------------------------------------------------------------- |
+| **Aspect**     | Cross-cutting logic का code block (जैसे logging aspect)          |
+| **Advice**     | वह action जो aspect run करता है (जैसे method se pehle log karna) |
+| **Join Point** | वह point जहाँ advice apply होती है (जैसे koi method call)        |
+| **Pointcut**   | वह condition जो बताती है कि advice कहाँ apply होगी               |
+| **Weaving**    | Aspect को actual code के साथ जोड़ने की प्रक्रिया                 |
+
+---
+
+### 🧱 Advice के प्रकार:
+
+| Advice प्रकार     | कब execute होता है                                                           |
+| ----------------- | ---------------------------------------------------------------------------- |
+| `@Before`         | Method call से पहले                                                          |
+| `@After`          | Method के complete होने के बाद (चाहे exception आये या नहीं)                  |
+| `@AfterReturning` | Method successfully return होने के बाद                                       |
+| `@AfterThrowing`  | जब method में exception आये                                                  |
+| `@Around`         | Method call को completely control करता है (before और after दोनों कर सकता है) |
+
+---
+
+## ⚙️ Spring AOP में कैसे काम करता है?
+
+Spring AOP **proxy-based** होता है:
+
+* JDK Dynamic Proxy (अगर interface है)
+* CGLIB Proxy (अगर केवल class है)
+
+Spring Boot में AOP enable करने के लिए:
+
+```xml
+<!-- pom.xml में dependency -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
+---
+
+## 📄 Example: Logging Aspect
+
+```java
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before("execution(* com.example.service.*.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        System.out.println("Method call: " + joinPoint.getSignature().getName());
+    }
+
+    @AfterReturning(pointcut = "execution(* com.example.service.*.*(..))", returning = "result")
+    public void logAfterReturning(JoinPoint joinPoint, Object result) {
+        System.out.println("Returned from: " + joinPoint.getSignature().getName() + ", result: " + result);
+    }
+}
+```
+
+---
+
+### 🧠 Pointcut Expression Explanation:
+
+```java
+execution(* com.example.service.*.*(..))
+```
+
+* `*` → return type (kuch bhi ho)
+* `com.example.service.*.*` → service package ke sab classes ke sab methods
+* `(..)` → koi bhi arguments
+
+---
+
+## ✅ AOP के फायदे:
+
+* Code reusability (repeat hone wala code centralized hota hai)
+* Better separation of concerns
+* Maintainable and clean code
+* Testing becomes easier
+
+---
+
+## ⚠️ AOP के नुकसान:
+
+* Code flow समझना मुश्किल हो सकता है (especially around advice)
+* Overuse से debugging complex हो जाती है
+
+---
+
+### 📌 Real-life Use Cases:
+
+* Logging and Auditing
+* Authentication and Authorization
+* Performance Monitoring
+* Caching
+* Transaction Management
+
+---
+
 	
