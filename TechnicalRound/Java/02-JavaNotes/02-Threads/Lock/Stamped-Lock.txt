@@ -1,0 +1,80 @@
+`StampedLock` is a **concurrency utility** in Java (`java.util.concurrent.locks`) introduced in **Java 8**, designed for advanced locking with **better performance in read-heavy systems** compared to traditional locks like `ReentrantReadWriteLock`.
+
+---
+
+### 🔐 What is `StampedLock`?
+
+It provides:
+
+* **Exclusive write locks**
+* **Shared read locks**
+* **Optimistic read locks**
+
+And it uses a **stamp (a `long` value)** to manage the lock state.
+
+---
+
+### 🔹 Key Features:
+
+| Type                  | Description                                                                  |
+| --------------------- | ---------------------------------------------------------------------------- |
+| `writeLock()`         | Exclusive lock. Only one thread can write.                                   |
+| `readLock()`          | Shared lock. Multiple threads can read concurrently.                         |
+| `tryOptimisticRead()` | Very lightweight. Doesn’t block. If no write occurs during read, it's valid. |
+| `validate(stamp)`     | Confirms if optimistic read is still valid (no write happened).              |
+
+---
+
+### ✅ Example Usage:
+
+```java
+import java.util.concurrent.locks.StampedLock;
+
+public class StampedLockExample {
+    private int balance = 0;
+    private final StampedLock lock = new StampedLock();
+
+    public void deposit(int amount) {
+        long stamp = lock.writeLock();
+        try {
+            balance += amount;
+        } finally {
+            lock.unlockWrite(stamp);
+        }
+    }
+
+    public int getBalance() {
+        long stamp = lock.tryOptimisticRead();
+        int current = balance;
+        // Validate the stamp to ensure no write occurred
+        if (!lock.validate(stamp)) {
+            stamp = lock.readLock(); // fallback to read lock
+            try {
+                current = balance;
+            } finally {
+                lock.unlockRead(stamp);
+            }
+        }
+        return current;
+    }
+}
+```
+
+---
+
+### 🧠 Why Use `StampedLock`?
+
+* **Optimistic reads** are **non-blocking** and **faster** when you expect **few writes**.
+* Can reduce contention and increase throughput in **read-heavy applications**.
+
+---
+
+### ⚠️ Important Notes:
+
+* **StampedLock is not reentrant** – a thread cannot reacquire a lock it already holds.
+* Not suitable for scenarios needing **lock upgrading** (read → write), unless done carefully.
+* Stamps must be managed properly to avoid **deadlocks or invalid unlocks**.
+
+---
+
+Let me know if you'd like a comparison with `ReentrantReadWriteLock` or use-case suggestions.

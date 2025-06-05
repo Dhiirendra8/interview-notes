@@ -1,0 +1,120 @@
+### 🔍 N+1 Problem in ORM (like Hibernate/JPA) – **Detailed Explanation in Hindi**
+
+---
+
+### ✅ **Kya hai N+1 Problem?**
+
+N+1 problem ek **performance issue** hai jo tab hota hai jab aap ORM (Hibernate, JPA, etc.) ka use karke ek parent entity ke saath uske associated child entities ko **lazy load** karte ho.
+
+---
+
+### 🔸 Real-Life Example:
+
+Maan lijiye aapke paas do entities hain:
+
+* `Author` (Parent)
+* `Book` (Child) — har author ke multiple books ho sakte hain.
+
+Aap neeche ka JPA code chala rahe ho:
+
+```java
+List<Author> authors = authorRepository.findAll();
+for (Author author : authors) {
+    System.out.println(author.getBooks().size());
+}
+```
+
+---
+
+### 🧨 Problem:
+
+* `authorRepository.findAll()` — **1 query** (get all authors)
+* `author.getBooks()` — **1 query per author** (N authors → N queries)
+
+🧱 **Total Queries = 1 (for authors) + N (for books)**
+👉 **This is called the N+1 Problem**
+
+---
+
+### ❗ Why It's a Problem?
+
+* It causes **too many database hits**
+* Very **slow performance** when `N` is large
+* Difficult to debug unless you see SQL logs
+
+---
+
+### 💡 N+1 Problem Occurs Mostly Due To:
+
+* **Lazy loading (default behavior)** in `@OneToMany`, `@ManyToOne`
+* Calling getters in a loop without prefetching
+
+---
+
+### ✅ Solution: Use **JOIN FETCH**
+
+You can solve this using **fetch joins** in JPQL or criteria queries.
+
+---
+
+#### 🔹 1. JPQL with `JOIN FETCH`
+
+```java
+@Query("SELECT a FROM Author a JOIN FETCH a.books")
+List<Author> findAllAuthorsWithBooks();
+```
+
+✅ Now only **1 query** will run with **JOIN** to fetch authors **along with books**.
+
+---
+
+#### 🔹 2. Use `EntityGraph` (Type-safe way)
+
+```java
+@EntityGraph(attributePaths = "books")
+List<Author> findAll();
+```
+
+This will tell JPA to fetch `books` eagerly with authors.
+
+---
+
+#### 🔹 3. Batch Size (Hibernate Specific)
+
+```properties
+hibernate.default_batch_fetch_size=10
+```
+
+And annotate with:
+
+```java
+@BatchSize(size = 10)
+private List<Book> books;
+```
+
+⚠️ Not always as efficient as JOIN FETCH, but helpful in some scenarios.
+
+---
+
+### ✅ Summary Table:
+
+| Solution         | Description                                          |
+| ---------------- | ---------------------------------------------------- |
+| `JOIN FETCH`     | Use JPQL to load associations in single query        |
+| `@EntityGraph`   | Declarative way to tell JPA what to fetch            |
+| `@BatchSize`     | Hibernate-specific optimization for lazy loading     |
+| `DTO Projection` | Fetch only required fields (avoid entities entirely) |
+
+---
+
+### 📌 Bonus Tip: Use SQL Logging to Detect N+1
+
+```properties
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+logging.level.org.hibernate.SQL=DEBUG
+```
+
+---
+
+Agar aap chahen toh main aapko ek Spring Boot + JPA example project structure bhi bana ke de sakta hoon iske liye.
