@@ -1,0 +1,50 @@
+The `@Repository` annotation in Spring does **not itself throw exceptions**, but it plays a crucial role in **exception translation** — specifically:
+
+---
+
+## ✅ What `@Repository` Does Internally
+
+When you annotate a class with `@Repository`, Spring:
+
+### 👉 Enables **Exception Translation**:
+
+* It automatically **catches low-level `PersistenceException`s** (like from JPA or JDBC)
+* And **translates them into Spring's unified `DataAccessException` hierarchy**
+
+This is done by **Spring's `PersistenceExceptionTranslationPostProcessor`**, which applies **AOP advice** to classes annotated with `@Repository`.
+
+---
+
+## ⚠️ What Kind of Exceptions Are Translated?
+
+| Underlying Exception (JPA/JDBC)             | Translated Spring Exception (Runtime) |
+| ------------------------------------------- | ------------------------------------- |
+| `javax.persistence.EntityNotFoundException` | `EmptyResultDataAccessException`      |
+| `javax.persistence.OptimisticLockException` | `OptimisticLockingFailureException`   |
+| `SQLIntegrityConstraintViolationException`  | `DataIntegrityViolationException`     |
+| `SQLSyntaxErrorException`                   | `BadSqlGrammarException`              |
+| `TransactionRequiredException`              | `InvalidDataAccessApiUsageException`  |
+
+---
+
+## ✅ Example:
+
+```java
+@Repository
+public class EmployeeRepository {
+    public void save(Employee emp) {
+        // Might throw some JPA or JDBC exception
+    }
+}
+```
+
+If `save()` causes a low-level SQL or JPA exception, and this class is annotated with `@Repository`, Spring will **translate that** into a `DataAccessException`.
+
+---
+
+## 💡 Why It’s Useful
+
+* You don’t have to catch `SQLException` or vendor-specific exceptions.
+* You can write generic error handling code for all persistence layers using `DataAccessException` and its subclasses.
+
+---

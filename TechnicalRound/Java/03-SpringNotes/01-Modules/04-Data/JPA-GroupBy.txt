@@ -1,0 +1,93 @@
+In **JPA (Java Persistence API)**, you can use **`GROUP BY`** in **JPQL (Java Persistence Query Language)** or with the **Criteria API** to group query results based on one or more entity attributes — similar to SQL `GROUP BY`.
+
+---
+
+### ✅ 1. **Using JPQL `GROUP BY`** (JPQL = SQL-like queries for JPA entities)
+
+**Example**: Suppose you have an `Order` entity:
+
+```java
+@Entity
+public class Order {
+    @Id
+    private Long id;
+
+    private String customer;
+
+    private double amount;
+}
+```
+
+#### 🧾 JPQL Query with GROUP BY
+
+```java
+@Query("SELECT o.customer, SUM(o.amount) FROM Order o GROUP BY o.customer")
+List<Object[]> findTotalAmountByCustomer();
+```
+
+#### 📦 Output:
+
+Each `Object[]` contains:
+
+* Index 0: Customer name
+* Index 1: Total amount
+
+You can convert it into a DTO for better readability:
+
+```java
+public class CustomerOrderSummary {
+    private String customer;
+    private Double totalAmount;
+
+    public CustomerOrderSummary(String customer, Double totalAmount) {
+        this.customer = customer;
+        this.totalAmount = totalAmount;
+    }
+}
+```
+
+```java
+@Query("SELECT new com.example.CustomerOrderSummary(o.customer, SUM(o.amount)) FROM Order o GROUP BY o.customer")
+List<CustomerOrderSummary> findCustomerOrderSummary();
+```
+
+---
+
+### ✅ 2. **Using Criteria API**
+
+For more dynamic queries:
+
+```java
+CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+CriteriaQuery<Object[]> cq = cb.createQuery(Object[].class);
+Root<Order> order = cq.from(Order.class);
+
+cq.multiselect(order.get("customer"), cb.sum(order.get("amount")));
+cq.groupBy(order.get("customer"));
+
+TypedQuery<Object[]> query = entityManager.createQuery(cq);
+List<Object[]> results = query.getResultList();
+```
+
+---
+
+### ✅ 3. **Having Clause (Optional)**
+
+Like SQL, you can also use `HAVING` in JPQL:
+
+```java
+@Query("SELECT o.customer, SUM(o.amount) FROM Order o GROUP BY o.customer HAVING SUM(o.amount) > 1000")
+List<Object[]> findBigSpenders();
+```
+
+---
+
+### 📝 Notes:
+
+* You **must** include all non-aggregated selected fields in `GROUP BY`.
+* You can use `COUNT()`, `SUM()`, `AVG()`, `MAX()`, and `MIN()` with `GROUP BY`.
+* DTO projection is preferred over raw `Object[]` results for maintainability.
+
+---
+
+Let me know if you want an example using `Spring Data JPA`, a native SQL version, or for a more complex relationship (e.g., grouping by a related entity's field).

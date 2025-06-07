@@ -1,0 +1,94 @@
+### 🔗 LEFT JOIN in JPA (JPQL and Spring Data JPA)
+
+In **JPA**, a **LEFT JOIN** allows you to fetch data from one entity even when its related entity is `null`, just like SQL's `LEFT OUTER JOIN`.
+
+---
+
+## 👇 Example Scenario
+
+Suppose we have two entities:
+
+```java
+@Entity
+public class Customer {
+    @Id
+    private Long id;
+    private String name;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
+}
+```
+
+```java
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    private String product;
+    
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+}
+```
+
+---
+
+## ✅ 1. **JPQL LEFT JOIN Example**
+
+```java
+@Query("SELECT c.name, o.product FROM Customer c LEFT JOIN c.orders o")
+List<Object[]> fetchCustomerAndOrders();
+```
+
+* This fetches **all customers**, even if they don't have any orders.
+* Each result is an `Object[]` with:
+
+  * `c.name`
+  * `o.product` (can be `null` if no orders)
+
+---
+
+## ✅ 2. **LEFT JOIN FETCH** (To load associations eagerly)
+
+This is used when you want to **fetch related entities** along with the main entity in one query.
+
+```java
+@Query("SELECT c FROM Customer c LEFT JOIN FETCH c.orders")
+List<Customer> findAllCustomersWithOrders();
+```
+
+* Returns `Customer` list
+* Eagerly loads associated `orders` for each customer
+* **Avoids N+1 problem**
+
+---
+
+## ✅ 3. **LEFT JOIN on Nested Entity**
+
+```java
+@Query("SELECT o FROM Order o LEFT JOIN o.customer c WHERE c.name = :name")
+List<Order> findOrdersByCustomerName(@Param("name") String name);
+```
+
+---
+
+## ✅ 4. **Using Native SQL (if needed)**
+
+```java
+@Query(value = "SELECT c.name, o.product FROM customer c LEFT JOIN orders o ON c.id = o.customer_id", nativeQuery = true)
+List<Object[]> customJoinQuery();
+```
+
+---
+
+## 📝 Notes:
+
+* Use `LEFT JOIN` when the right side (joined table) might be `null`.
+* Use `LEFT JOIN FETCH` when you want to avoid lazy loading for collections or relationships.
+* Prefer DTO projection over `Object[]` for better readability and maintainability.
+
+---
+
+Would you like an example with DTO mapping or a Spring Boot repository interface setup?
