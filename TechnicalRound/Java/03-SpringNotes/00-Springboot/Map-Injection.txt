@@ -1,0 +1,123 @@
+In **Spring Boot**, you can inject a `Map` into a bean in several useful ways — typically to associate values with keys dynamically (e.g. a strategy pattern, or multiple implementations of an interface).
+
+---
+
+### ✅ **1. Injecting Map of Beans by Type**
+
+If you have multiple implementations of an interface and want to inject them into a map (keyed by bean name), Spring does it automatically:
+
+#### 👇 Example:
+
+```java
+public interface PaymentService {
+    void pay();
+}
+
+@Component("creditCard")
+class CreditCardPayment implements PaymentService {
+    public void pay() {
+        System.out.println("Paid by Credit Card");
+    }
+}
+
+@Component("paypal")
+class PaypalPayment implements PaymentService {
+    public void pay() {
+        System.out.println("Paid by PayPal");
+    }
+}
+```
+
+#### 💉 Injecting the Map:
+
+```java
+@Service
+public class PaymentProcessor {
+
+    private final Map<String, PaymentService> paymentServices;
+
+    @Autowired
+    public PaymentProcessor(Map<String, PaymentService> paymentServices) {
+        this.paymentServices = paymentServices;
+    }
+
+    public void process(String method) {
+        paymentServices.get(method).pay();
+    }
+}
+```
+
+#### 🧪 Usage:
+
+```java
+paymentProcessor.process("paypal");  // Output: Paid by PayPal
+```
+
+---
+
+### ✅ **2. Injecting Map from `application.yml` / `application.properties`**
+
+#### `application.yml`
+
+```yaml
+myconfig:
+  rates:
+    usd: 74
+    eur: 88
+```
+
+#### Binding with `@ConfigurationProperties`
+
+```java
+@Component
+@ConfigurationProperties(prefix = "myconfig")
+public class MyConfig {
+    private Map<String, Integer> rates;
+
+    public Map<String, Integer> getRates() {
+        return rates;
+    }
+
+    public void setRates(Map<String, Integer> rates) {
+        this.rates = rates;
+    }
+}
+```
+
+#### Inject and Use:
+
+```java
+@Autowired
+private MyConfig myConfig;
+
+public void printRates() {
+    System.out.println(myConfig.getRates().get("usd"));  // Output: 74
+}
+```
+
+---
+
+### ✅ **3. Manual Map Bean Definition**
+
+If you want a custom map:
+
+```java
+@Bean
+public Map<String, String> countryCodes() {
+    Map<String, String> map = new HashMap<>();
+    map.put("IN", "India");
+    map.put("US", "United States");
+    return map;
+}
+```
+
+Then inject it like this:
+
+```java
+@Autowired
+private Map<String, String> countryCodes;
+```
+
+---
+
+Let me know if you want to see this with profiles, qualifiers, or for a specific use case like message handlers or validation strategies.
