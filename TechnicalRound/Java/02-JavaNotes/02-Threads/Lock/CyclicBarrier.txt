@@ -1,0 +1,95 @@
+`CyclicBarrier` Java mein `java.util.concurrent` package ka part hai, aur iska use **multiple threads ko ek common point tak synchronize karne** ke liye hota hai.
+
+### 🔧 Definition:
+
+```java
+public class CyclicBarrier
+```
+
+### 📌 Real-World Analogy:
+
+Sochiye 5 dost ek race ke liye tayyar hain, lekin sabko ek hi time par start karna hai. Har koi apne position par khada ho jaata hai. Jab sabhi "ready" ho jaate hain tabhi race start hoti hai. Yehi kaam `CyclicBarrier` karta hai — threads ko ek point tak rok kar rakhta hai jab tak specified number of threads us point tak nahi pahunch jaate.
+
+---
+
+### ✅ Syntax:
+
+```java
+CyclicBarrier barrier = new CyclicBarrier(parties);
+```
+
+Ya phir:
+
+```java
+CyclicBarrier barrier = new CyclicBarrier(parties, Runnable barrierAction);
+```
+
+* `parties`: Total number of threads jo barrier par wait karenge.
+* `barrierAction`: Optional — jab last thread barrier par pahunchta hai, tab ye action execute hota hai.
+
+---
+
+### 🧠 Basic Example:
+
+```java
+import java.util.concurrent.*;
+
+public class CyclicBarrierExample {
+    public static void main(String[] args) {
+        int totalThreads = 3;
+        CyclicBarrier barrier = new CyclicBarrier(totalThreads, () -> {
+            System.out.println("All threads reached the barrier. Let's continue...");
+        });
+
+        for (int i = 0; i < totalThreads; i++) {
+            new Thread(new Task(barrier)).start();
+        }
+    }
+
+    static class Task implements Runnable {
+        private CyclicBarrier barrier;
+
+        Task(CyclicBarrier barrier) {
+            this.barrier = barrier;
+        }
+
+        public void run() {
+            try {
+                System.out.println(Thread.currentThread().getName() + " is working...");
+                Thread.sleep((long)(Math.random() * 3000));
+                System.out.println(Thread.currentThread().getName() + " is waiting at the barrier...");
+                barrier.await(); // Wait till all threads reach here
+                System.out.println(Thread.currentThread().getName() + " has crossed the barrier.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+---
+
+### 🔁 Why It's Called *Cyclic*?
+
+* Because **barrier ko dobara use kiya ja sakta hai**. Jaise race finish hone ke baad agar ek aur race karni hai to wahi barrier use ho sakta hai.
+
+---
+
+### ⚠️ Exceptions:
+
+* `BrokenBarrierException`: Agar koi thread wait karte waqt interrupt ho jaata hai.
+* `TimeoutException`: Agar aap `await()` with timeout use karte hain aur time exceed ho jaata hai.
+* `InterruptedException`: Thread interrupt hone par.
+
+---
+
+### 🔄 CyclicBarrier vs CountDownLatch
+
+| Feature         | `CyclicBarrier`              | `CountDownLatch`         |
+| --------------- | ---------------------------- | ------------------------ |
+| Reusable?       | Yes (cyclic)                 | No (one-time use)        |
+| Waits for       | All threads to reach barrier | A fixed number of events |
+| Optional Action | Yes, with `Runnable`         | No                       |
+
+---

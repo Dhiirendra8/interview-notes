@@ -1,0 +1,151 @@
+### ✅ Transactions with Kafka in Spring Boot
+
+Apache Kafka supports **exactly-once semantics (EOS)** using **transactions**, which ensure that either:
+
+* all records produced to multiple partitions are successfully written, or
+* none are written — ensuring **atomicity**.
+
+This is especially useful when **Kafka is used alongside a database** or in **event-driven microservices**, and you want **data consistency**.
+
+---
+
+## 🔄 Use Case: Kafka + Database in a Transaction
+
+Let’s say you're processing a payment and you want to:
+
+1. Save the payment to a **database**
+2. Send a **Kafka event** about the payment
+
+You want both actions to either succeed or fail **together**.
+
+---
+
+## 🔧 Step-by-Step Setup in Spring Boot
+
+### ✅ 1. Add Kafka + JPA dependencies
+
+```xml
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
+
+---
+
+### ✅ 2. Kafka Configuration with Transactions
+
+```yaml
+spring:
+  kafka:
+    producer:
+      transactional-id-prefix: tx-producer-
+    consumer:
+      group-id: payment-group
+    properties:
+      enable.idempotence: true
+      acks: all
+      isolation.level: read_committed
+```
+
+---
+
+### ✅ 3. Define Kafka Producer Factory with Transactions
+
+```java
+@Bean
+public ProducerFactory<String, String> producerFactory() {
+    Map<String, Object> config = new HashMap<>();
+    config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+    config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+    config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "tx-id-1");
+
+    return new DefaultKafkaProducerFactory<>(config);
+}
+
+@Bean
+public KafkaTemplate<String, String> kafkaTemplate() {
+    KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<>(producerFactory());
+    kafkaTemplate.setTransactionalIdPrefix("tx-producer-");
+    return kafkaTemplate;
+}
+```
+
+---
+
+### ✅ 4. Use `@Transactional` with DB + Kafka
+
+```java
+@Service
+public class PaymentService {
+
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final PaymentRepository paymentRepository;
+
+    public PaymentService(KafkaTemplate<String, String> kafkaTemplate,
+                          PaymentRepository paymentRepository) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.paymentRepository = paymentRepository;
+    }
+
+    @Transactional
+    public void processPayment(Payment payment) {
+        // 1. Save to DB
+        paymentRepository.save(payment);
+
+        // 2. Send Kafka message
+        kafkaTemplate.executeInTransaction(kt -> {
+            kt.send("payment-topic", payment.getId().toString(), "Payment Done");
+            return true;
+        });
+    }
+}
+```
+
+🧠 `kafkaTemplate.executeInTransaction()` ensures Kafka message is sent as part of a Kafka transaction.
+
+---
+
+## 🧪 Consumer Side: Set `isolation.level = read_committed`
+
+This ensures the consumer reads only **committed Kafka messages** (not aborted transactions):
+
+```yaml
+spring.kafka.properties.isolation.level: read_committed
+```
+
+---
+
+## ✅ Benefits
+
+* **Exactly-once delivery** (even in case of retries)
+* Prevents **data inconsistency** between Kafka and DB
+* Makes microservices more **resilient and atomic**
+
+---
+
+## ⚠️ Notes
+
+* Kafka transactions only work with **idempotence enabled**
+* Works only with **Kafka 0.11+**
+* Transactional Kafka producers are **slower** than normal (due to overhead)
+* If you're using **Spring Kafka consumers**, you can also enable transactions with:
+
+  ```java
+  @KafkaListener(topics = "topic", containerFactory = "kafkaListenerContainerFactory")
+  @Transactional
+  public void listen(String message) { ... }
+  ```
+
+---
+
+Let me know if you want:
+
+* Kafka + Database 2PC simulation
+* Saga pattern with Kafka transactions
+* Kafka retry + DLQ configuration examples

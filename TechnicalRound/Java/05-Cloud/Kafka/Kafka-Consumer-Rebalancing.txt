@@ -86,4 +86,3 @@ Kafka uses a **partition assignment strategy** to decide which consumer gets wha
 
 ---
 
-Would you like a diagram showing how rebalancing works step-by-step?

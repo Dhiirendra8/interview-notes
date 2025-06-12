@@ -1,0 +1,98 @@
+Here’s a curated list of **Spring Boot interview questions** grouped by **experience level and topic**, especially useful for someone with 5–10 years of experience like you:
+
+---
+
+## ✅ **Basic-Level Questions**
+
+### 🔹 Core Spring Boot
+
+1. What is Spring Boot and how is it different from Spring Framework?
+2. What are the advantages of using Spring Boot?
+3. What is the role of `@SpringBootApplication` annotation?
+4. How does Spring Boot auto-configuration work?
+5. What is `application.properties` or `application.yml` used for?
+
+### 🔹 Annotations
+
+6. Difference between `@Component`, `@Service`, `@Repository`, and `@Controller`?
+7. What does `@RestController` do?
+8. How is `@Value` used in Spring Boot?
+9. How do you create a custom annotation?
+
+---
+
+## ✅ **Intermediate-Level Questions**
+
+### 🔹 REST and Web
+
+10. How do you build REST APIs using Spring Boot?
+11. How do you handle exceptions globally in Spring Boot?
+12. What is the difference between `@RequestParam`, `@PathVariable`, and `@RequestBody`?
+13. How do you validate request data in Spring Boot?
+
+### 🔹 Spring Data JPA
+
+14. What is Spring Data JPA? How is it different from Hibernate?
+15. How do you write custom queries in Spring Data JPA?
+16. How do you implement pagination and sorting?
+17. What is the use of `@Query` and `@Modifying`?
+
+### 🔹 Transactions
+
+18. How does Spring Boot handle transactions?
+19. What is the role of `@Transactional`?
+20. How do you handle rollback in case of exceptions?
+
+---
+
+## ✅ **Advanced-Level Questions**
+
+### 🔹 Microservices
+
+21. How do you build a microservice with Spring Boot?
+22. What is Spring Cloud? Have you used Eureka, Config Server, or Gateway?
+23. How does Spring Boot integrate with Kafka or RabbitMQ?
+24. How do you handle service-to-service communication (Feign, RestTemplate, WebClient)?
+
+### 🔹 Security
+
+25. How do you secure a Spring Boot application?
+26. What is Spring Security? How do you implement JWT authentication?
+27. How do you secure endpoints with role-based access?
+
+### 🔹 Actuator, Observability, and Monitoring
+
+28. What is Spring Boot Actuator?
+29. How do you expose health checks and metrics?
+30. How do you integrate Spring Boot with Prometheus/Grafana/ELK?
+
+---
+
+## ✅ **Testing and DevOps**
+
+### 🔹 Testing
+
+31. How do you test a Spring Boot application?
+32. What is the difference between `@MockBean` and `@Mock`?
+33. How do you write integration tests with Spring Boot?
+
+### 🔹 DevOps & CI/CD
+
+34. How do you containerize a Spring Boot app with Docker?
+35. How do you deploy Spring Boot on Kubernetes or AWS?
+36. How do you externalize configurations in different environments?
+
+---
+
+## ✅ **Behavioral/Design-Level**
+
+### 🔹 Architecture
+
+37. How do you design a scalable Spring Boot application?
+38. What are common failover and retry strategies in microservices?
+39. How do you handle circuit breakers (e.g., using Resilience4j)?
+40. How do you ensure backward compatibility in APIs?
+
+---
+
+Would you like sample answers or code examples for any of these questions? Or a PDF/Excel format to use as an interview cheat sheet?

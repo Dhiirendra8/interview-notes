@@ -1,0 +1,104 @@
+Java me `Exchanger` ek **synchronization point** hai jahan **do threads ek doosre ke saath data exchange karte hain**.
+
+Ye `java.util.concurrent` package ka hissa hai, aur ye tab kaam aata hai jab do threads ko apna data ek doosre ko dena ho, jaise producer-consumer ya double-buffered processing me.
+
+---
+
+### 📘 Definition:
+
+```java
+public class Exchanger<V>
+```
+
+* Ye ek generic class hai jo kisi bhi type `V` ka data exchange kar sakti hai.
+
+---
+
+### 🎯 Real-World Analogy:
+
+Sochiye do log ek dusre ko envelope dena chahte hain. Jab dono log ek hi jagah aate hain, to wo envelope exchange kar lete hain. Agar ek aadmi jaldi pahuch gaya, to wo doosre ka intezaar karega.
+
+---
+
+### ✅ Syntax:
+
+```java
+Exchanger<Type> exchanger = new Exchanger<>();
+```
+
+### 🔄 Use:
+
+```java
+Type received = exchanger.exchange(myData);
+```
+
+* `exchange()` method thread ko tab tak rokta hai jab tak doosra thread bhi `exchange()` pe nahi pahuchta.
+* Jab dono thread `exchange()` pe pahuch jate hain, to wo apna data ek doosre ke saath swap kar lete hain.
+
+---
+
+### 👨‍💻 Example:
+
+```java
+import java.util.concurrent.Exchanger;
+
+public class ExchangerExample {
+    public static void main(String[] args) {
+        Exchanger<String> exchanger = new Exchanger<>();
+
+        Thread thread1 = new Thread(() -> {
+            try {
+                String data = "Data from Thread-1";
+                System.out.println("Thread-1 sending: " + data);
+                String received = exchanger.exchange(data);
+                System.out.println("Thread-1 received: " + received);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            try {
+                String data = "Data from Thread-2";
+                System.out.println("Thread-2 sending: " + data);
+                String received = exchanger.exchange(data);
+                System.out.println("Thread-2 received: " + received);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+    }
+}
+```
+
+### 🧾 Output (approx):
+
+```
+Thread-1 sending: Data from Thread-1
+Thread-2 sending: Data from Thread-2
+Thread-2 received: Data from Thread-1
+Thread-1 received: Data from Thread-2
+```
+
+---
+
+### 🧠 Key Points:
+
+* Sirf **do threads** ek Exchanger ka use ek time me kar sakte hain.
+* Agar ek thread jaldi pahuch gaya, to wo dusre thread ka wait karega.
+* Agar dusra thread nahi aata, to pehla thread indefinitely block ho sakta hai (ya timeout use karna padta hai).
+
+---
+
+### 📌 Use Cases:
+
+1. **Double-buffering** (e.g. one thread fills buffer, another processes).
+2. **Task handover between two threads**.
+3. **Producer-consumer** scenarios with direct handoff.
+
+---
+
+Agar aap chahte hain ki main Exchanger ka koi advanced ya real-world use case implement karun to bataiye, main code ke saath samjha dunga.

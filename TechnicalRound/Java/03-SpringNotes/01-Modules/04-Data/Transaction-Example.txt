@@ -1,0 +1,123 @@
+Spring Boot handles transactions using **Spring’s declarative transaction management**, which is built on top of the **Spring Framework’s `@Transactional`** annotation.
+
+---
+
+## 🔄 What is Transaction Management?
+
+Transaction management ensures that a group of operations either **all succeed or all fail** (commit or rollback) — adhering to the **ACID properties**.
+
+---
+
+## ✅ How Spring Boot Handles Transactions
+
+### 1. **Declarative Transactions with `@Transactional`**
+
+You can annotate methods or classes with `@Transactional` to make operations atomic.
+
+```java
+@Service
+public class PaymentService {
+
+    @Transactional
+    public void processPayment(Order order) {
+        saveOrder(order); // DB insert
+        chargeCard(order); // External call or DB update
+        updateInventory(order); // DB update
+    }
+}
+```
+
+If any exception occurs in any of these steps, **all DB changes will be rolled back**.
+
+---
+
+### 2. **Transaction Propagation and Isolation**
+
+`@Transactional` provides control over:
+
+* **Propagation:** What to do if a transaction already exists (`REQUIRED`, `REQUIRES_NEW`, etc.)
+* **Isolation:** How isolated the transaction is from other DB transactions (`READ_COMMITTED`, `SERIALIZABLE`, etc.)
+* **Rollback behavior**
+* **Read-only flag**
+
+### 📌 Example:
+
+```java
+@Transactional(
+    propagation = Propagation.REQUIRED,
+    isolation = Isolation.READ_COMMITTED,
+    rollbackFor = Exception.class
+)
+```
+
+---
+
+## 🧱 Required Dependencies
+
+Spring Boot uses **Spring Data JPA** or **Spring JDBC**, and if you're using a database (like H2, MySQL, PostgreSQL), and you’ve added:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
+
+it will automatically configure the **transaction manager** using your `DataSource`.
+
+---
+
+## 🔧 Transaction Manager in Spring Boot
+
+Spring Boot automatically configures a `PlatformTransactionManager`:
+
+* For JPA: `JpaTransactionManager`
+* For JDBC: `DataSourceTransactionManager`
+
+No manual configuration is required unless you need multiple datasources.
+
+---
+
+## 🧪 Real Example
+
+```java
+@Service
+public class AccountService {
+
+    @Autowired
+    private AccountRepository repo;
+
+    @Transactional
+    public void transferFunds(Long fromId, Long toId, double amount) {
+        Account from = repo.findById(fromId).get();
+        Account to = repo.findById(toId).get();
+
+        from.debit(amount);
+        to.credit(amount);
+
+        repo.save(from);
+        repo.save(to);
+    }
+}
+```
+
+➡️ If any `RuntimeException` is thrown in this method, all DB changes are rolled back.
+
+---
+
+## ⚠️ Important Notes
+
+| Concept                | Details                                                                           |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| Default rollback       | Only for unchecked exceptions (`RuntimeException`)                                |
+| Checked exceptions     | Use `rollbackFor = Exception.class` explicitly                                    |
+| Self-invocation        | Transactions won’t work if calling `@Transactional` method from within same class |
+| Read-only optimization | Use `@Transactional(readOnly = true)` for select operations                       |
+
+---
+
+Let me know if you want examples of:
+
+* Programmatic transactions
+* Nested transactions
+* Transactions with Kafka or MongoDB
