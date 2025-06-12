@@ -1,0 +1,119 @@
+### ✅ What is Apache Kafka Testing with **Pact**?
+
+**Pact** is a **contract testing framework** used to ensure that **microservices** can safely communicate with each other. It’s often used for REST APIs, but it can also be used with **Apache Kafka** for **event-based contract testing**.
+
+---
+
+## 📌 Why Pact with Kafka?
+
+Kafka is used in **event-driven architectures**, where:
+
+* **Producers** publish messages to Kafka topics.
+* **Consumers** read and process those messages.
+
+When using Kafka, you need to ensure:
+
+* Producers are sending messages in the **expected format**.
+* Consumers are correctly handling those messages.
+
+➡️ Pact helps verify this with **consumer-driven contracts**.
+
+---
+
+## 🔄 How Pact Works for Kafka
+
+| Role         | Responsibility                                                |
+| ------------ | ------------------------------------------------------------- |
+| **Consumer** | Defines expectations (contract) of the message format.        |
+| **Provider** | Verifies that it can produce messages that meet the contract. |
+
+---
+
+## 🧪 Example Use Case
+
+### Scenario:
+
+* **Order Service** publishes `OrderPlaced` event to Kafka.
+* **Inventory Service** consumes this event.
+
+### Pact Test Flow:
+
+1. **Consumer Test (Inventory Service)**:
+
+   * Define a contract: “I expect an `OrderPlaced` message with these fields and types.”
+   * Run test to validate consumer logic with mocked messages.
+
+2. **Provider Verification (Order Service)**:
+
+   * Use Pact to replay consumer expectations.
+   * Verify the producer emits messages that match the contract.
+
+---
+
+## ✅ Tools & Libraries
+
+* `pact-jvm` → Java support for Pact
+* `pact-kafka` or `pact-message` → For message/event-based testing
+* `pact-broker` → Stores contracts and facilitates CI/CD integrations
+
+---
+
+## 🧱 Key Concepts in Kafka + Pact:
+
+| Concept                 | Description                                            |
+| ----------------------- | ------------------------------------------------------ |
+| **Message Pact**        | A contract describing expected Kafka message structure |
+| **MessageProviderRule** | JUnit rule for provider-side verification              |
+| **PactBroker**          | Stores message contracts for sharing between teams     |
+
+---
+
+## ✅ Sample Code (Consumer Test in Java)
+
+```java
+@Pact(consumer = "InventoryService")
+public MessagePact createPact(MessagePactBuilder builder) {
+    return builder
+        .expectsToReceive("an OrderPlaced event")
+        .withContent(new PactDslJsonBody()
+            .stringType("orderId")
+            .stringType("productId")
+            .numberType("quantity"))
+        .toPact();
+}
+```
+
+### And Consumer Test:
+
+```java
+@Test
+@PactTestFor(providerName = "OrderService")
+public void shouldProcessOrderPlacedMessage(List<Message> messages) {
+    String json = new String(messages.get(0).contentsAsBytes());
+    // Simulate consuming the event
+    OrderEvent event = objectMapper.readValue(json, OrderEvent.class);
+    inventoryService.process(event);
+}
+```
+
+---
+
+## ✅ Benefits
+
+* Ensures **decoupling** between producer/consumer in Kafka
+* **Fail-fast** in CI/CD if contract is broken
+* Avoids manual version sync issues between services
+
+---
+
+## 🔁 Kafka Pact Testing vs REST Pact Testing
+
+| Feature      | REST Pact             | Kafka Pact                        |
+| ------------ | --------------------- | --------------------------------- |
+| Focus        | HTTP Request/Response | Kafka Messages (Events)           |
+| Mocking Tool | Pact server           | Message builder & simulation      |
+| Use Case     | Synchronous APIs      | Asynchronous event-driven systems |
+
+---
+
+Would you like a working Kafka-Pact Maven example or how to integrate Pact with Spring Boot + Kafka projects?

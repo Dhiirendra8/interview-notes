@@ -131,13 +131,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
->>>>>>> 0bb69c71c0c848ea437ab811c039457c590f2a92
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
         super(message);
     }
 }
-<<<<<<< HEAD
+
 ```
 
 ---
@@ -157,23 +156,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-<<<<<<< HEAD
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-=======
 
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
->>>>>>> 0bb69c71c0c848ea437ab811c039457c590f2a92
 import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-<<<<<<< HEAD
     public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
@@ -182,30 +175,18 @@ public class GlobalExceptionHandler {
         body.put("message", ex.getMessage());
         body.put("path", request.getDescription(false));
 
-=======
-    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.NOT_FOUND.value());
-        body.put("error", "Not Found");
-        body.put("message", ex.getMessage());
->>>>>>> 0bb69c71c0c848ea437ab811c039457c590f2a92
+
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
-<<<<<<< HEAD
     public ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
         Map<String, Object> body = new HashMap<>();
-=======
-    public ResponseEntity<Object> handleGenericException(Exception ex) {
-        Map<String, Object> body = new LinkedHashMap<>();
->>>>>>> 0bb69c71c0c848ea437ab811c039457c590f2a92
+
         body.put("timestamp", LocalDateTime.now());
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         body.put("error", "Internal Server Error");
         body.put("message", ex.getMessage());
-<<<<<<< HEAD
         body.put("path", request.getDescription(false));
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
