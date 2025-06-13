@@ -1,0 +1,122 @@
+Testing a `void` method in Java depends on **what side effect** the method produces, since it doesn't return a value. Here's how you can test them effectively using **JUnit** and **Mockito**.
+
+---
+
+## ✅ Common Strategies to Test `void` Methods:
+
+| Scenario                 | How to Test                            |
+| ------------------------ | -------------------------------------- |
+| Calls another method     | Use `Mockito.verify()`                 |
+| Modifies an object state | Assert the state after the method call |
+| Logs something           | Use log capture or mock logger         |
+| Throws an exception      | Use `assertThrows()`                   |
+| Writes to a file or DB   | Use mocks or temporary resources       |
+
+---
+
+## 🧪 Example 1: Verify method call using `Mockito.verify()`
+
+### 🎯 Code to Test:
+
+```java
+public class NotificationService {
+    private EmailSender emailSender;
+
+    public NotificationService(EmailSender emailSender) {
+        this.emailSender = emailSender;
+    }
+
+    public void sendWelcomeEmail(String userEmail) {
+        emailSender.sendEmail(userEmail, "Welcome!");
+    }
+}
+```
+
+### ✅ Test using JUnit + Mockito:
+
+```java
+@Test
+void testSendWelcomeEmail() {
+    EmailSender mockEmailSender = Mockito.mock(EmailSender.class);
+    NotificationService service = new NotificationService(mockEmailSender);
+
+    service.sendWelcomeEmail("test@example.com");
+
+    // Verify that the void method was called with expected arguments
+    Mockito.verify(mockEmailSender).sendEmail("test@example.com", "Welcome!");
+}
+```
+
+---
+
+## 🧪 Example 2: Test state change
+
+### 🎯 Code:
+
+```java
+public class Counter {
+    private int count = 0;
+
+    public void increment() {
+        count++;
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+```
+
+### ✅ Test:
+
+```java
+@Test
+void testIncrement() {
+    Counter counter = new Counter();
+    counter.increment();
+    assertEquals(1, counter.getCount());
+}
+```
+
+---
+
+## 🧪 Example 3: `void` method throws exception
+
+### 🎯 Code:
+
+```java
+public void deleteFile(String filePath) {
+    if (filePath == null) {
+        throw new IllegalArgumentException("filePath is null");
+    }
+    // delete logic...
+}
+```
+
+### ✅ Test:
+
+```java
+@Test
+void testDeleteFileThrowsException() {
+    FileService service = new FileService();
+
+    assertThrows(IllegalArgumentException.class, () -> {
+        service.deleteFile(null);
+    });
+}
+```
+
+---
+
+## ✅ Tools You Can Use
+
+| Tool                    | Purpose                      |
+| ----------------------- | ---------------------------- |
+| **JUnit 5**             | Main testing framework       |
+| **Mockito**             | Mock and verify interactions |
+| **AssertJ/Hamcrest**    | Fluent assertions            |
+| **Slf4jTest/LogCaptor** | Test log outputs             |
+
+---
+
+Let me know if your `void` method has a specific side effect like **sending Kafka messages**, **writing to DB**, or **logging**, and I’ll show a targeted test example.

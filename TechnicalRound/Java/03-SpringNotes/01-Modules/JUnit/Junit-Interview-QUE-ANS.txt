@@ -1,0 +1,189 @@
+Certainly! Here’s a curated list of **JUnit interview questions** suitable for someone with **8+ years of Java development experience**, including **JUnit 5, Mockito, Spring Boot testing**, and **best practices**.
+
+---
+
+## ✅ Core JUnit Questions
+
+1. **What is the difference between JUnit 4 and JUnit 5?**
+2. **What are the annotations used in JUnit 5 and what do they do?**
+
+   * `@Test`, `@BeforeEach`, `@AfterEach`, `@BeforeAll`, `@AfterAll`, `@Disabled`, etc.
+3. **How do you group or tag tests in JUnit 5?**
+4. **How does JUnit handle parameterized tests?**
+5. **How do you test for exceptions in JUnit 5?**
+6. **How do you test private methods? Should you test them directly?**
+7. **How do you write and run nested tests in JUnit 5?**
+8. **What is the difference between `@BeforeEach` and `@BeforeAll`?**
+
+---
+
+## ✅ Mockito and Mocking Questions
+
+9. **What is the difference between `@Mock`, `@Spy`, and `@InjectMocks`?**
+10. **How does Mockito work behind the scenes?**
+11. **How do you mock a void method?**
+12. **How do you verify the number of invocations on a mock method?**
+13. **What is the difference between `doReturn().when()` and `when().thenReturn()`?**
+14. **How do you mock a static method or constructor?**
+15. **What is the purpose of `ArgumentCaptor` and how is it used?**
+16. **Can you mock final classes and methods in Mockito?**
+
+---
+
+## ✅ Spring Boot Testing
+
+17. **What is `@SpringBootTest` and how does it differ from `@WebMvcTest` or `@DataJpaTest`?**
+18. **How do you write integration tests in Spring Boot?**
+19. **How do you mock beans in a Spring Boot test context?**
+20. **What is the role of `@TestConfiguration`?**
+21. **How do you use `@MockBean` and `@SpyBean`?**
+22. **How do you test REST controllers with `MockMvc`?**
+23. **How do you use `TestRestTemplate` in integration testing?**
+24. **How do you test Kafka listeners or producers in Spring Boot?**
+
+---
+
+## ✅ Advanced & Best Practices
+
+25. **What are test doubles and their types (stub, mock, fake, spy)?**
+26. **How do you structure unit tests for maintainability?**
+27. **How do you test multithreaded or asynchronous code?**
+28. **How do you deal with flaky tests?**
+29. **What’s the difference between unit, integration, and end-to-end testing?**
+30. **How do you manage test data in JUnit?**
+31. **What tools have you used for code coverage? How do you interpret it?**
+32. **How do you isolate tests in a microservices environment?**
+33. **How do you test a method that depends on the system clock (e.g., `LocalDate.now()`)**
+34. **How do you test caching logic in a Spring Boot application?**
+
+---
+
+## ✅ Bonus: Real-World Scenarios
+
+35. **How would you write tests for a service that depends on an external API?**
+36. **How do you simulate failures (timeouts, exceptions) during testing?**
+37. **Have you written contract tests (e.g., using Pact)?**
+38. **How do you use Testcontainers to test with real DB/Kafka?**
+39. **How do you use assertions libraries like AssertJ or Hamcrest with JUnit?**
+40. **What’s your approach to writing tests in a CI/CD pipeline?**
+
+===================================================================================================================
+ANSWERS
+Here are detailed answers to advanced JUnit, Mockito, and Spring Boot testing interview questions for developers with 8+ years of experience:
+________________________________________
+Core JUnit Questions
+1.	Difference between JUnit 4 and JUnit 5:
+o	JUnit 5 has modular architecture: JUnit Platform, Jupiter (API), and Vintage (for JUnit 4).
+o	Uses org.junit.jupiter instead of org.junit.
+o	Supports lambda expressions and dynamic tests.
+
+2.	JUnit 5 Annotations:
+o	@Test, @BeforeEach, @AfterEach, @BeforeAll, @AfterAll, @Disabled, @Nested, @Tag
+
+3.	Grouping or tagging tests:
+o	Use @Tag("integration") and filter via build tool or test runner.
+
+4.	Parameterized Tests:
+o	Use @ParameterizedTest with sources like @ValueSource, @CsvSource, or @MethodSource.
+
+5.	Testing for exceptions:
+o	Use assertThrows(Exception.class, () -> { /* code */ });
+
+6.	Testing private methods:
+o	Prefer testing via public interface. Use reflection only if absolutely necessary.
+
+7.	Nested Tests in JUnit 5:
+o	Use @Nested to group related tests inside an outer test class.
+
+8.	@BeforeEach vs @BeforeAll:
+o	@BeforeEach runs before every test method. @BeforeAll runs once per class (must be static).
+________________________________________
+Mockito and Mocking Questions
+9.	@Mock, @Spy, @InjectMocks:
+o	@Mock: Create mock object.
+o	@Spy: Partial mock (real methods unless stubbed).
+o	@InjectMocks: Inject mocks into the object being tested.
+
+10.	How Mockito works:
+•	Uses dynamic proxies and subclassing to intercept method calls and return mocked responses.
+
+11.	Mocking void methods:
+•	Use doNothing().when(mock).method(); or doThrow().when(mock).method();
+
+12.	Verifying invocations:
+•	Use verify(mock, times(1)).method();
+
+13.	doReturn().when() vs when().thenReturn():
+•	Use doReturn() for spies or when mocking final methods or avoiding side effects.
+14.	Mocking static methods or constructors:
+•	Use Mockito.mockStatic() (Mockito 3.4+), or PowerMock for older versions.
+15.	ArgumentCaptor:
+•	Captures arguments passed to mocks: ArgumentCaptor<Type> captor = ArgumentCaptor.forClass(Type.class);
+16.	Mock final classes/methods:
+•	Possible with Mockito 2.x+ if mock maker inline is enabled via mockito-inline.
+________________________________________
+Spring Boot Testing
+17.	@SpringBootTest vs @WebMvcTest vs @DataJpaTest:
+•	@SpringBootTest: Full context.
+•	@WebMvcTest: MVC slice only (no DB).
+•	@DataJpaTest: JPA and repositories only.
+
+18.	Integration tests:
+•	Use @SpringBootTest, actual DB, TestRestTemplate or MockMvc.
+
+19.	Mock beans in context:
+•	Use @MockBean to mock and inject into context.
+
+20.	@TestConfiguration:
+•	Create test-specific beans/configuration within tests.
+
+21.	@MockBean vs @SpyBean:
+•	@MockBean: Replace a bean with a mock.
+•	@SpyBean: Spy on a real Spring bean.
+
+22.	Testing REST with MockMvc:
+•	Use mockMvc.perform(...) and validate response with .andExpect(...)
+
+23.	TestRestTemplate:
+•	Used in integration tests to make real HTTP calls to running Spring Boot app.
+
+24.	Kafka testing:
+•	Use embedded Kafka or mock producer/consumer with Spring Kafka Test utilities.
+________________________________________
+Advanced & Best Practices
+25.	Test doubles:
+•	Types: Dummy, Stub, Fake, Mock, Spy.
+26.	Test structure:
+•	Use “Arrange-Act-Assert” structure, group by feature.
+27.	Test async code:
+•	Use CompletableFuture.get(), CountDownLatch, or Awaitility.
+28.	Flaky tests:
+•	Root cause analysis, isolation, and using retries or stabilization mechanisms.
+29.	Unit vs Integration vs E2E:
+•	Unit: single class/method. Integration: multiple layers. E2E: real app + external systems.
+30.	Test data management:
+•	Use @Sql, TestEntityManager, factory methods, or DB migration tools.
+31.	Code coverage tools:
+•	JaCoCo, Cobertura. Look for missed branches, not just lines.
+32.	Isolating tests in microservices:
+•	Use mocks, TestContainers, contract tests, in-memory DBs.
+33.	Testing time-dependent code:
+•	Use Clock abstraction or libraries like Mockito to mock LocalDate.now().
+34.	Testing caching logic:
+•	Use @Cacheable + cache manager + verify caching behavior with spy or TTL wait.
+________________________________________
+Real-World Scenarios
+35.	External API testing:
+•	Use WebClient + mock server (MockWebServer, WireMock), or wrap API in a service.
+36.	Simulating failures:
+•	Use doThrow(), timeout mocks, fallback patterns.
+37.	Contract tests:
+•	Use tools like Pact to verify message or HTTP contracts.
+38.	Testcontainers:
+•	Spin up real DBs (PostgreSQL, Kafka) in Docker during test runtime.
+39.	Assertion libraries:
+•	Use AssertJ for fluent, readable assertions: assertThat(x).isEqualTo(y);
+40.	Testing in CI/CD:
+•	Use stages: unit → integration → smoke → e2e, with parallel test execution, proper cleanup, and isolated environments.
+________________________________________
+

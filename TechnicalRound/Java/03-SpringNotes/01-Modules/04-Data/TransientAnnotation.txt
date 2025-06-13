@@ -1,0 +1,134 @@
+Yes, an **entity class in JPA (Java Persistence API)** **can have extra instance variables** that do **not map to any column** in the database table.
+
+However, you must explicitly tell JPA to **ignore** those fields, otherwise it may throw mapping errors.
+
+---
+
+## ✅ How to Add Extra Fields in Entity Class
+
+If your entity class has extra variables (not present in the DB), mark them with:
+
+### 1. **`@Transient` annotation** (from `javax.persistence`)
+
+```java
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    // Not a column in the DB
+    @Transient
+    private int calculatedBonus;
+
+    // Getters & Setters
+}
+```
+
+### 🔎 What It Does:
+
+* `@Transient` tells JPA **not to persist or fetch** this field from the database.
+* It's safe for use in logic, calculations, or temporary state.
+
+---
+
+## ❌ What Happens If You Don't Use `@Transient`?
+
+JPA will try to map every field to a column. If the field doesn't exist in the table:
+
+* You’ll get an exception like:
+
+  ```
+  org.hibernate.MappingException: Unknown column
+  ```
+
+---
+
+## 🧠 Alternate Meaning of `transient` (Java keyword)
+
+Don’t confuse JPA’s `@Transient` with Java’s keyword `transient` — used to **exclude a field from Java serialization**.
+
+> ✅ If you want to exclude a field from **both JPA and serialization**, you can do:
+
+```java
+@Transient
+private transient SomeType tempData;
+```
+
+---
+
+## ✅ When Is This Useful?
+
+* Storing **computed fields** (e.g., `fullName = firstName + lastName`)
+* Holding **non-persistent state** like UI-related flags
+* Temporary **DTO-like behavior** inside the entity
+
+===============================================================================================
+
+* Difference between `@Transient` and `@JsonIgnore`
+
+Both `@Transient` and `@JsonIgnore` are used to **exclude fields**, but they apply to **different contexts**:
+
+---
+
+## ✅ Key Difference Summary
+
+| Feature        | `@Transient`                            | `@JsonIgnore`                                   |
+| -------------- | --------------------------------------- | ----------------------------------------------- |
+| Comes From     | `javax.persistence` (JPA)               | `com.fasterxml.jackson.annotation`              |
+| Used For       | Ignoring fields in **database mapping** | Ignoring fields in **JSON serialization**       |
+| Affects        | ORM tools like **Hibernate**            | JSON tools like **Jackson (used in REST APIs)** |
+| Saves in DB?   | ❌ No                                    | ✅ Yes (unless also marked `@Transient`)         |
+| Shows in JSON? | ✅ Yes                                   | ❌ No                                            |
+
+---
+
+## 🧪 Example
+
+```java
+@Entity
+public class Employee {
+
+    @Id
+    private Long id;
+
+    private String name;
+
+    @Transient // This field will not be saved to DB
+    private int age;
+
+    @JsonIgnore // This field will not be shown in JSON
+    private String password;
+
+    @Transient
+    @JsonIgnore // Not in DB and not in JSON
+    private boolean internalFlag;
+}
+```
+
+---
+
+### 🎯 Use Case of Each
+
+| Use Case                            | Annotation to Use    |
+| ----------------------------------- | -------------------- |
+| Prevent saving field to database    | `@Transient`         |
+| Prevent exposing field in API       | `@JsonIgnore`        |
+| Temporary calculation fields        | `@Transient`         |
+| Hide sensitive fields from frontend | `@JsonIgnore`        |
+| Want to exclude from **both**       | Use both annotations |
+
+---
+
+## ✅ Conclusion
+
+* Use `@Transient` when you **don’t want to persist a field to the database**.
+* Use `@JsonIgnore` when you **don’t want to expose a field in JSON responses** (e.g., REST APIs).
+* You can use **both together** if the field should be excluded from both DB and JSON.
+
+---
+
+Let me know if you’d like to see this in a Spring Boot REST API demo or with DTO conversion logic!
+
