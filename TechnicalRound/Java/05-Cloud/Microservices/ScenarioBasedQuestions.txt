@@ -1,0 +1,340 @@
+1. What are the recent issue you faced in your project?
+2. In Stock market application where you need to deal with real time data and you use 3rd party APIs which is having their own rate limiting
+    like 25 hits per minute. How would you scale you microservices.
+3. What motivates you to look for another job.
+4. What motivates you on daily basis tasks.
+5. How to securily connect to Kafka
+
+==============================================================================
+1. What are the recent issue you faced in your project?
+==============================================================================
+2. In Stock market application where you need to deal with real time data and you use 3rd party APIs which is having their own rate limiting
+    like 25 hits per minute. How would you scale you microservices.
+
+    Great scenario! A **stock market application** consuming **real-time data from third-party APIs with rate limits** (e.g., 25 requests/min) is a **classic case of designing for scalability and resilience under external constraints**.
+
+---
+
+## ✅ Problem Breakdown:
+
+* You're consuming **real-time stock data** (e.g., prices, ticks).
+* The **third-party API allows only 25 requests/min** (rate-limited).
+* Your **internal microservices** may have hundreds or thousands of client requests.
+* You need to **scale the system** without breaking the rate limits or causing throttling/errors.
+
+---
+
+## ✅ Solution Strategy: Scalable, Rate-Aware Architecture
+
+### 🔹 1. **Introduce a Smart Gateway or API Adapter Layer**
+
+Create a **dedicated API proxy/microservice** that:
+
+* **Centralizes** all requests to the third-party API
+* Applies **rate limiting, caching, batching**, and **fallbacks**
+
+```text
+[Clients] → [Stock Service] → [API Gateway Adapter] → [3rd Party API]
+```
+
+---
+
+### 🔹 2. **Implement Rate Limiting (25 req/min)**
+
+* Use libraries like **Bucket4j**, **Resilience4j RateLimiter**, or **Guava RateLimiter**.
+* Enforce per-key limits to throttle excess internal calls.
+* Ensure rate limiter is **distributed** (e.g., Redis-backed) in a scaled environment.
+
+```java
+RateLimiter limiter = RateLimiter.of("stockApi", 
+   RateLimiterConfig.custom().limitForPeriod(25)
+   .limitRefreshPeriod(Duration.ofMinutes(1)).build());
+```
+
+---
+
+### 🔹 3. **Use Local + Distributed Caching**
+
+* Use **in-memory cache** (e.g., Caffeine) for fast access.
+* Add **Redis cache** to share across instances.
+* Cache stock values with a short TTL (5–30 sec) — stocks don't change every millisecond.
+
+```java
+@Cacheable(value = "stocks", key = "#symbol", cacheManager = "redisCacheManager")
+public StockPrice getStockPrice(String symbol) {
+    return externalApiClient.fetchStock(symbol);
+}
+```
+
+---
+
+### 🔹 4. **Introduce Request Batching**
+
+Instead of hitting the API 25 times for 25 stocks:
+
+* Batch into **1 request with multiple symbols** if the API supports it.
+* Use tools like **RxJava**, **Akka**, or **custom batcher service**.
+
+---
+
+### 🔹 5. **Asynchronous Event-Driven Design**
+
+* Use **Kafka or RabbitMQ** to queue requests.
+* The batch processor consumes from Kafka and invokes external API at rate-safe intervals.
+
+```text
+[Client Request] → [Kafka Queue] → [Worker Service] → [API → Cache → Response]
+```
+
+---
+
+### 🔹 6. **Use Circuit Breaker and Fallbacks**
+
+To avoid overloading and cascading failures:
+
+```java
+@CircuitBreaker(name = "stockApi", fallbackMethod = "fallbackStockPrice")
+public StockPrice fetchFromApi(String symbol) {
+    return restTemplate.getForObject(...);
+}
+```
+
+---
+
+### 🔹 7. **Horizontal Scaling with Intelligent Throttling**
+
+* Run multiple instances of your service but **synchronize rate limit using Redis or distributed locks**.
+* **Leader election or partitioning** can help ensure only one instance makes external calls.
+
+---
+
+### 🔹 8. **Monitoring & Alerting**
+
+* Track **API call count, failures, fallback rate, latency**.
+* Use **Prometheus + Grafana**, or **ELK + APM**.
+
+---
+
+## ✅ Tech Stack Summary:
+
+| Component       | Tool / Framework                    |
+| --------------- | ----------------------------------- |
+| Rate Limiting   | Resilience4j, Bucket4j, Redis-based |
+| Caching         | Redis, Caffeine                     |
+| Messaging Queue | Kafka / RabbitMQ                    |
+| Circuit Breaker | Resilience4j                        |
+| Batching        | Custom batcher / RxJava / Akka      |
+| Monitoring      | Prometheus + Grafana / ELK          |
+
+---
+
+## 🧠 Real-World Analogy:
+
+Think of it like this: the **external API is a tap**, and your **user traffic is a flood**. You need **buckets (rate limiters)**, **storage tanks (cache)**, and **flow control (queues)** to balance it.
+
+---
+
+Would you like a code-level example or architecture diagram for this setup?
+
+==============================================================================
+3. What motivates you to look for another job.
+Here’s a strong, professional answer to the question **“What motivates you to look for another job?”** — especially if you're a senior developer with 8+ years of experience:
+
+---
+
+### ✅ Sample Answer:
+
+> “After spending the last few years deepening my experience in backend development, particularly with Java, Spring Boot, Kafka, and microservices, I’m looking for a new opportunity that allows me to work on more **complex, large-scale systems** and contribute to **modern, forward-thinking architecture**.\n\nWhile I’ve grown a lot in my current role, I’m now seeking a position that offers:\n- Greater **technical ownership**\n- Exposure to **cloud-native** and **distributed systems**\n- A strong **engineering culture** that values clean code, DevOps practices, and innovation\n\nI'm particularly motivated by the chance to solve **real business problems** through technology, mentor junior engineers, and continuously evolve as an architect and problem solver.”
+
+---
+
+### 🧠 Tips to Customize:
+
+You can adjust this based on your personal context. For example:
+
+| If...                        | Add something like...                                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- |
+| You want growth              | “I’m looking for a role that challenges me beyond my current responsibilities.”                          |
+| You want better tech stack   | “I want to work with more modern tech stacks like Kubernetes, event streaming, and observability tools.” |
+| You want better work culture | “I’m seeking a more collaborative, engineering-driven culture.”                                          |
+
+---
+
+Let me know your real motivation, and I can help tailor this to sound confident, mature, and recruiter-friendly.
+
+==============================================================================
+4. What motivates you on daily basis tasks.
+Here's a strong and thoughtful answer to **“What motivates you on a daily basis in your tasks?”**, especially for experienced software engineers or senior developers:
+
+---
+
+### ✅ Sample Answer:
+
+> “What motivates me daily is the opportunity to **solve real problems through clean and efficient code**. I enjoy breaking down complex business requirements into scalable technical solutions. Every time I push something meaningful to production — whether it's optimizing a service, fixing a critical bug, or improving code quality — I feel a strong sense of contribution.\n\nI'm also motivated by the **learning process**. Whether it's exploring new features in Spring Boot, understanding a tricky concurrency issue, or discussing a design decision with teammates, each day gives me a chance to grow technically and collaborate better.\n\nLastly, I enjoy knowing that my work helps make things easier or faster for end users — that **purpose** drives my energy and focus.”
+
+---
+
+### 🔧 You Can Personalize By Adding:
+
+* Mentoring juniors or reviewing PRs
+* Delivering clean, maintainable code
+* Solving performance bottlenecks
+* Learning new frameworks or tools
+
+---
+
+### 🧠 Quick Tip (for interviews):
+
+Keep your tone **positive, purpose-driven, and real** — show passion without sounding overly dramatic.
+
+Would you like help aligning this with your exact tech stack or domain (e.g., payments, telecom, banking)?
+
+
+==============================================================================
+5. How to securily connect to Kafka
+Connecting securely to Apache Kafka involves a combination of **authentication**, **authorization**, and **encryption**. Here's a comprehensive guide on how to connect to Kafka **securely** in a production-grade setup:
+
+---
+
+## ✅ 1. Enable **TLS/SSL Encryption** (for secure data transfer)
+
+### 🔹 Why?
+
+To **encrypt data in transit** between producers, brokers, and consumers.
+
+### 🔧 How?
+
+In `server.properties` (on Kafka broker):
+
+```properties
+listeners=SSL://<broker-host>:9093
+security.inter.broker.protocol=SSL
+ssl.keystore.location=/path/to/kafka.server.keystore.jks
+ssl.keystore.password=changeit
+ssl.key.password=changeit
+ssl.truststore.location=/path/to/kafka.server.truststore.jks
+ssl.truststore.password=changeit
+```
+
+In **client (Java)**:
+
+```java
+Properties props = new Properties();
+props.put("bootstrap.servers", "broker:9093");
+props.put("security.protocol", "SSL");
+props.put("ssl.truststore.location", "/path/to/truststore.jks");
+props.put("ssl.truststore.password", "changeit");
+props.put("ssl.keystore.location", "/path/to/keystore.jks");
+props.put("ssl.keystore.password", "changeit");
+props.put("ssl.key.password", "changeit");
+```
+
+---
+
+## ✅ 2. Enable **Authentication**
+
+Kafka supports multiple authentication mechanisms:
+
+| Method               | Description                                   |
+| -------------------- | --------------------------------------------- |
+| **SSL**              | Mutual certificate-based auth                 |
+| **SASL/PLAIN**       | Username/password-based auth (base64 encoded) |
+| **SASL/SCRAM**       | Secure password hashing                       |
+| **SASL/OAUTHBEARER** | Token-based (OAuth 2.0/JWT)                   |
+
+### 🔧 Example: SASL/SCRAM
+
+Broker:
+
+```properties
+listeners=SASL_SSL://<broker-host>:9094
+security.inter.broker.protocol=SASL_SSL
+sasl.mechanism.inter.broker.protocol=SCRAM-SHA-512
+sasl.enabled.mechanisms=SCRAM-SHA-512
+```
+
+Client:
+
+```java
+props.put("security.protocol", "SASL_SSL");
+props.put("sasl.mechanism", "SCRAM-SHA-512");
+props.put("sasl.jaas.config",
+   "org.apache.kafka.common.security.scram.ScramLoginModule required " +
+   "username=\"user\" password=\"pass\";");
+```
+
+---
+
+## ✅ 3. Enable **Authorization** (ACLs)
+
+### 🔹 Why?
+
+To control **who can access what** in Kafka.
+
+### 🔧 Enable ACLs:
+
+In `server.properties`:
+
+```properties
+authorizer.class.name=kafka.security.authorizer.AclAuthorizer
+allow.everyone.if.no.acl.found=false
+```
+
+### 🔧 Create ACLs:
+
+```bash
+# Allow user to write to a topic
+bin/kafka-acls.sh --authorizer-properties zookeeper.connect=localhost:2181 \
+--add --allow-principal User:alice --operation Write --topic my-topic
+```
+
+---
+
+## ✅ 4. Secure ZooKeeper (if used)
+
+Zookeeper is Kafka’s metadata store (Kafka 2.x). Secure it with:
+
+* `zookeeper.ssl.client.enable=true`
+* `authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider`
+
+Note: Kafka 3.x supports **KRaft mode**, which eliminates Zookeeper.
+
+---
+
+## ✅ 5. Use a Secure Kafka Client (Spring Boot example)
+
+```yaml
+spring:
+  kafka:
+    bootstrap-servers: broker:9094
+    security:
+      protocol: SASL_SSL
+    properties:
+      sasl.mechanism: SCRAM-SHA-512
+      sasl.jaas.config: >
+        org.apache.kafka.common.security.scram.ScramLoginModule required
+        username="alice" password="password";
+      ssl.truststore.location: classpath:truststore.jks
+      ssl.truststore.password: changeit
+```
+
+---
+
+## ✅ 6. Best Practices
+
+| Area         | Recommendation                                                     |
+| ------------ | ------------------------------------------------------------------ |
+| Encryption   | Always enable **SSL/TLS** for external access                      |
+| AuthN/AuthZ  | Use **SASL/SCRAM** or **OAUTHBEARER** (no plaintext)               |
+| Certificates | Use signed, rotated certificates (e.g., via Vault or cert-manager) |
+| Firewall     | Restrict access to Kafka ports                                     |
+| Monitoring   | Monitor with **Prometheus**, **Grafana**, **Audit logs**           |
+| Secrets      | Never hardcode passwords; use **Vault/KMS/Secrets Manager**        |
+
+---
+
+Let me know if you want:
+
+* Kafka + Spring Boot secure config example
+* TLS certificate generation steps
+* Kafka on Kubernetes secure setup (with Istio/Linkerd/OAuth)
