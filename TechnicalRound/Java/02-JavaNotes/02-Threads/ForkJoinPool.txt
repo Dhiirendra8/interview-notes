@@ -1,4 +1,5 @@
-Java में **Fork/Join Framework** एक ऐसा mechanism है जो **large tasks को छोटे subtasks में divide** करके **parallel execution** की सुविधा देता है — यानी **multi-core processors** की ताकत का अच्छे से उपयोग करता है।
+Java में **Fork/Join Framework** एक ऐसा mechanism है जो **large tasks को छोटे subtasks में divide** करके **parallel execution** की सुविधा देता है — 
+यानी **multi-core processors** की ताकत का अच्छे से उपयोग करता है।
 
 ---
 
@@ -94,5 +95,3 @@ public class ForkJoinExample {
 | Parallelism       | Runs tasks in parallel using multiple threads      |
 
 ---
-
-अगर चाहो तो मैं real-world problem जैसे **parallel file processing**, **matrix multiplication**, या **web crawling** के लिए Fork/Join का example भी दे सकता हूँ।

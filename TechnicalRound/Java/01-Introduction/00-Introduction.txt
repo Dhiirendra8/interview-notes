@@ -23,6 +23,19 @@ Roles and Responsibilities :
 	-> Gathering the requirements from the customers along with grooming discussion 
 	-> involved majorly into implementation of the changes, unit testing and bug fixing
 
+“I’m currently working as a Senior Backend Developer on a microservices-based stock trading platform. 
+My role involves designing and developing RESTful APIs using Java, Spring Boot, and Kafka, and ensuring system scalability and security.
+My day-to-day responsibilities include:
+	- Writing clean, testable, and production-grade code
+	- Designing microservice APIs and integrating with third-party systems (like payment gateways or market feeds)
+	- Handling asynchronous messaging using Kafka
+	- Leading code reviews and helping junior team members
+	- Working closely with DevOps for CI/CD and production deployment
+	- Collaborating with product managers to refine requirements
+	
+I also take ownership of performance tuning and have implemented caching and retry strategies to improve system resilience. 
+As a result, we were able to reduce API response time by 40% and handle over 5000 requests/sec reliably.”
+
 
 -------------------------------------------------------------------------
 #

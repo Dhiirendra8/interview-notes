@@ -1,0 +1,75 @@
+The JVM option `-XX:+HeapDumpOnOutOfMemoryError` is used to **automatically generate a heap dump** when your Java application throws an **`OutOfMemoryError`**.
+
+---
+
+## ✅ What Is a Heap Dump?
+
+A **heap dump** is a snapshot of all the objects in memory at a certain point in time — like a memory snapshot.
+
+It includes:
+
+* All Java objects
+* Their types and references
+* Object sizes
+* Classloader hierarchy
+
+---
+
+## 🔍 What Does `-XX:+HeapDumpOnOutOfMemoryError` Do?
+
+> It tells the JVM:
+> "**If an `OutOfMemoryError` occurs, write a full heap dump to disk** so I can analyze it later."
+
+---
+
+## 🧪 Example Usage:
+
+```bash
+java -Xmx1g -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/heapdump.hprof -jar myapp.jar
+```
+
+* `-XX:+HeapDumpOnOutOfMemoryError` → enables the heap dump on OOM.
+* `-XX:HeapDumpPath=...` → (optional) specifies the dump file path.
+
+If you don’t specify `HeapDumpPath`, it will dump in the **working directory** as `java_pid<id>.hprof`.
+
+---
+
+## ✅ When Should You Use It?
+
+* In production or staging environments
+* When debugging **memory leaks** or **unexpected memory spikes**
+* To analyze what caused `OutOfMemoryError`, such as:
+
+  * High retained memory
+  * Excessive object creation
+  * Classloader leaks
+  * Unclosed caches, etc.
+
+---
+
+## 🧠 How to Analyze the Heap Dump?
+
+Use tools like:
+
+* **Eclipse MAT (Memory Analyzer Tool)**
+* **VisualVM**
+* **JProfiler**
+* **YourKit**
+
+You can open the `.hprof` file and look for:
+
+* **Dominators (who holds most memory)**
+* **Duplicate objects**
+* **Unreachable but still referenced objects**
+
+---
+
+## ⚠️ Note:
+
+* The heap dump file can be **very large** (hundreds of MB to GB).
+* Writing a heap dump on OOM **pauses the JVM** — be cautious in highly sensitive environments.
+
+---
+
+Would you like an example of analyzing a heap dump or simulating an OOM to test this flag?

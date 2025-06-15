@@ -53,7 +53,7 @@ Use tools:
 ```
 This means:
     -> Start JVM with 512 MB heap
-    -> Allow it to grow up to 2 GC
+    -> Allow it to grow up to 2 GB
     -> Use G1GC for efficient and low-pause garbage collection
 
 Tune these settings based on profiling:

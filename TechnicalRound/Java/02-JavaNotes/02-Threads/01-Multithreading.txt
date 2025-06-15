@@ -141,9 +141,9 @@ Commonly used methods of Thread class:
 		If processor finds any thread with higher or same priority then it will move the current thread to Ready/Runnable state 
 		and give processor to other thread and if not – current thread will keep executing.
 
-15. public void suspend(): is used to suspend the thread(depricated).
-16. public void resume(): is used to resume the suspended thread(depricated).
-17. public void stop(): is used to stop the thread(depricated).
+15. public void suspend(): is used to suspend the thread(deprecated).
+16. public void resume(): is used to resume the suspended thread(deprecated).
+17. public void stop(): is used to stop the thread(deprecated).
 18. public boolean isDaemon(): tests if the thread is a daemon thread.
 19. public void setDaemon(boolean b): marks the thread as daemon or user thread.
 20. public void interrupt(): interrupts the thread.

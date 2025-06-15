@@ -74,5 +74,3 @@ List<Integer> squares = numbers.stream()
 ```
 
 ---
-
-Would you like examples of how to enforce purity in functional interfaces or lambda expressions?

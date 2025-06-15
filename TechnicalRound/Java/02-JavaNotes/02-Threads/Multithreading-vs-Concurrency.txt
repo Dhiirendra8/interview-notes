@@ -1,4 +1,5 @@
-Great question — **concurrency** and **multithreading** are related but distinct concepts in Java and computer science. Here's a clear breakdown:
+**concurrency** and **multithreading** are related but distinct concepts in Java and computer science. 
+Here's a clear breakdown:
 
 ---
 

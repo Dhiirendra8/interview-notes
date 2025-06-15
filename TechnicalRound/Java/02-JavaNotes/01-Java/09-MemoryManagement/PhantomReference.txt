@@ -1,4 +1,5 @@
-In modern Java (7+), resource management and post-GC cleanup are handled by safer and more predictable constructs than `finalize()`. Here's an overview of the **three recommended mechanisms**:
+In modern Java (7+), resource management and post-GC cleanup are handled by safer and more predictable constructs than `finalize()`. 
+Here's an overview of the **three recommended mechanisms**:
 
 ---
 
