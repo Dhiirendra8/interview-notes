@@ -1,4 +1,5 @@
-Avoiding **N+1 queries** in Spring **Data JPA** is essential for improving performance when fetching entities and their relationships. Here's a full breakdown of the problem and how to fix it.
+Avoiding **N+1 queries** in Spring **Data JPA** is essential for improving performance when fetching entities and their relationships. 
+Here's a full breakdown of the problem and how to fix it.
 
 ---
 
