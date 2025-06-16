@@ -7,12 +7,15 @@ I'm well verse in core java spring and spring boot,hibernate, oracle
 
 ====================================
 Sapient
+Senior Associate Platform L1
 I lead the design, development, and optimization of complex backend systems using Java and related technologies. I play a key role in architecture decisions, mentoring junior developers, and driving best practices in coding, testing, and deployment.
 
 Accenture
+Senior Application Developer
 I play a key role in architecture decisions, mentoring junior developers, and driving best practices in coding, testing, and deployment.
 
-IBM
+IBM India Pvt Ltd
+Application Developer
 I assist in designing, developing, testing, and maintaining software applications under the guidance of senior team members
 
 
