@@ -1,0 +1,80 @@
+Great question! Since Spring `@Controller` is a **singleton** by default, and **all HTTP requests** are routed through this **single instance**, handling **concurrent requests safely** is crucial.
+
+---
+
+## ✅ The Good News:
+
+**Spring handles concurrent requests automatically**, as long as:
+
+> ✅ You **don’t use shared mutable fields** inside the controller class.
+
+---
+
+## 🚫 What **not** to do (Thread-unsafe):
+
+```java
+@Controller
+public class MyController {
+
+    private String username; // ❌ shared field, not thread-safe!
+
+    @GetMapping("/hello")
+    public String sayHello(@RequestParam String name) {
+        this.username = name;       // ❌ BAD: shared field
+        return "Hello " + username;
+    }
+}
+```
+
+If multiple users call `/hello?name=John` and `/hello?name=Alice` at the same time, they'll overwrite each other's data.
+
+---
+
+## ✅ What **to do** (Thread-safe):
+
+Use **method-local variables** only:
+
+```java
+@Controller
+public class MyController {
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> sayHello(@RequestParam String name) {
+        String response = "Hello " + name;  // ✅ method-local variable
+        return ResponseEntity.ok(response);
+    }
+}
+```
+
+* `name` and `response` are **stack variables**, created separately for each thread/request.
+* This is **thread-safe** and works perfectly under high concurrency.
+
+---
+
+## 🧠 Other Patterns to Handle Concurrency:
+
+| Approach                    | When to Use                                                    |
+| --------------------------- | -------------------------------------------------------------- |
+| Method-local variables      | ✅ Default & safest for all controllers                         |
+| `@RequestScope` beans       | For request-specific dependencies (e.g., user info)            |
+| Thread-safe components      | Use `ConcurrentHashMap`, `AtomicInteger`, etc. for shared data |
+| Synchronization (carefully) | Only if critical section is needed (rare in REST controllers)  |
+| Async handling (`@Async`)   | For background processing without blocking                     |
+
+---
+
+## ⚠️ Reminder:
+
+Even though the controller is a singleton, **Spring Boot creates a new thread for each incoming HTTP request** (managed by Tomcat/Jetty). So **each method call is executed in its own thread**, and as long as **you don’t share mutable state**, you're safe.
+
+---
+
+### ✅ Summary:
+
+| Concern               | Solution                                      |
+| --------------------- | --------------------------------------------- |
+| Singleton controller  | ✔️ Okay — just don’t use shared fields        |
+| Concurrent requests   | ✔️ Handled automatically (new thread/request) |
+| Request-specific data | ✔️ Use method variables or `@RequestScope`    |
+
+---
