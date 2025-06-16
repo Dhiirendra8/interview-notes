@@ -31,7 +31,6 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 * **What**: The consumer slows down due to downstream systems (DBs, APIs)
 * **Symptoms**: Lag grows, CPU/memory usage spikes
 * **Fixes**:
-
   * Buffer/process messages asynchronously
   * Apply backpressure-aware logic (e.g. pause/resume)
   * Optimize external resource usage
@@ -47,7 +46,6 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
   * Long GC pauses or timeouts
   * Missed heartbeats
 * **Fixes**:
-
   * Increase `session.timeout.ms` and `heartbeat.interval.ms`
   * Tune `max.poll.interval.ms` appropriately
   * Use static group membership (since Kafka 2.3+)
@@ -130,15 +128,11 @@ Here's a comprehensive breakdown of the **most common Kafka consumer issues**, w
 
 ---
 
-
-
 ## 🕵️ 10. **Lack of Observability**
 
 * **What**: Issues aren't detected until they cause outages
 * **Fixes**:
-
   * Monitor:
-
     * Consumer lag
     * Rebalance frequency
     * Commit failures

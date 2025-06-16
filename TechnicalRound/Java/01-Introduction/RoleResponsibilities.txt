@@ -1,0 +1,98 @@
+Here’s a polished answer for **“Tell me about your current role”**, especially if you’re an experienced Java/Spring Boot developer or senior engineer:
+
+---
+
+### ✅ Sample Answer:
+
+> In my current role as a **Senior Application Developer**, 
+I’m primarily responsible for designing and developing **microservices-based applications** 
+using **Java 17, Spring Boot, and Kafka**.
+
+> I work closely with architects and product owners to translate business requirements into scalable, 
+production-ready services. 
+
+> I’m also involved in:
+    - Writing and reviewing REST APIs
+    - Implementing asynchronous communication via Kafka topics
+    - Integrating with third-party APIs and handling edge cases like retries, rate limiting, and DLQs
+    - Ensuring observability using tools like ELK and Prometheus\n- Managing deployments on AWS via CI/CD pipelines\n\nIn addition to development, I actively contribute to **code reviews**, **mentoring junior team members**, and **performance tuning**. I’m also comfortable working with Docker, Git, and container orchestration setups like ECS and EKS.\n\nOverall, my role is a healthy mix of hands-on coding, design-level thinking, and collaboration with cross-functional teams.”
+
+---
+
+### 🔧 Customize Based on Your Focus:
+
+| Focus Area     | Add This                                                                             |
+| -------------- | ------------------------------------------------------------------------------------ |
+| Full Stack     | “I also contribute to front-end using React.js/Angular.”                             |
+| Team Lead      | “I lead a team of 3–5 developers and handle sprint planning.”                        |
+| Cloud-native   | “I work with AWS services like Lambda, SQS, and API Gateway.”                        |
+| Banking Domain | “Our microservices handle real-time payment processing and transaction validations.” |
+
+---
+
+=============================
+Great question! Asking smart, thoughtful questions in a **Role/Profile Discussion call at Wipro** shows that you're serious, proactive, and focused on long-term fit.
+
+Here are some meaningful and professional questions you can ask during the call, categorized by topic:
+
+---
+
+## 🧩 1. **About the Project/Role**
+
+✔️ *“Can you please share more details about the project I’d be aligned to?”*
+✔️ *“Is this a new development project or maintenance/enhancement?”*
+✔️ *“What technologies or tools are primarily used in this project?”*
+✔️ *“Will this role involve client communication or stakeholder interaction?”*
+
+---
+
+## 🧠 2. **About the Team/Work Culture**
+
+✔️ *“How big is the team I’ll be working with?”*
+✔️ *“Is it a collaborative agile setup or more siloed work?”*
+✔️ *“Will there be opportunities for mentoring or taking ownership of modules?”*
+
+---
+
+## ☁️ 3. **Tech Stack & Learning Opportunities**
+
+✔️ *“Are there chances to work on cloud technologies or microservices, if not already part of the stack?”*
+✔️ *“Does the team follow DevOps practices like CI/CD, containerization, etc.?”*
+✔️ *“Does Wipro support certifications or internal trainings in advanced tech stacks?”*
+
+---
+
+## 🌐 4. **Remote Work / Location / Shift**
+
+✔️ *“Is this a fully remote, hybrid, or on-site role?”*
+✔️ *“Are there any specific shift timings or weekend support expectations?”*
+✔️ *“If relocation is required, how much flexibility is there for joining remotely initially?”*
+
+---
+
+## 💼 5. **Career Growth & Long-Term Fit**
+
+✔️ *“What kind of growth path do you foresee in this role over the next 1–2 years?”*
+✔️ *“Is internal movement to other projects or technologies encouraged after some time?”*
+
+---
+
+## ❗ Questions to Avoid:
+
+* ❌ “How much salary can you offer?” (ask only in HR calls)
+* ❌ “How soon can I be released from this project?”
+* ❌ “Can I skip weekends if I don’t like the client timings?” 😅
+
+---
+
+## 🎯 Best Practice:
+
+> End with:
+> **“Is there anything you’d like to know from me to better evaluate my fit for this role?”**
+
+This makes the conversation two-sided and shows openness.
+
+---
+
+Would you like me to help you prepare a **personalized list based on your profile**, or write a polite script to ask these questions?
+
