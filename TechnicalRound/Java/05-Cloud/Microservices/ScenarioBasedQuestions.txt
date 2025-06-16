@@ -170,7 +170,11 @@ Here's a strong and thoughtful answer to **“What motivates you on a daily basi
 
 ### ✅ Sample Answer:
 
-> “What motivates me daily is the opportunity to **solve real problems through clean and efficient code**. I enjoy breaking down complex business requirements into scalable technical solutions. Every time I push something meaningful to production — whether it's optimizing a service, fixing a critical bug, or improving code quality — I feel a strong sense of contribution.\n\nI'm also motivated by the **learning process**. Whether it's exploring new features in Spring Boot, understanding a tricky concurrency issue, or discussing a design decision with teammates, each day gives me a chance to grow technically and collaborate better.\n\nLastly, I enjoy knowing that my work helps make things easier or faster for end users — that **purpose** drives my energy and focus.”
+> “What motivates me daily is the opportunity to **solve real problems through clean and efficient code**. 
+I enjoy breaking down complex business requirements into scalable technical solutions. 
+Every time I push something meaningful to production — whether it's optimizing a service, fixing a critical bug, or improving code quality — I feel a strong sense of contribution.
+I'm also motivated by the **learning process**. Whether it's exploring new features in Spring Boot, understanding a tricky concurrency issue, or discussing a design decision with teammates, each day gives me a chance to grow technically and collaborate better.
+Lastly, I enjoy knowing that my work helps make things easier or faster for end users — that **purpose** drives my energy and focus.”
 
 ---
 
