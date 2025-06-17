@@ -1,0 +1,81 @@
+Bahut accha sawaal! Chaliye **"Provisioning"** aur **"IaC (Infrastructure as Code)"** ko ekdum **simple Hindi/layman bhasha** mein samjhte hain. 😄
+
+---
+
+## ✅ 1. Provisioning kya hoti hai?
+
+> **Provisioning** ka matlab hai:
+> "**Server, network, storage, ya cloud resource ko tayar karna taaki application usme kaam kar sake.**"
+
+### 🧠 Aasaan bhasha mein:
+
+> "Jaise aap ek office ka setup karte ho — table, chair, computer, network sab install karte ho — waise hi provisioning hoti hai IT duniya mein."
+
+### 🔧 Example:
+
+* EC2 instance create karna (server)
+* RDS DB setup karna (database)
+* S3 bucket banana (storage)
+* IAM role dena (permission)
+
+> **Ye sab karna = provisioning**
+
+---
+
+## ✅ 2. IaC (Infrastructure as Code) kya hota hai?
+
+> **IaC (Infrastructure as Code)** ka matlab hai:
+> "Aap apna pura infrastructure **code ke zariye define karte ho** — bina manually AWS console pe click kiye."
+
+---
+
+### 🧠 Aasaan bhasha mein:
+
+> "Jaise aap recipe likh kar kisi chef ko dete ho — chef wahi bana deta hai har baar same tareeke se — waise hi aap YAML/JSON/Terraform file likh ke AWS ko dete ho, aur wo **same setup bar-bar automate** kar deta hai."
+
+---
+
+### 🔧 Example Tools:
+
+| Tool               | Language                    | Provider      |
+| ------------------ | --------------------------- | ------------- |
+| **Terraform**      | HCL (HashiCorp config lang) | Multi-cloud   |
+| **CloudFormation** | YAML/JSON                   | AWS only      |
+| **Pulumi**         | JavaScript/Python etc.      | Multi-cloud   |
+| **Ansible**        | YAML (playbooks)            | Configuration |
+
+---
+
+## 🆚 Provisioning vs IaC
+
+| Feature         | Provisioning (Traditional)       | IaC (Automated)                 |
+| --------------- | -------------------------------- | ------------------------------- |
+| Kaise hota hai  | Manually console pe click kar ke | Code likh kar (automated setup) |
+| Speed           | Dheere, manual                   | Fast, repeatable                |
+| Human error     | High                             | Low (same code = same infra)    |
+| Version control | ❌ Not possible                   | ✅ Git me track kar sakte ho     |
+| Team sharing    | Difficult                        | Easy (just share the script)    |
+
+---
+
+### ✅ Real-life analogy:
+
+> **Provisioning manually** = Aap khud dukaan jaake furniture kharid ke office setup karte ho
+> **IaC** = Aap ek list Amazon pe daal dete ho, aur wo har baar wahi setup automatically bhej deta hai
+
+---
+
+## ✅ Summary
+
+| Term             | Meaning in simple words                        |
+| ---------------- | ---------------------------------------------- |
+| **Provisioning** | Infra (server, DB, etc.) setup karna           |
+| **IaC**          | Ye setup ka code likh lena + automate kar dena |
+
+---
+
+Let me know if you want:
+
+* IaC ka example with **Terraform**
+* IaC ka use case in **AWS or Azure**
+* Ya ek **step-by-step demo plan** on how to write your first IaC file!

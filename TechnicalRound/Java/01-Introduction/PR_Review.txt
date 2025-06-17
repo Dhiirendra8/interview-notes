@@ -1,0 +1,102 @@
+Excellent question! Reviewing a **Pull Request (PR)** is a critical step in maintaining **code quality, team consistency, and application stability**. Here’s a clear checklist of what to look for when reviewing a PR — whether you’re a tech lead, senior developer, or team member.
+
+---
+
+## ✅ 1. **Correctness**
+
+* Does the code do **what it’s supposed to**?
+* Are all **business requirements or bug fixes** handled properly?
+* Are **edge cases** and **error scenarios** considered?
+* Are there any **null pointer risks** or unchecked inputs?
+
+---
+
+## ✅ 2. **Code Quality & Cleanliness**
+
+* Is the code **readable**, **clean**, and **well-structured**?
+* Are variables, methods, and classes named **meaningfully**?
+* Is the code **DRY** (Don’t Repeat Yourself) — no unnecessary duplication?
+* Are there unnecessary comments or commented-out code blocks?
+* Is exception handling done properly?
+
+---
+
+## ✅ 3. **Adherence to Project Standards**
+
+* Does it follow the team’s **coding conventions** (e.g., formatting, naming)?
+* Does it follow the project’s **architecture and layering** (e.g., controller → service → repository)?
+* Are configurations externalized correctly (properties, YAML)?
+
+---
+
+## ✅ 4. **Test Coverage**
+
+* Are **unit tests** or **integration tests** included for the new/changed code?
+* Are **mocking and assertions** used properly?
+* Are the tests meaningful, or just passing trivially?
+
+---
+
+## ✅ 5. **Performance & Efficiency**
+
+* Are there any **unnecessary DB/API calls**, or can logic be optimized?
+* Are stream operations, loops, and queries efficient for the expected data size?
+* Is caching considered where applicable?
+
+---
+
+## ✅ 6. **Security**
+
+* Is sensitive data (passwords, tokens) handled securely (no logging/output)?
+* Are proper validations, escaping, and sanitization used?
+* Are auth/role checks in place for sensitive endpoints?
+
+---
+
+## ✅ 7. **Scalability and Future-Proofing**
+
+* Will this code still perform well if data or users scale?
+* Is the design flexible for likely changes or extensions?
+
+---
+
+## ✅ 8. **Documentation & Comments**
+
+* Is the logic **self-explanatory**, or is a comment warranted?
+* Are **API methods**, **complex logic**, or **public interfaces** well-documented?
+
+---
+
+## ✅ 9. **Build & CI Checks**
+
+* Does the PR pass **unit tests**, **lint checks**, and **CI pipeline**?
+* Are there merge conflicts or outdated files?
+
+---
+
+## ✅ 10. **Dependencies & External Changes**
+
+* Are there any new dependencies added? Are they necessary and secure?
+* Are version changes intentional?
+* Are any environment/config changes clearly documented?
+
+---
+
+## 🧠 Bonus Tips for Reviewers:
+
+* Be **constructive**, not critical.
+* Use a checklist or GitHub PR template if your team has one.
+* Don’t rush — quality reviews save time later.
+
+---
+
+### 📝 Sample Review Comments:
+
+* ✅ “Nice use of `Optional` here — handles null safety well.”
+* ⚠️ “Can we add a unit test to cover this failure scenario?”
+* 🚫 “Let’s avoid logging sensitive data like password/email.”
+* 🧠 “Consider extracting this logic into a service method for reusability.”
+
+---
+
+Would you like a **downloadable PR Review checklist** or a **GitHub PR review template** you can use with your team?
