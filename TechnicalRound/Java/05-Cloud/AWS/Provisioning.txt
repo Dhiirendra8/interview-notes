@@ -1,4 +1,4 @@
-Bahut accha sawaal! Chaliye **"Provisioning"** aur **"IaC (Infrastructure as Code)"** ko ekdum **simple Hindi/layman bhasha** mein samjhte hain. 😄
+Chaliye **"Provisioning"** aur **"IaC (Infrastructure as Code)"** ko ekdum **simple Hindi/layman bhasha** mein samjhte hain. 😄
 
 ---
 
