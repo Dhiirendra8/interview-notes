@@ -1,0 +1,201 @@
+In Spring, beans are **singleton by default**, but you can make an `@Autowired` bean behave as a **prototype** by using `@Scope("prototype")`.
+
+However, **just marking a bean as `@Scope("prototype")` is not enough** if you're injecting it into a singleton-scoped bean (which is usually the case). You need to ensure a **new instance is created every time you use it**.
+
+---
+
+## ✅ Step-by-step to use a prototype bean with `@Autowired`
+
+### 1. **Define the Prototype Bean**
+
+```java
+@Component
+@Scope("prototype")
+public class MyPrototypeBean {
+    public MyPrototypeBean() {
+        System.out.println("Prototype bean created: " + this);
+    }
+
+    public void doWork() {
+        System.out.println("Working with: " + this);
+    }
+}
+```
+
+---
+
+### 2. **Injecting in Singleton Bean**
+
+#### ❌ Wrong way: direct `@Autowired` — only one instance is created!
+
+```java
+@Component
+public class MySingletonBean {
+
+    @Autowired
+    private MyPrototypeBean prototypeBean;
+
+    public void doSomething() {
+        prototypeBean.doWork();  // same instance reused!
+    }
+}
+```
+
+---
+
+### ✅ Correct ways to get a **new prototype bean instance** every time:
+
+---
+
+### ✅ Option 1: Use `ObjectFactory<T>` (preferred)
+
+```java
+@Component
+public class MySingletonBean {
+
+    @Autowired
+    private ObjectFactory<MyPrototypeBean> prototypeFactory;
+
+    public void doSomething() {
+        MyPrototypeBean prototypeBean = prototypeFactory.getObject();
+        prototypeBean.doWork();  // new instance each time
+    }
+}
+```
+
+---
+
+### ✅ Option 2: Use `Provider<T>` (JSR-330 standard, works similarly)
+
+```java
+import javax.inject.Provider;
+
+@Component
+public class MySingletonBean {
+
+    @Autowired
+    private Provider<MyPrototypeBean> prototypeProvider;
+
+    public void doSomething() {
+        MyPrototypeBean prototypeBean = prototypeProvider.get();
+        prototypeBean.doWork();
+    }
+}
+```
+
+---
+
+### ✅ Option 3: Use `ApplicationContext.getBean(...)` (less recommended)
+
+```java
+@Component
+public class MySingletonBean {
+
+    @Autowired
+    private ApplicationContext context;
+
+    public void doSomething() {
+        MyPrototypeBean prototypeBean = context.getBean(MyPrototypeBean.class);
+        prototypeBean.doWork();
+    }
+}
+```
+
+---
+
+## 🔁 Summary
+
+| Method                       | New Instance Per Call? | Recommended?             |
+| ---------------------------- | ---------------------- | ------------------------ |
+| `@Autowired` directly        | ❌ No                   | ❌ No                     |
+| `ObjectFactory<T>`           | ✅ Yes                  | ✅ Yes (Spring)           |
+| `Provider<T>` (JSR-330)      | ✅ Yes                  | ✅ Yes (Standard)         |
+| `ApplicationContext.getBean` | ✅ Yes                  | ⚠️ Only for advanced use |
+
+---
+
+Let me know if you want a complete runnable example or JUnit test for this setup.
+========================================================
+Great question!
+
+### ❓ Can you use an annotation to directly `@Autowired` a **new prototype bean instance every time**?
+
+### ❌ Short Answer:
+
+**No**, Spring does **not provide a direct annotation** (like `@AutowiredNewInstance`) that ensures a **new prototype bean** is injected every time **automatically** via annotation alone.
+
+---
+
+### ⚠️ Why?
+
+* When you do this:
+
+  ```java
+  @Autowired
+  private MyPrototypeBean myBean;
+  ```
+
+  Spring injects the prototype **once** at application startup — **not every time** the field is accessed — because the containing bean (`@Service`, `@Component`, etc.) is a **singleton**.
+
+---
+
+### ✅ What You Can Do Instead (Declarative Alternatives)
+
+#### 1. **Use `@Lookup` Annotation** (cleanest annotation-based method)
+
+```java
+@Component
+public abstract class MySingletonBean {
+
+    public void doSomething() {
+        getPrototypeBean().doWork(); // gets new instance
+    }
+
+    @Lookup
+    protected abstract MyPrototypeBean getPrototypeBean();
+}
+```
+
+#### ✅ What `@Lookup` does:
+
+* At runtime, Spring overrides the method and injects a **new prototype bean instance** every time it's called.
+* This is the **closest thing to a direct annotation-based solution**.
+
+---
+
+### 🔁 Recap of Options
+
+| Method                         | New Instance? | Type         | Comment                     |
+| ------------------------------ | ------------- | ------------ | --------------------------- |
+| `@Autowired`                   | ❌ No          | Field        | Only injects once           |
+| `@Autowired` + `ObjectFactory` | ✅ Yes         | Programmatic | Common, manual              |
+| `@Lookup`                      | ✅ Yes         | Method       | Best annotation-only method |
+| `@Autowired` + `Provider`      | ✅ Yes         | Programmatic | Standard, clean             |
+| `ApplicationContext.getBean`   | ✅ Yes         | Programmatic | Less clean                  |
+
+---
+
+### ✅ Example with `@Lookup`
+
+```java
+@Component
+@Scope("prototype")
+public class MyPrototypeBean {
+    public void doWork() {
+        System.out.println("New instance: " + this);
+    }
+}
+
+@Component
+public abstract class MyService {
+
+    public void performTask() {
+        getPrototypeBean().doWork(); // each time new
+    }
+
+    @Lookup
+    protected abstract MyPrototypeBean getPrototypeBean();
+}
+```
+
+Let me know if you want to use this with constructor injection or in Spring Boot with configuration classes.

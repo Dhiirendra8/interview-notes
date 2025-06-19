@@ -1,0 +1,121 @@
+Yes, **you can absolutely create a custom table** for a `@ManyToMany` relationship in **Hibernate** — and it is often the recommended way when you need more **control** or want to **store additional attributes** (like timestamp, status, etc.) in the relationship.
+
+---
+
+## ✅ Two Ways to Handle Many-to-Many in Hibernate
+
+### 1. **Default `@ManyToMany` mapping (automatic join table)**
+
+Hibernate creates a join table **automatically**, but you can't add extra columns.
+
+### 2. **Custom join table with an explicit entity (recommended for custom logic)**
+
+Use a **separate entity** for the join table — gives you full control.
+
+---
+
+## ✅ Option 2: Custom Table via an Entity Example
+
+### 🧾 Use Case:
+
+You have:
+
+* `Student`
+* `Course`
+  And you want a custom join table `student_course_enrollment` with a timestamp.
+
+---
+
+### ✅ Step 1: Create `Student` entity
+
+```java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments = new ArrayList<>();
+}
+```
+
+---
+
+### ✅ Step 2: Create `Course` entity
+
+```java
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String title;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments = new ArrayList<>();
+}
+```
+
+---
+
+### ✅ Step 3: Create a custom `Enrollment` entity (join table)
+
+```java
+@Entity
+@Table(name = "student_course_enrollment")
+public class Enrollment {
+
+    @EmbeddedId
+    private EnrollmentId id = new EnrollmentId();
+
+    @ManyToOne
+    @MapsId("studentId")
+    private Student student;
+
+    @ManyToOne
+    @MapsId("courseId")
+    private Course course;
+
+    private LocalDateTime enrolledAt = LocalDateTime.now();
+}
+```
+
+---
+
+### ✅ Step 4: Composite Key Class
+
+```java
+@Embeddable
+public class EnrollmentId implements Serializable {
+    private Long studentId;
+    private Long courseId;
+
+    // equals() and hashCode() are required!
+}
+```
+
+---
+
+## 🔁 Benefits of This Approach
+
+* Full control over the join table name (`student_course_enrollment`)
+* Can store extra fields (`enrolledAt`, `status`, etc.)
+* Easy to query directly with JPA/HQL
+* Better normalization and extensibility
+
+---
+
+## 📝 Summary
+
+| Approach                        | Use When                         | Limitations                               |
+| ------------------------------- | -------------------------------- | ----------------------------------------- |
+| `@ManyToMany` with `@JoinTable` | Simple link table only           | Can't add extra fields                    |
+| Custom join entity              | Need extra fields or flexibility | Slightly more code, but cleaner long-term |
+
+---
+
+Would you like a **Spring Boot JPA working project setup** with this example?
