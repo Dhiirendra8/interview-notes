@@ -1,4 +1,5 @@
-Rate limiting algorithms are used to **control the number of requests or operations** a client can perform over a period of time. These are essential in systems like APIs, login endpoints, and messaging queues to prevent abuse or overload.
+Rate limiting algorithms are used to **control the number of requests or operations** a client can perform over a period of time. 
+These are essential in systems like APIs, login endpoints, and messaging queues to prevent abuse or overload.
 
 ---
 
@@ -100,4 +101,3 @@ If too much water (requests) arrive too fast, they overflow.
 
 ---
 
-Would you like a code example of one of these in Java or Spring Boot?

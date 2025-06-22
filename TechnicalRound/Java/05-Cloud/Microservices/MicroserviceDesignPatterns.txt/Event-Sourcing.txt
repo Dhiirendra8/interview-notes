@@ -1,0 +1,104 @@
+**Event Sourcing** ek design pattern hai jisme aap application ka **state** directly save karne ke bajaye, us state tak pahuchne wale **saare events** ko store karte hain.
+
+---
+
+## 🔍 **Event Sourcing Kya Hai?**
+
+Instead of storing the **current state** of an object (like a row in a database), Event Sourcing stores **a series of state-changing events**.
+
+### 📦 Example:
+
+Agar aapke paas ek `BankAccount` hai:
+
+#### Traditional Way (State-based):
+
+```json
+{
+  "accountId": "123",
+  "balance": 5000
+}
+```
+
+#### Event Sourcing Way:
+
+```json
+[
+  { "type": "AccountCreated", "amount": 0 },
+  { "type": "MoneyDeposited", "amount": 2000 },
+  { "type": "MoneyDeposited", "amount": 3000 }
+]
+```
+
+Final balance = 0 + 2000 + 3000 = **5000**
+
+---
+
+## 🧠 **Core Concepts:**
+
+| Concept         | Description                                                                     |
+| --------------- | ------------------------------------------------------------------------------- |
+| **Event**       | Immutable record of something that happened (e.g. `MoneyDeposited`)             |
+| **Event Store** | Special storage where all events are stored in order                            |
+| **Aggregate**   | Entity recreated from events by applying them in order                          |
+| **Projection**  | View created by transforming events into readable state (used in UI, reporting) |
+
+---
+
+## 🧰 **Event Sourcing vs CRUD (Traditional DB)**
+
+| Feature      | Traditional CRUD   | Event Sourcing        |
+| ------------ | ------------------ | --------------------- |
+| Stores       | Current state only | All historical events |
+| Audit Trail  | Difficult          | Built-in              |
+| Undo Support | Complex            | Easy (revert event)   |
+| Debugging    | Hard               | Easy (replay events)  |
+| Complexity   | Low                | Higher (more setup)   |
+
+---
+
+## 📦 **Use Cases:**
+
+* Banking / Ledger systems
+* E-commerce order management
+* Event-driven microservices
+* Systems needing full audit logs
+
+---
+
+## 🔨 **Tools/Frameworks that Support Event Sourcing:**
+
+* **Axon Framework** (Java, Spring Boot)
+* **EventStoreDB**
+* **Kafka / Pulsar** (event logs)
+* **Akka Persistence** (Scala/Java)
+* **CQRS + Event Sourcing together** is common
+
+---
+
+## 📌 Example in Java (simplified):
+
+```java
+public class Account {
+    private List<Event> events = new ArrayList<>();
+
+    public void deposit(int amount) {
+        events.add(new MoneyDeposited(amount));
+    }
+
+    public int getBalance() {
+        return events.stream()
+            .filter(e -> e instanceof MoneyDeposited)
+            .mapToInt(e -> ((MoneyDeposited) e).getAmount())
+            .sum();
+    }
+}
+```
+
+---
+
+## 🎯 Summary:
+
+> **Event Sourcing** means: *“Store what happened, not what is.”*
+> It gives you full traceability, auditability, and flexibility, but adds complexity.
+
+Agar aap chahen to main is pattern ko **Spring Boot** ya **microservices** ke context me example ke sath explain kar sakta hoon.

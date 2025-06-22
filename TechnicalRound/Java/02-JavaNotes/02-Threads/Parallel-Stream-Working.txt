@@ -1,0 +1,111 @@
+Java ka `parallelStream()` under the hood **Fork/Join Framework** ka use karta hai, jo **multi-threading** ka high-level abstraction hai. Ye large tasks ko chhote chhote tasks mein tod kar multiple CPU cores par parallel run karta hai — isse performance improve hoti hai (especially for large datasets).
+
+---
+
+## 🔧 **`parallelStream()` Internals – Step by Step**
+
+### ✅ 1. **Fork/Join Pool (Common Pool)**
+
+* Java internally `ForkJoinPool.commonPool()` ka use karta hai.
+* Isme **default number of threads = available processors** (typically `Runtime.getRuntime().availableProcessors()`)
+
+```java
+ForkJoinPool pool = ForkJoinPool.commonPool();
+```
+
+---
+
+### ✅ 2. **Splitting (Divide and Conquer)**
+
+* Stream ko **spliterator** ke through **divide** kiya jata hai.
+* Har chunk ek **independent task** ban jaata hai.
+
+```java
+list.parallelStream()
+```
+
+👉 Internally:
+
+* List ko split kiya jata hai (e.g. into 4 parts)
+* Har part ek thread ko diya jaata hai
+
+---
+
+### ✅ 3. **Parallel Execution**
+
+* Ye splitted tasks **alagalag threads** me execute hote hain (using Fork/Join tasks)
+* Sabhi threads concurrently operate karte hain
+
+---
+
+### ✅ 4. **Combining Results (Reduction phase)**
+
+* Jaise MapReduce me hota hai, waise hi sabhi threads ke result **combine (reduce)** hote hain
+* Ye kaam `combiner()` karta hai (especially important in `reduce()`)
+
+---
+
+## ⚙️ **Architecture Diagram:**
+
+```
+               +--------------------------+
+List Stream -->| Spliterator (split data) |
+               +-----------+--------------+
+                           ↓
+        +------------------+-------------------+
+        |                  |                   |
+     Thread-1           Thread-2            Thread-3   ...
+    (map/filter)       (map/filter)        (map/filter)
+        ↓                  ↓                   ↓
+     Result-1           Result-2            Result-3
+        \                  |                   /
+         +-----------------+------------------+
+                           ↓
+                    Combiner / Reducer
+                           ↓
+                     Final Result
+```
+
+---
+
+## 🚀 Example Code with Thread Logging
+
+```java
+import java.util.List;
+
+public class ParallelStreamDemo {
+    public static void main(String[] args) {
+        List<Integer> list = List.of(1, 2, 3, 4, 5, 6, 7, 8);
+
+        list.parallelStream()
+            .peek(i -> System.out.println("Thread: " + Thread.currentThread().getName() + " -> " + i))
+            .map(i -> i * 2)
+            .forEach(System.out::println);
+    }
+}
+```
+
+🧠 **Output:** Har number alag thread se process hote dikhai denge (mostly like `ForkJoinPool.commonPool-worker-X`)
+
+---
+
+## ⚠️ Important Notes:
+
+| Topic           | Detail                                                             |
+| --------------- | ------------------------------------------------------------------ |
+| Thread Pool     | ForkJoinPool (common pool)                                         |
+| Thread Count    | Default = CPU cores                                                |
+| Order Guarantee | ❌ Order **not guaranteed**                                         |
+| When to use     | For CPU-bound large data (e.g. >10k elements)                      |
+| When NOT to use | For small data, IO-bound tasks, or where thread-safety is an issue |
+
+---
+
+## 🎯 Summary
+
+* `parallelStream()` → uses `ForkJoinPool` (multi-core parallelism)
+* Stream gets **split**, processed in **parallel**, and **merged** again
+* Efficient for CPU-heavy operations on large collections
+* Should be used **carefully** where thread safety and order are not strict requirements
+
+---

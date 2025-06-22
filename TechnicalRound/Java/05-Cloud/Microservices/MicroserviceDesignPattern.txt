@@ -1,12 +1,15 @@
 #Microservice Design Patterns
 -> By using Design Patterns, the team working on various projects use the same pattern to build similar applications.
 
-1. Aggregator - Combining data from multiple services
+1. Aggregator 
+    - Combining data from multiple services
     - Aggregator design pattern describes a service that gets a request, 
     then makes several requests to different services, combines the results, and 
     then responds to the initial request.
-2. API Gateway - Acts as an entry-point to forward the clients requests to appropriate microservices
-3. Chain of responsibility - Produces a single output which is a combination of multiple chained outputs
+2. API Gateway 
+    - Acts as an entry-point to forward the clients requests to appropriate microservices
+3. Chain of responsibility 
+    - Produces a single output which is a combination of multiple chained outputs
 4. Asynchronous Messaging
 5. Shared Database 
 6. Event Sourcing - create events regarding the change in the application state

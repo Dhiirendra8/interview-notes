@@ -1,0 +1,35 @@
+Categories of HTTP Status Codes:
+✅ 2XX – Success Codes
+Matlab: Request sahi se process ho gayi.
+
+Code	Meaning	Example Use Case
+200	OK	Page/API request sahi se mila aur response diya gaya
+201	Created	New resource create ho gaya (e.g. new user create in POST)
+204	No Content	Request successful, par koi content nahi return karna
+
+❌ 4XX – Client Errors
+Matlab: Problem user ki taraf (client) se hai.
+
+Code	Meaning	Example Use Case
+400	Bad Request	Request galat format mein hai
+401	Unauthorized	Authentication required hai (login nahi hua)
+403	Forbidden	Access mana hai (auth hai but permission nahi)
+404	Not Found	Resource ya URL exist nahi karti
+409	Conflict	Resource already exists, ya version conflict
+
+💥 5XX – Server Errors
+Matlab: Server khud galti kar raha hai.
+
+Code	Meaning	Example Use Case
+500	Internal Server Error	Server mein kuch galat ho gaya (bug ya crash)
+502	Bad Gateway	Server ne galat response diya (usually reverse proxy issue)
+503	Service Unavailable	Server temporarily down ya overloaded hai
+504	Gateway Timeout	Server timely response nahi de paaya
+
+🎯 Summary:
+Category	Range	Indicates
+1XX	100–199	Informational
+2XX	200–299	Success
+3XX	300–399	Redirection
+4XX	400–499	Client error
+5XX	500–599	Server error
