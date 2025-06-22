@@ -1,0 +1,89 @@
+### 🧳 Git Stash Aasaan Shabdon Mein
+
+**`git stash`** ka use hota hai **apne current changes ko temporarily side me rakhne** ke liye — taaki aap bina unhe commit kiye kisi aur branch pe switch ya urgent kaam kar sako.
+
+---
+
+## 🧠 Ek Line Me:
+
+> **"Git stash = Kaam ko temporary bag me daal do, aur baad me nikaal lo."**
+
+---
+
+## 📌 Real-Life Example:
+
+1. Aap kisi file pe kaam kar rahe ho
+2. Tabhi urgent bug fix ke liye `main` branch me jaana padta hai
+3. Aapka code abhi complete nahi hai, commit bhi nahi kar sakte
+4. **Toh aap `git stash` karte ho!**
+
+```bash
+git stash
+```
+
+Ab aapka kaam safe hai, aur working directory clean ho gayi.
+
+---
+
+## 🔁 `git stash` ke Common Commands
+
+| Command                     | Kya karta hai                              |
+| --------------------------- | ------------------------------------------ |
+| `git stash`                 | Changes stash karta hai (temporarily save) |
+| `git stash list`            | Stashed items ki list dikhata hai          |
+| `git stash apply`           | Latest stash ko wapas laata hai            |
+| `git stash apply stash@{1}` | Specific stash wapas laata hai             |
+| `git stash pop`             | Apply + remove karta hai stash             |
+| `git stash drop stash@{0}`  | Specific stash delete karta hai            |
+| `git stash clear`           | Sab stash delete karta hai                 |
+
+---
+
+## 🧪 Example Scenario
+
+```bash
+// 1. Work in progress
+echo "some work" >> app.java
+
+// 2. Save changes temporarily
+git stash
+
+// 3. Check stash list
+git stash list
+
+// 4. Switch branch
+git checkout main
+
+// 5. Wapas lana ho to
+git checkout feature
+git stash apply      # or git stash pop
+```
+
+---
+
+## 🔍 Kya Stash Sab Kuch Save Karta Hai?
+
+* ✅ Modified files
+* ✅ Staged files
+* ❌ Untracked files (by default **nahin** karta)
+
+### Agar untracked files bhi stash karna ho:
+
+```bash
+git stash -u   # or --include-untracked
+```
+
+---
+
+## 🔚 In Short:
+
+| Feature         | Git Stash                                     |
+| --------------- | --------------------------------------------- |
+| Use kab karein? | Jab kaam adhura ho aur branch switch karna ho |
+| Save karta hai? | Temporary changes (without commit)            |
+| Safe hai?       | Haan, jab tak `stash clear` na karo           |
+| Undo possible?  | Haan, `apply` ya `pop` se                     |
+
+---
+
+Chaho to main ek real git stash vs commit vs branch workflow ka **visual diagram** bhi bana sakta hoon.

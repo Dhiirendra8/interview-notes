@@ -10,122 +10,18 @@ To use these tools, we apply a couple of annotations that allow us to treat exce
 
 
 =======================================
-Centralized exception handling in Spring Boot is typically done using the `@ControllerAdvice` annotation along with `@ExceptionHandler` methods. This allows you to define a global error handling mechanism that applies across all your controllers.
 
-Here’s a simple and complete example of centralized exception handling in a Spring Boot application:
+
+# ✅ Centralized Exception Handling in Spring Boot
+
+Spring Boot provides centralized exception handling using `@ControllerAdvice` and `@ExceptionHandler`. This allows defining global exception handling logic that applies to all controllers.
 
 ---
 
-### ✅ 1. Custom Exception
+## 🔷 1. Custom Exception
 
 ```java
 package com.example.demo.exception;
-
-=======
-==============================================================================================
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-@ControllerAdvice
-public class GlobalExceptionHandler {
-
-    // Custom exception handling
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("timestamp", LocalDateTime.now());
-        error.put("message", ex.getMessage());
-        error.put("status", HttpStatus.NOT_FOUND.value());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    // Generic exception handler
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAll(Exception ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("timestamp", LocalDateTime.now());
-        error.put("message", "Something went wrong");
-        error.put("details", ex.getMessage());
-        error.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-}
-===========================================================================
-import os
-from zipfile import ZipFile
-
-project_name = "springboot-global-exception-demo"
-os.makedirs(project_name, exist_ok=True)
-
-# pom.xml
-pom_xml = """<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example</groupId>
-    <artifactId>springboot-global-exception-demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>springboot-global-exception-demo</name>
-    <description>Demo project for Spring Boot Global Exception Handling</description>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.12</version>
-        <relativePath/> 
-    </parent>
-    <properties>
-        <java.version>11</java.version>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-</project>
-"""
-
-# Application main class
-app_main_java = """package com.example.demo;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class GlobalExceptionDemoApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(GlobalExceptionDemoApplication.class, args);
-    }
-}
-"""
-
-# ResourceNotFoundException.java with @ResponseStatus
-resource_not_found = """package com.example.demo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -136,145 +32,11 @@ public class ResourceNotFoundException extends RuntimeException {
         super(message);
     }
 }
-
 ```
 
 ---
 
-### ✅ 2. Global Exception Handler
-
-```java
-package com.example.demo.exception;
-=======
-"""
-
-# GlobalExceptionHandler.java with @ControllerAdvice
-global_exception_handler = """package com.example.demo.exception;
->>>>>>> 0bb69c71c0c848ea437ab811c039457c590f2a92
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-
-import java.util.Map;
-
-@ControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.NOT_FOUND.value());
-        body.put("error", "Resource Not Found");
-        body.put("message", ex.getMessage());
-        body.put("path", request.getDescription(false));
-
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
-        Map<String, Object> body = new HashMap<>();
-
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        body.put("error", "Internal Server Error");
-        body.put("message", ex.getMessage());
-        body.put("path", request.getDescription(false));
-
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-}
-```
-
----
-
-### ✅ 3. Sample Controller
-
-```java
-package com.example.demo.controller;
-
-import com.example.demo.exception.ResourceNotFoundException;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/api")
-public class SampleController {
-
-    @GetMapping("/resource/{id}")
-    public String getResource(@PathVariable int id) {
-        if (id != 1) {
-            throw new ResourceNotFoundException("Resource with ID " + id + " not found");
-        }
-        return "Resource found";
-    }
-}
-```
-
----
-
-### ✅ Output Example (404)
-
-**Request:** `GET /api/resource/5`
-
-**Response:**
-
-```json
-{
-  "timestamp": "2025-05-28T10:00:00",
-  "status": 404,
-  "error": "Resource Not Found",
-  "message": "Resource with ID 5 not found",
-  "path": "uri=/api/resource/5"
-}
-```
-
-==============================================
-
-Great! Let’s extend the centralized exception handling to include:
-
-1. **Validation error handling** (`@Valid`, `@RequestBody`)
-2. **Custom error response structure**
-3. **Logging** using **SLF4J**
-
----
-
-### ✅ 1. Custom Error Response Class
-
-```java
-package com.example.demo.exception;
-
-import java.time.LocalDateTime;
-
-public class ErrorResponse {
-    private LocalDateTime timestamp;
-    private int status;
-    private String error;
-    private String message;
-    private String path;
-
-    public ErrorResponse(LocalDateTime timestamp, int status, String error, String message, String path) {
-        this.timestamp = timestamp;
-        this.status = status;
-        this.error = error;
-        this.message = message;
-        this.path = path;
-    }
-
-    // Getters and setters omitted for brevity
-}
-```
-
----
-
-### ✅ 2. Global Exception Handler (with Validation + Logging)
+## 🔷 2. Global Exception Handler
 
 ```java
 package com.example.demo.exception;
@@ -347,7 +109,35 @@ public class GlobalExceptionHandler {
 
 ---
 
-### ✅ 3. Sample DTO with Validation
+## 🔷 3. ErrorResponse Class
+
+```java
+package com.example.demo.exception;
+
+import java.time.LocalDateTime;
+
+public class ErrorResponse {
+    private LocalDateTime timestamp;
+    private int status;
+    private String error;
+    private String message;
+    private String path;
+
+    public ErrorResponse(LocalDateTime timestamp, int status, String error, String message, String path) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.error = error;
+        this.message = message;
+        this.path = path;
+    }
+
+    // Getters and setters (or use Lombok @Data for simplicity)
+}
+```
+
+---
+
+## 🔷 4. Sample DTO with Validation
 
 ```java
 package com.example.demo.dto;
@@ -368,7 +158,7 @@ public class UserRequest {
 
 ---
 
-### ✅ 4. Updated Controller
+## 🔷 5. Controller Example
 
 ```java
 package com.example.demo.controller;
@@ -400,19 +190,39 @@ public class SampleController {
 
 ---
 
-### ✅ 5. Logging Setup (`application.properties`)
+## 🔷 6. Logging Configuration
 
 ```properties
-# Logging
+# application.properties
+
 logging.level.org.springframework.web=INFO
 logging.level.com.example.demo=DEBUG
 ```
 
 ---
 
-### 🧪 Sample Validation Error Response
+## 🔷 7. Sample Error Responses
 
-**POST** `/api/users`
+### 🚫 404 - Resource Not Found
+
+**Request:** `GET /api/resource/5`
+**Response:**
+
+```json
+{
+  "timestamp": "2025-05-28T10:00:00",
+  "status": 404,
+  "error": "Not Found",
+  "message": "Resource with ID 5 not found",
+  "path": "uri=/api/resource/5"
+}
+```
+
+---
+
+### 🚫 400 - Validation Error
+
+**Request:** `POST /api/users`
 **Body:**
 
 ```json
@@ -438,36 +248,3 @@ logging.level.com.example.demo=DEBUG
 ```
 
 ---
-
-Let me know if you want to add:
-
-* Localization (i18n) for error messages
-* Error codes for APIs (like `E001`, `E002`)
-* Integration with tools like Swagger for better API documentation
-=======
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-}
-"""
-
-# DemoController.java to throw exception
-demo_controller = """package com.example.demo.controller;
-
-import com.example.demo.exception.ResourceNotFoundException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class DemoController {
-
-    @GetMapping("/users/{id}")
-    public String getUserById(@PathVariable int id) {
-        if (id != 1) {
-            throw new ResourceNotFoundException("User with ID " + id + " not found");
-        }
-        return "User found with ID " + id;
-    }
-}
->>>>>>> 0bb69c71c0c848ea437ab811c039457c590f2a92
-

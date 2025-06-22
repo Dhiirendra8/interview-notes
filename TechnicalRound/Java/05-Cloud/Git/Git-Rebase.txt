@@ -1,0 +1,126 @@
+### 🔄 Git Rebase Aasaan Shabdon Mein
+
+`git rebase` ka use bhi **branches ko combine** karne ke liye hota hai — **lekin** `git merge` se thoda alag tarike se.
+
+---
+
+## 🧠 Ek Line Me:
+
+> **`git rebase` kisi branch ke commits ko aise shift karta hai jaise wo latest base se start hue ho.**
+
+---
+
+## 📌 Real-Life Example:
+
+Maan lo:
+
+* `main` branch me kuch naye commits aa chuke hain
+* Aap `feature-login` branch pe kaam kar rahe the (jo thoda purana ho gaya)
+
+### ❓ Ab aap chahte ho:
+
+"Feature-login ke commits ko aise dikhana jaise wo latest `main` branch ke baad likhe gaye ho."
+
+### Tab aap likhte ho:
+
+```bash
+git checkout feature-login
+git rebase main
+```
+
+---
+
+## 🎯 Difference: Merge vs Rebase
+
+| Feature      | `merge`                              | `rebase`                              |
+| ------------ | ------------------------------------ | ------------------------------------- |
+| History      | Preserve karta hai (diverging lines) | Linear bana deta hai (clean history)  |
+| Merge commit | Banata hai                           | Nahi banata                           |
+| Use when     | Team work, preserve history          | Clean history, feature branch cleanup |
+
+---
+
+## 📈 Visual Difference
+
+### 🔀 Merge:
+
+```
+       A---B---C (main)
+        \      
+         D---E---F (feature)
+            |
+            G (merge commit)
+```
+
+### 🔄 Rebase:
+
+```
+       A---B---C (main)
+                   \
+                    D'--E'--F' (feature rebased)
+```
+
+---
+
+## ✅ Rebase Steps:
+
+```bash
+git checkout feature
+git rebase main
+```
+
+### 🔧 Agar conflict aaya:
+
+```bash
+// File me conflict resolve karo
+git add filename
+git rebase --continue
+```
+
+### 🔄 Rebase cancel karna ho to:
+
+```bash
+git rebase --abort
+```
+
+---
+
+## 🧨 Caution: Public Branch Pe Rebase Mat Karo
+
+> 🔴 **Never rebase shared branches**
+> Kyunki rebase **commit history ko rewrite karta hai**, jisse team me issues ho sakte hain.
+
+---
+
+## ✅ Kab Rebase Use Karein?
+
+| Situation                               | Use Rebase? |
+| --------------------------------------- | ----------- |
+| Feature branch pe solo kaam kar rahe ho | ✅ Haan      |
+| Shared/public branch hai                | ❌ Nahi      |
+| Clean & linear history chahiye          | ✅ Haan      |
+
+---
+
+## 🧪 Common Commands
+
+```bash
+git checkout my-feature
+git rebase main           # Rebases your work onto main
+git rebase --abort        # Cancel rebase
+git rebase --continue     # After fixing conflict
+```
+
+---
+
+## 🔚 In Short:
+
+| Merge                | Rebase             |
+| -------------------- | ------------------ |
+| Keeps branch history | Rewrites history   |
+| Creates merge commit | No merge commit    |
+| Best for team collab | Best for solo work |
+
+---
+
+Chaho to main ek real Git repo ka diagram bana ke bhi samjha sakta hoon.

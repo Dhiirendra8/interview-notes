@@ -1,0 +1,118 @@
+### 🔀 Git Merge Aasaan Shabdon Mein
+
+**`git merge`** ka use do branches ko **milane (combine)** ke liye hota hai. Iska maksad hota hai ki **ek branch ke changes dusri branch me laana** — bina purani history ko khoye.
+
+---
+
+## 📌 Real-life Example:
+
+Maan lo aapke paas do branches hain:
+
+* `main` (live code)
+* `feature-login` (naya feature bana rahe ho)
+
+Aapne `feature-login` branch me login system banaya. Jab complete ho gaya, to aap chahte ho ki ye **changes `main` branch me aa jayein**.
+
+Tab aap bolte ho:
+
+```bash
+git checkout main
+git merge feature-login
+```
+
+Iska matlab: "feature-login ke changes ko main branch me jod do."
+
+---
+
+## ✅ Git Merge Ka Flow
+
+1. 🔀 **Branches me alag-alag kaam chalu hota hai**
+2. ✅ Kaam complete hone ke baad, ek branch me merge kiya jata hai
+3. 🔧 Agar dono branches me ek hi file me changes hain, to **merge conflict** aata hai (aapko manually resolve karna padta hai)
+4. 📜 Merge ke baad ek **merge commit** banta hai (unless it’s a fast-forward)
+
+---
+
+## ⚙️ Types of Git Merge
+
+### 1. ✅ **Fast-Forward Merge**
+
+* Jab target branch me koi naye commit nahi hue ho
+* History ek line me hoti hai
+
+```bash
+git checkout main
+git merge feature-xyz
+```
+
+No conflicts, no merge commit. Just moves the pointer forward.
+
+---
+
+### 2. 🧾 **Three-way Merge (normal merge)**
+
+* Jab dono branches me alag commits ho
+* Git ek **merge commit** create karta hai
+
+```bash
+git merge feature-login
+```
+
+Creates something like:
+
+```
+*   Merge branch 'feature-login'
+|\
+| * feature commit
+* | main commit
+```
+
+---
+
+## ⚠️ Merge Conflict Kab Aata Hai?
+
+* Jab **same file ke same part** me dono branches ne alag-alag changes kiye ho.
+
+```text
+<<<<<<< HEAD
+Line from main
+=======
+Line from feature
+>>>>>>> feature-login
+```
+
+### ✅ Conflict Resolve Karne ke Steps:
+
+1. File manually edit karo
+2. Conflict hatao
+3. Commit karo:
+
+```bash
+git add filename
+git commit
+```
+
+---
+
+## 📌 Common Commands
+
+| Command                     | Meaning                                    |
+| --------------------------- | ------------------------------------------ |
+| `git merge branch-name`     | Us branch ke changes current branch me lao |
+| `git status`                | Dekho conflict hai ya nahi                 |
+| `git log --oneline --graph` | Merge history dekho visually               |
+
+---
+
+## 🔚 In Short:
+
+| Feature      | Merge                                |
+| ------------ | ------------------------------------ |
+| Purpose      | Do branches ke changes combine karna |
+| Merge commit | Mostly yes (unless fast-forward)     |
+| Conflict     | Ho sakta hai (same file change)      |
+| Safe?        | Haan, changes preserve hote hain     |
+
+---
+
+Agar chaho to main `git merge` vs `git rebase`, ya real-world scenario (like team workflow) bhi explain kar sakta hoon.
