@@ -333,5 +333,70 @@ public class JwtFilter extends OncePerRequestFilter {
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
+======================================================================================================
+JWT (JSON Web Token) ko **aasaan shabdon** mein samjhein:
+
+---
+
+## 🔐 JWT Kya Hota Hai?
+
+**JWT ek token hota hai jo user ke identity ko represent karta hai.** Jab user login karta hai, server uske liye ek JWT banata hai aur user ko de deta hai. Phir user jab bhi server se baat karta hai (jaise data maangta hai), to yeh token bhejta hai.
+
+---
+
+## 📦 JWT Ka Structure:
+
+JWT 3 parts mein hota hai (dot se separate):
+
+```
+xxxxx.yyyyy.zzzzz
+```
+
+1. **Header** – Batata hai token kis type ka hai (JWT) aur kaunsa algorithm use hua (jaise HS256)
+2. **Payload** – User ka data (jaise userId, username, roles etc.)
+3. **Signature** – Verify karta hai ki token valid hai ya nahi (tampered to nahi)
+
+---
+
+## 🔄 Kaise Kaam Karta Hai?
+
+1. ✅ User **login karta hai** (username + password)
+2. ✅ Server check karta hai aur agar sahi hai to JWT banata hai
+3. ✅ Token client ko diya jata hai
+4. ✅ Har request me client **Authorization header me token bhejta hai**
+5. ✅ Server token verify karta hai aur agar valid hai to request accept karta hai
+
+---
+
+## 📌 JWT Ka Use Kyu Karte Hain?
+
+* 🔒 **Secure authentication** ke liye
+* 🚪 **Sessionless login** (server ko user ka session ya state yaad nahi rakhna padta)
+* ⚡ **Fast & scalable**, especially in microservices
+
+---
+
+## 🧠 Ek Example:
+
+```json
+Header:    { "alg": "HS256", "typ": "JWT" }
+Payload:   { "userId": 101, "role": "admin" }
+Signature: Encrypted using secret key
+```
+
+---
+
+## 🎯 Important Points:
+
+| Feature                  | Detail                           |
+| ------------------------ | -------------------------------- |
+| Stateless                | Server ko kuch yaad rakhna nahi  |
+| Compact                  | Easily URL me bheja ja sakta hai |
+| Secure (if signed)       | Modify nahi kiya ja sakta        |
+| Not encrypted by default | Sirf sign hota hai, encrypt nahi |
+
+---
+
+Agar chaho to main Java ya Spring Boot me JWT ka example bhi de sakta hoon.
 
 

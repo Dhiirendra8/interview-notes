@@ -1,6 +1,7 @@
 In Spring, beans are **singleton by default**, but you can make an `@Autowired` bean behave as a **prototype** by using `@Scope("prototype")`.
 
-However, **just marking a bean as `@Scope("prototype")` is not enough** if you're injecting it into a singleton-scoped bean (which is usually the case). You need to ensure a **new instance is created every time you use it**.
+However, **just marking a bean as `@Scope("prototype")` is not enough** if you're injecting it into a singleton-scoped bean (which is usually the case). 
+You need to ensure a **new instance is created every time you use it**.
 
 ---
 

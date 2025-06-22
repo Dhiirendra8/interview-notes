@@ -1,5 +1,16 @@
 
 https://www.javainuse.com/webseries/spring-security-jwt/chap3
+Client --> [FilterChain]
+            |
+            --> UsernamePasswordAuthenticationFilter
+                    |
+                    --> AuthenticationManager
+                           |
+                           --> UserDetailsService + PasswordEncoder
+                    |
+            --> SecurityContextHolder <-- Auth info
+            |
+        --> Controller/Endpoint (if authorized)
 
 
 ---------------------------------------
