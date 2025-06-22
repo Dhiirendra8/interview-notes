@@ -1,0 +1,90 @@
+SQL में **View** और **Materialized View** दोनों ही virtual tables होते हैं, लेकिन इनके बीच कुछ मुख्य अंतर होते हैं।
+
+---
+
+## ✅ 1. **View (दृश्य तालिका)**
+
+### 📌 क्या होता है:
+
+* एक virtual table होती है जो SQL query के आधार पर बनती है।
+* यह data को **original table से हर बार live fetch करती है**।
+* View खुद कोई data store नहीं करती।
+
+### 🧱 Syntax:
+
+```sql
+CREATE VIEW view_name AS
+SELECT column1, column2
+FROM table_name
+WHERE condition;
+```
+
+### 🔍 Example:
+
+```sql
+CREATE VIEW active_users AS
+SELECT id, name FROM users WHERE status = 'active';
+```
+
+### 📌 विशेषताएँ:
+
+* Fast to create (क्योंकि data store नहीं करती)
+* Always shows **up-to-date data**
+* Cannot always be updated directly (कुछ views read-only होती हैं)
+
+---
+
+## ✅ 2. **Materialized View**
+
+### 📌 क्या होता है:
+
+* यह भी एक virtual table होती है, लेकिन यह **data को physical रूप में store करती है**।
+* Query के result को cache कर के रखती है और बार-बार fetch नहीं करती।
+* Periodically refresh होती है (manually या automatically)
+
+### 🧱 Syntax:
+
+```sql
+CREATE MATERIALIZED VIEW view_name AS
+SELECT column1, column2
+FROM table_name
+WHERE condition;
+```
+
+### 🔍 Example:
+
+```sql
+CREATE MATERIALIZED VIEW sales_summary AS
+SELECT region, SUM(amount)
+FROM sales
+GROUP BY region;
+```
+
+### 📌 विशेषताएँ:
+
+* Faster access (क्योंकि data पहले से store होता है)
+* Data stale (पुराना) हो सकता है जब तक refresh न किया जाए
+* More storage लेती है
+
+---
+
+## 🆚 View vs Materialized View
+
+| Feature           | View                     | Materialized View              |
+| ----------------- | ------------------------ | ------------------------------ |
+| Data storage      | नहीं                     | हाँ (physically store करती है) |
+| Performance       | Slower (live data fetch) | Faster (cached result)         |
+| Data freshness    | Always up-to-date        | Depends on refresh             |
+| Storage cost      | कम                       | ज़्यादा                        |
+| Refresh mechanism | Not required             | Manually या scheduled          |
+
+---
+
+## 📌 कब क्या इस्तेमाल करें?
+
+| स्थिति                                        | Use this              |
+| --------------------------------------------- | --------------------- |
+| हर बार latest data चाहिए                      | **View**              |
+| Performance ज़्यादा चाहिए और stale data चलेगा | **Materialized View** |
+
+---

@@ -90,5 +90,3 @@ for (Order order : orderRepository.findAll()) {
 | `@BatchSize`   | Improve lazy-loading efficiency | Reduces total queries |
 
 ---
-
-Would you like to see a real example with two entities like `User` and `Order` to demonstrate this?

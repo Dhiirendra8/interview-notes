@@ -1,4 +1,5 @@
-The `@Repository` annotation in Spring does **not itself throw exceptions**, but it plays a crucial role in **exception translation** — specifically:
+The `@Repository` annotation in Spring does **not itself throw exceptions**, 
+but it plays a crucial role in **exception translation** — specifically:
 
 ---
 

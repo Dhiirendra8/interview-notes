@@ -127,7 +127,8 @@ Denormalization: Adds redundancy for performance optimization in some cases.
 
 ================================================================================================
 13. What is a candidate key in DBMS?
-A Candidate Key is a set of one or more attributes that can uniquely identify a tuple in a relation. A relation can have multiple candidate keys, and one of them is chosen as the primary key.
+A Candidate Key is a set of one or more attributes that can uniquely identify a tuple in a relation. 
+A relation can have multiple candidate keys, and one of them is chosen as the primary key.
 
 ================================================================================================
 14. What is the use of the SQL SELECT statement?
@@ -314,7 +315,9 @@ Durability: Once a transaction is committed, its changes are permanent, even if 
 
 ================================================================================================
 28. Explain the concept of a stored procedure in DBMS.
-A stored procedure is a precompiled collection of one or more SQL statements stored in the database. Stored procedures allow users to execute a series of operations as a single unit, improving performance and reusability. They can accept input parameters, perform operations, and return results.
+A stored procedure is a precompiled collection of one or more SQL statements stored in the database. 
+Stored procedures allow users to execute a series of operations as a single unit, improving performance and reusability. 
+They can accept input parameters, perform operations, and return results.
 
 Example:
 
@@ -325,7 +328,8 @@ END;
 
 ================================================================================================
 29. What are triggers in DBMS? Provide an example.
-A trigger is a special kind of stored procedure that automatically executes (or “fires”) in response to certain events on a table, such as insertions, updates, or deletions. Triggers are used to enforce business rules, maintain consistency, or log changes.
+A trigger is a special kind of stored procedure that automatically executes (or “fires”) in response to certain events on a table, such as insertions, updates, or deletions. 
+Triggers are used to enforce business rules, maintain consistency, or log changes.
 
 Example:
 
@@ -353,7 +357,8 @@ SELECT Name FROM Teachers;  -- Does not remove duplicates
 
 ================================================================================================
 31. Explain the concept of indexing in DBMS.
-Indexing is a technique used to speed up the retrieval of records from a table by creating a data structure that allows for faster searching. An index provides a quick lookup of data based on the values of one or more columns.
+Indexing is a technique used to speed up the retrieval of records from a table by creating a data structure that allows for faster searching. 
+An index provides a quick lookup of data based on the values of one or more columns.
 
 Types of Indexes:
 Single-column index: Created on one column.
@@ -362,7 +367,8 @@ Unique index: Ensures that no two rows have the same values in the indexed colum
 
 ================================================================================================
 32. What is a normalization form? Explain different normalization forms.
-Normalization is the process of organizing a database to minimize redundancy and dependency by splitting large tables into smaller, related ones. There are several normal forms (NF):
+Normalization is the process of organizing a database to minimize redundancy and dependency by splitting large tables into smaller, related ones. 
+There are several normal forms (NF):
 
 1NF (First Normal Form): Ensures that each column contains atomic (indivisible) values, and each record is unique.
 2NF (Second Normal Form): Ensures that the table is in 1NF, and all non-key attributes are fully functionally dependent on the primary key.

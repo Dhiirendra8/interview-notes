@@ -116,5 +116,3 @@ logging.level.org.hibernate.SQL=DEBUG
 ```
 
 ---
-
-Agar aap chahen toh main aapko ek Spring Boot + JPA example project structure bhi bana ke de sakta hoon iske liye.

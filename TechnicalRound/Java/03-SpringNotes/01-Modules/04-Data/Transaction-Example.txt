@@ -4,7 +4,8 @@ Spring Boot handles transactions using **Spring’s declarative transaction mana
 
 ## 🔄 What is Transaction Management?
 
-Transaction management ensures that a group of operations either **all succeed or all fail** (commit or rollback) — adhering to the **ACID properties**.
+Transaction management ensures that a group of operations either **all succeed or all fail** (commit or rollback) 
+— adhering to the **ACID properties**.
 
 ---
 

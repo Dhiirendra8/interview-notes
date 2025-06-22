@@ -1,4 +1,5 @@
-Great question! In databases and distributed systems (like Kafka), **"index"** and **"partition"** refer to completely different concepts — both important, but for different purposes.
+Great question! In databases and distributed systems (like Kafka), **"index"** and **"partition"** refer to completely different concepts 
+— both important, but for different purposes.
 
 ---
 

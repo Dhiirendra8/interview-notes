@@ -1,6 +1,7 @@
 ### 🔗 LEFT JOIN in JPA (JPQL and Spring Data JPA)
 
-In **JPA**, a **LEFT JOIN** allows you to fetch data from one entity even when its related entity is `null`, just like SQL's `LEFT OUTER JOIN`.
+In **JPA**, a **LEFT JOIN** allows you to fetch data from one entity even when its related entity is `null`, 
+just like SQL's `LEFT OUTER JOIN`.
 
 ---
 

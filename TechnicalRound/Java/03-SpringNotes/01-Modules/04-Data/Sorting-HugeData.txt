@@ -1,4 +1,5 @@
-If you're receiving **huge data from the database** into your Spring Boot service and need to **sort it**, you should **avoid sorting it in-memory** whenever possible and **offload sorting to the database** for performance reasons.
+If you're receiving **huge data from the database** into your Spring Boot service and need to **sort it**, you should **avoid sorting it in-memory** whenever possible and 
+**offload sorting to the database** for performance reasons.
 
 However, if sorting **must** be done in the service layer (e.g., dynamic, user-defined fields or composite object fields), here's how to handle it efficiently.
 

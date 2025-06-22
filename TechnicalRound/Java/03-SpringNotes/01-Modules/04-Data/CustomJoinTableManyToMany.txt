@@ -118,4 +118,3 @@ public class EnrollmentId implements Serializable {
 
 ---
 
-Would you like a **Spring Boot JPA working project setup** with this example?

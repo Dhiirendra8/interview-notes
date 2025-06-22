@@ -237,7 +237,7 @@ Hibernate
 			updateQuery.setParameter("myage", 35);
 			updateQuery.setParameter("sid", "1234");
 			
-			int updatedRows = delQuery.executeUpdate();
+			int updatedRows = updateQuery.executeUpdate();
 		
 		//commit
 		tx.commit();
@@ -381,17 +381,23 @@ A. Cascading :
 	
 1. CascadeType.ALL
 	CascadeType.ALL is a cascading type in Hibernate that specifies that all state transitions (create, update, delete, and refresh) should be cascaded from the parent entity to the child entities.
-	When CascadeType.ALL is used, and any operation performed on the parent entity will be automatically propagated to all child entities. This means that if you persist, update, or delete a parent entity, all child entities associated with it will also be persisted, updated, or deleted accordingly.
-	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. By using CascadeType.ALL, any operation performed on the Customer entity (such as persist, merge, remove, or refresh) will also be propagated to all associated Order entities.
+	When CascadeType.ALL is used, and any operation performed on the parent entity will be automatically propagated to all child entities. 
+	This means that if you persist, update, or delete a parent entity, all child entities associated with it will also be persisted, updated, or deleted accordingly.
+	
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+	By using CascadeType.ALL, any operation performed on the Customer entity (such as persist, merge, remove, or refresh) will also be propagated to all associated Order entities.
 	Here's an example of how CascadeType.ALL can be used:
 	Java
 	@OneToMany(mappedBy="customer", cascade=CascadeType.ALL)
 	private Set<Order> orders;
-	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that all state transitions should be cascaded to the associated orders. This means that when a Customer entity is saved, updated, or deleted, all of its associated Order entities will also be saved, updated, or deleted accordingly.
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that all state transitions should be cascaded to the associated orders. 
+	This means that when a Customer entity is saved, updated, or deleted, all of its associated Order entities will also be saved, updated, or deleted accordingly.
+
 2. CascadeType.PERSIST
 	CascadeType.PERSIST is a cascading type in Hibernate that specifies that the create (or persist) operation should be cascaded from the parent entity to the child entities.
 	When CascadeType.PERSIST is used, any new child entities associated with a parent entity will be automatically persisted when the parent entity is persisted. 
 	However, updates or deletions made to the parent entity will not be cascaded to the child entities.
+	
 	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
 	By using CascadeType.PERSIST, any new Order entities associated with a Customer entity will be persisted when the Customer entity is persisted. 
 	However, if you update or delete a Customer entity, any associated Order entities will not be automatically updated or deleted.
@@ -399,7 +405,10 @@ A. Cascading :
 	Java
 	@OneToMany(mappedBy="customer", cascade=CascadeType.PERSIST)
 	private Set<Order> orders;
-	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the persistent operation should be cascaded to the associated orders. This means that when a Customer entity is persisted, any new Order entities associated with it will also be persisted automatically. However, updates or deletions made to the Customer entity will not be cascaded to the associated Order entities.
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the persistent operation should be cascaded to the associated orders. 
+	This means that when a Customer entity is persisted, any new Order entities associated with it will also be persisted automatically. 
+	However, updates or deletions made to the Customer entity will not be cascaded to the associated Order entities.
+
 3. CascadeType.MERGE
 	CascadeType.MERGE is a cascading type in Hibernate that specifies that the update (or merge) operation should be cascaded from the parent entity to the child entities.
 	When CascadeType.MERGE is used, any changes made to a detached parent entity (i.e., an entity that is not currently managed by the persistence context) will be automatically merged with its associated child entities when the parent entity is merged back into the persistence context.
@@ -425,6 +434,7 @@ A. Cascading :
 	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the remove operation should be cascaded to the associated orders. 
 	This means that when a Customer entity is deleted, any associated Order entities will also be deleted automatically. 
 	However, updates or modifications made to the Customer entity will not be cascaded to the associated Order entities.
+
 5. CascadeType.REFRESH
 	CascadeType.REFRESH is a cascading type in Hibernate that specifies that the refresh operation should be cascaded from the parent entity to the child entities.
 	When CascadeType.REFRESH is used, any child entities associated with a parent entity will be automatically refreshed when the parent entity is refreshed. 
@@ -438,6 +448,7 @@ A. Cascading :
 	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the refresh operation should be cascaded to the associated orders. 
 	This means that when a Customer entity is refreshed, any associated Order entities will also be refreshed automatically. 
 	Any changes made to the Order entities will be discarded, and the latest state of the Order entities will be loaded from the database.
+
 6. CascadeType.DETACH
 	CascadeType.DETACH is a cascading type in Hibernate that specifies that the detach operation should be cascaded from the parent entity to the child entities.
 	When CascadeType.DETACH is used, any child entities associated with a parent entity will be automatically detached when the parent entity is detached. 
@@ -452,24 +463,24 @@ A. Cascading :
 	This means that when a Customer entity is detached, any associated Order entities will also be detached automatically. 
 	The Order entities will become detached from the persistence context and their state will no longer be managed by Hibernate.
 7. CascadeType.REPLICATE
-CascadeType.REPLICATE is a cascading type in Hibernate that specifies that the replicate operation should be cascaded from the parent entity to the child entities.
-When CascadeType.REPLICATE is used, any child entities associated with a parent entity will be automatically replicated when the parent entity is replicated. 
-This means that new child entities will be created and persisted in the database with the same state as the original child entities.
-For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
-By using CascadeType.REPLICATE, any associated Order entities will be automatically replicated when the Customer entity is replicated.
-Here's an example of how CascadeType.REPLICATE can be used:
+	CascadeType.REPLICATE is a cascading type in Hibernate that specifies that the replicate operation should be cascaded from the parent entity to the child entities.
+	When CascadeType.REPLICATE is used, any child entities associated with a parent entity will be automatically replicated when the parent entity is replicated. 
+	This means that new child entities will be created and persisted in the database with the same state as the original child entities.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. 
+	By using CascadeType.REPLICATE, any associated Order entities will be automatically replicated when the Customer entity is replicated.
+	Here's an example of how CascadeType.REPLICATE can be used:
 	Java
 	@OneToMany(mappedBy="customer", cascade=CascadeType.REPLICATE)
 	private Set<Order> orders;
-This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the replicate operation should be cascaded to the associated orders. 
-This means that when a Customer entity is replicated, new Order entities will be created and persisted in the database with the same state as the original Order entities. 
-However, any changes made to the original Order entities after the replication operation will not be replicated to the new Order entities.
+	This code defines a one-to-many relationship between a Customer entity and an Order entity and specifies that the replicate operation should be cascaded to the associated orders. 
+	This means that when a Customer entity is replicated, new Order entities will be created and persisted in the database with the same state as the original Order entities. 
+	However, any changes made to the original Order entities after the replication operation will not be replicated to the new Order entities.
 8. CascadeType.SAVE_UPDATE
-CascadeType.SAVE_UPDATE is a cascading type in Hibernate that specifies that the save or update operation should be cascaded from the parent entity to the child entities.
-When CascadeType.SAVE_UPDATE is used, any child entities associated with a parent entity will be automatically saved or updated 
-	when the parent entity is saved or updated. 
-This means that any changes made to the child entities will be persisted in the database along with the parent entity.
-For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. By using CascadeType.SAVE_UPDATE, any associated Order entities will be automatically saved or updated when the Customer entity is saved or updated.
+	CascadeType.SAVE_UPDATE is a cascading type in Hibernate that specifies that the save or update operation should be cascaded from the parent entity to the child entities.
+	When CascadeType.SAVE_UPDATE is used, any child entities associated with a parent entity will be automatically saved or updated 
+		when the parent entity is saved or updated. 
+	This means that any changes made to the child entities will be persisted in the database along with the parent entity.
+	For example, consider a scenario where you have a Customer entity with a one-to-many relationship to Order entities. By using CascadeType.SAVE_UPDATE, any associated Order entities will be automatically saved or updated when the Customer entity is saved or updated.
 	Here's an example of how CascadeType.SAVE_UPDATE can be used:
 	Java
 	@OneToMany(mappedBy="customer", cascade=CascadeType.SAVE_UPDATE)

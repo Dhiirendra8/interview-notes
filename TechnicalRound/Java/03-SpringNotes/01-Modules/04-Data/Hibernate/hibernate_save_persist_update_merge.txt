@@ -1,0 +1,93 @@
+In Hibernate, methods like `save()`, `persist()`, `update()`, and `merge()` are used for saving and updating entities—but they differ in behavior, lifecycle expectations, return types, and how they manage entity states.
+
+---
+
+## ✅ Summary Table
+
+| Method      | Use Case                            | Returns           | Entity State Expected | Inserts or Updates?     | Transaction Needed? |
+| ----------- | ----------------------------------- | ----------------- | --------------------- | ----------------------- | ------------------- |
+| `save()`    | Save a transient object             | Serializable (id) | Transient             | Always INSERT (new row) | Yes                 |
+| `persist()` | Save a transient object (JPA-style) | void              | Transient             | INSERT (no return)      | Yes                 |
+| `update()`  | Reattach a detached object          | void              | Detached              | INSERT or UPDATE        | Yes                 |
+| `merge()`   | Copy data from a detached object    | Managed entity    | Detached or Transient | INSERT or UPDATE        | Yes                 |
+
+---
+
+## 🔍 Detailed Explanation
+
+### 1. **`save(Object)`**
+
+* **Purpose:** Saves a new (transient) object to the DB.
+* **Returns:** Generated identifier.
+* **Behavior:**
+
+  * Directly assigns an ID (if not set).
+  * Can be called **outside** of a transaction, but actual insert will happen on flush.
+* **Duplicates possible:** If same object is saved again, duplicate entries can occur.
+
+```java
+Integer id = (Integer) session.save(student);
+```
+
+---
+
+### 2. **`persist(Object)`**
+
+* **Purpose:** Similar to `save()`, but part of JPA standard.
+* **Returns:** `void`.
+* **Behavior:**
+
+  * More strict than `save()`—must be inside an active transaction.
+  * Doesn’t assign the ID immediately.
+  * Throws exception if entity is already persistent.
+
+```java
+session.persist(student);
+```
+
+---
+
+### 3. **`update(Object)`**
+
+* **Purpose:** Reattaches a **detached** object and marks it for update.
+* **Returns:** `void`.
+* **Behavior:**
+
+  * If the record doesn’t exist in DB, throws `NonUniqueObjectException`.
+  * Only one instance of the entity should be associated with session.
+  * If called on a transient object → exception.
+
+```java
+session.update(student); // student must be detached
+```
+
+---
+
+### 4. **`merge(Object)`**
+
+* **Purpose:** Copies the state of a detached object into a managed instance.
+* **Returns:** The managed instance (attached to current session).
+* **Behavior:**
+
+  * Safe to use on **detached or transient** objects.
+  * No exception if object doesn’t exist.
+  * Doesn’t modify original object, returns a new managed copy.
+
+```java
+Student managedStudent = (Student) session.merge(detachedStudent);
+```
+
+---
+
+## 🧠 Which One to Use When?
+
+| Situation                                 | Recommended Method      |
+| ----------------------------------------- | ----------------------- |
+| Save new entity                           | `save()` or `persist()` |
+| Reattach detached object (safe)           | `merge()`               |
+| Reattach detached object (manual control) | `update()`              |
+| Strict JPA-style persistence              | `persist()`             |
+
+---
+
+Let me know if you want a working code example for each!
